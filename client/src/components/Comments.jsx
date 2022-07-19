@@ -53,8 +53,6 @@ const Comments = ({videoId}) => {
     }, [videoId])
 
 
-
-
     const setNewCommentHandle = async () => {
         await axios.post(`/comments/${videoId}`, {desc: newComment})
         fetchComments()
