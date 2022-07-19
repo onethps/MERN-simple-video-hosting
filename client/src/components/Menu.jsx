@@ -1,16 +1,16 @@
-import styled from "styled-components";
-import { RiHome5Fill } from "react-icons/ri";
+import styled from 'styled-components';
+import { RiHome5Fill } from 'react-icons/ri';
 import {
   MdHistory,
   MdMusicVideo,
   MdOutlineExplore,
   MdSubscriptions,
   MdVideoLibrary,
-} from "react-icons/md";
-import { CgDarkMode } from "react-icons/cg";
-import { Link } from "react-router-dom";
-import React from "react";
-import {useSelector} from "react-redux";
+} from 'react-icons/md';
+import { CgDarkMode } from 'react-icons/cg';
+import { Link } from 'react-router-dom';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   flex: 1;
@@ -45,6 +45,7 @@ const Item = styled.div`
   gap: 20px;
   padding: 7.5px 0;
   cursor: pointer;
+
   &:hover {
     background-color: green;
   }
@@ -72,21 +73,19 @@ const Button = styled.button`
 `;
 
 const Menu = ({ dark, setDartTheme }) => {
-
-  const  {user} = useSelector((state) => state.user)
-
+  const { user } = useSelector((state) => state.user);
 
   return (
     <Container>
       <Wrapper>
-        <Link to={"/"}>
+        <Link to={'/'}>
           <Logo>
             <Img />
             <Item>Youtube</Item>
           </Logo>
         </Link>
 
-        <Link to={"/"}>
+        <Link to={'/'}>
           <Item>
             <RiHome5Fill />
             Home
@@ -98,7 +97,7 @@ const Menu = ({ dark, setDartTheme }) => {
           Explore
         </Item>
 
-        <Link to={"/sub"}>
+        <Link to={'/sub'}>
           <Item>
             <MdSubscriptions />
             Subscriptions
@@ -116,23 +115,19 @@ const Menu = ({ dark, setDartTheme }) => {
           History
         </Item>
 
-        {!user &&
-            <>
-        <Hr />
-        <Login>
-          <Item>Sign in to like videso, comments, and subscribe.</Item>
-          <Button>
-            <Link
-              to={"signin"}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              Sign In
-            </Link>
-          </Button>
-        </Login>
-            </>
-              }
-
+        {!user && (
+          <>
+            <Hr />
+            <Login>
+              <Item>Sign in to like videso, comments, and subscribe.</Item>
+              <Button>
+                <Link to={'signin'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  Sign In
+                </Link>
+              </Button>
+            </Login>
+          </>
+        )}
 
         <Hr />
         <TittleCategory>Best of Youtube</TittleCategory>

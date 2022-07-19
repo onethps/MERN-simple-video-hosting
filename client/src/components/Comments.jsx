@@ -1,17 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import Comment from "components/Comment";
-import axios from "axios";
-import {useDispatch} from "react-redux";
-import styled from "styled-components";
+import React, { useEffect, useState } from 'react';
+import Comment from 'components/Comment';
+import axios from 'axios';
+import styled from 'styled-components';
 
-const SendComment = styled.button`
-`
+const SendComment = styled.button``;
 
 const NewCommentBox = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
-`
+`;
 
 const CommentInput = styled.input`
   border: none;
@@ -20,59 +18,56 @@ const CommentInput = styled.input`
   border-bottom: 1px solid grey;
   outline: none;
   color: ${({ theme }) => theme.text};
-`
-const  ChannelAvatar = styled.div`
+`;
+const ChannelAvatar = styled.div`
   min-width: 50px;
   height: 50px;
   background-color: grey;
   border-radius: 100px;
-`
+`;
 
+const Comments = ({ videoId }) => {
+  const [comments, setComments] = useState([]);
 
-const Comments = ({videoId}) => {
+  const [newComment, setNewComment] = useState('');
 
-    const [comments, setComments] = useState([])
+  const newCommentHandle = (e) => {
+    setNewComment(e.currentTarget.value);
+  };
 
-    const [newComment, setNewComment] = useState('')
+  const fetchComments = async () => {
+    try {
+      const comments = await axios.get(`/comments/find/${videoId}`);
+      setComments(comments.data);
+    } catch (error) {}
+  };
 
-    const newCommentHandle = (e) => {
-        setNewComment(e.currentTarget.value)
-    }
+  useEffect(() => {
+    fetchComments().catch((e) => console.log(e));
+  }, [videoId]);
 
-    const fetchComments = async () => {
-        try {
-            const comments = await axios.get(`/comments/find/${videoId}`)
-            setComments(comments.data)
-        } catch (error) {
-        }
-    }
+  const setNewCommentHandle = async () => {
+    await axios.post(`/comments/${videoId}`, { desc: newComment });
+    fetchComments();
+    setNewComment('');
+  };
 
-    useEffect(() => {
-        fetchComments()
-          .catch(e => console.log(e))
-    }, [videoId])
-
-
-    const setNewCommentHandle = async () => {
-        await axios.post(`/comments/${videoId}`, {desc: newComment})
-        fetchComments()
-        setNewComment('')
-    }
-
-    return (
-        <>
-            <NewCommentBox>
-                <ChannelAvatar/>
-                <CommentInput placeholder={'Add a comment...'} onChange={newCommentHandle} value={newComment}/>
-                <SendComment onClick={setNewCommentHandle}>Send</SendComment>
-            </NewCommentBox>
-            {comments.map((comment) =>  <Comment key={comment._id}
-                                                 comment={comment}
-                                                 commentOwner={comment.user}
-            />)}
-
-        </>
-    );
+  return (
+    <>
+      <NewCommentBox>
+        <ChannelAvatar />
+        <CommentInput
+          placeholder={'Add a comment...'}
+          onChange={newCommentHandle}
+          value={newComment}
+        />
+        <SendComment onClick={setNewCommentHandle}>Send</SendComment>
+      </NewCommentBox>
+      {comments.map((comment) => (
+        <Comment key={comment._id} comment={comment} commentOwner={comment.user} />
+      ))}
+    </>
+  );
 };
 
 export default Comments;

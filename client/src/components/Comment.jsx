@@ -16,7 +16,6 @@ const  ChannelAvatar = styled.div`
         border-radius: 100px;
 `
 
-
 const CommentUserDesc = styled.p`
         color: ${({ theme }) => theme.text};
 `
