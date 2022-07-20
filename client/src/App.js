@@ -1,18 +1,18 @@
-import styled, { ThemeProvider } from "styled-components";
-import Menu from "components/Menu";
-import Navbar from "components/Navbar";
-import { dartTheme, lightTheme } from "utils/Theme";
-import { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "pages/Home";
-import Video from "pages/Video";
-import SignIn from "pages/SignIn";
-import React from "react";
+import styled, { ThemeProvider } from 'styled-components';
+import Menu from 'components/Menu';
+import Navbar from 'components/Navbar';
+import { dartTheme, lightTheme } from 'utils/Theme';
+import React, { useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from 'pages/Home';
+import Video from 'pages/Video';
+import SignIn from 'pages/SignIn';
+import SearchPage from 'pages/SearchPage';
 
 const Container = styled.div`
   display: flex;
   background: ${({ theme }) => theme.bg};
-  height: 100vh;
+  min-height: 100vh;
 `;
 
 const Main = styled.div`
@@ -35,10 +35,11 @@ function App() {
             <Navbar />
             <Wrapper>
               <Routes>
-                <Route path={"/"} element={<Home type={"random"} />} />
-                <Route path={"/sub"} element={<Home type={"sub"} />} />
-                <Route path={"/video/:id"} element={<Video />} />
-                <Route path={"signin/"} element={<SignIn />} />
+                <Route path={'/'} element={<Home type={'random'} />} />
+                <Route path={'/sub'} element={<Home type={'sub'} />} />
+                <Route path={'/video/:id'} element={<Video />} />
+                <Route path={'/signin'} element={<SignIn />} />
+                <Route path={'/search/'} element={<SearchPage />} />
               </Routes>
             </Wrapper>
           </Main>

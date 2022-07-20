@@ -174,7 +174,7 @@ const Video = () => {
       }
     };
     fetchUserData();
-  }, []);
+  }, [location]);
 
   if (loading) {
     return <div>loading</div>;

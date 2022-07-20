@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { AiOutlineSearch } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { RiVideoUploadLine } from 'react-icons/ri';
 import Upload from 'components/Upload';
+import Search from "components/Search";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -13,29 +13,6 @@ const Wrapper = styled.div`
   margin: 0 auto;
   justify-content: flex-end;
   align-items: center;
-`;
-
-const Search = styled.div`
-  position: absolute;
-  align-items: center;
-  left: 0;
-  border: 1px solid ${({ theme }) => theme.text};
-  right: 0;
-  margin: auto;
-  color: ${({ theme }) => theme.text};
-  padding: 5px;
-  display: flex;
-  justify-content: space-between;
-  width: 40%;
-`;
-
-const Input = styled.input`
-  padding: 0 10px;
-  width: 100%;
-  outline: none;
-  border: none;
-  background: transparent;
-  color: ${({ theme }) => theme.text};
 `;
 
 const Button = styled.button`
@@ -78,20 +55,16 @@ const UploadButton = styled.div`
 const Navbar = () => {
   const { user } = useSelector((state) => state.user);
 
-  const [open, setOpen] = useState(true);
-
+  const [openPopup, setOpenPopup] = useState(false);
 
   return (
     <Container>
       <Wrapper>
-        <Search>
-          <Input placeholder={'search'} />
-          <AiOutlineSearch size={'20px'} />
-        </Search>
-        <UploadButton onClick={() => setOpen(true)}>
+        <Search/>
+        <UploadButton onClick={() => setOpenPopup(true)}>
           <RiVideoUploadLine size={'30px'} />
         </UploadButton>
-        {open && <Upload setOpen={setOpen} userId={user?._id}/>}
+        {openPopup && <Upload setOpenPopup={setOpenPopup} userId={user?._id} />}
         {user ? (
           <>
             {user.img ? <Photo src={user.img} /> : <NoPhoto />}

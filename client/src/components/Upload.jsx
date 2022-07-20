@@ -64,7 +64,7 @@ const Label = styled.label`
   color: ${({ theme }) => theme.text};
 `;
 
-const Upload = ({ setOpen, userId }) => {
+const Upload = ({ setOpenPopup, userId }) => {
   const navigate = useNavigate();
 
   const [inputs, setInputs] = useState({});
@@ -124,12 +124,12 @@ const Upload = ({ setOpen, userId }) => {
     e.preventDefault();
     const res = await axios.post(`/videos/${userId}`, { ...inputs });
     res.status === 200 && navigate(`/video/${res.data._id}`);
-    setOpen(false);
+    setOpenPopup(false);
   };
 
   return (
     <Container>
-      <Background onClick={() => setOpen(false)} />
+      <Background onClick={() => setOpenPopup(false)} />
       <Wrapper>
         <Label>Video:</Label>
 
