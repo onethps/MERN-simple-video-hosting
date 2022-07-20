@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import app from '../firebase.js';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   width: 100%;
@@ -39,6 +40,9 @@ const Wrapper = styled.div`
 
 const Input = styled.input`
   width: 100%;
+  margin: 10px 0;
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.bgLighter};
 `;
 const Desc = styled.textarea`
   width: 100%;
@@ -50,6 +54,8 @@ const Button = styled.button`
   margin-top: 20px;
   width: 100%;
   background-color: ${({ theme }) => theme.bgLighter};
+  color: ${({ theme }) => theme.text};
+  padding: 10px;
 `;
 
 const Label = styled.label`
@@ -58,7 +64,9 @@ const Label = styled.label`
   color: ${({ theme }) => theme.text};
 `;
 
-const Upload = ({ setOpen }) => {
+const Upload = ({ setOpen, userId }) => {
+  const navigate = useNavigate();
+
   const [inputs, setInputs] = useState({});
   const [img, setImg] = useState(undefined);
   const [video, setVideo] = useState(undefined);
@@ -78,17 +86,11 @@ const Upload = ({ setOpen }) => {
 
     const uploadTask = uploadBytesResumable(mountainsRef, file);
 
-    // Register three observers:
-    // 1. 'state_changed' observer, called any time the state changes
-    // 2. Error observer, called on failure
-    // 3. Completion observer, called on successful completion
     uploadTask.on(
       'state_changed',
       (snapshot) => {
-        // Observe state change events such as progress, pause, and resume
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        urlType === 'imgURL' ? setImgPerc(progress) : setVideoPerc(progress);
+        urlType === 'imgUrl' ? setImgPerc(progress) : setVideoPerc(progress);
         switch (snapshot.state) {
           case 'paused':
             console.log('Upload is paused');
@@ -104,7 +106,7 @@ const Upload = ({ setOpen }) => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setInputs((prev) => {
-            return { ...prev, urlType: downloadURL };
+            return { ...prev, [urlType]: downloadURL };
           });
         });
       },
@@ -115,12 +117,13 @@ const Upload = ({ setOpen }) => {
     video && uploadFile(video, 'videoUrl');
   }, [video]);
   useEffect(() => {
-    img && uploadFile(img, 'imgURL');
+    img && uploadFile(img, 'imgUrl');
   }, [img]);
 
   const uploadHandle = async (e) => {
     e.preventDefault();
-    const res = await axios.post('videos', { ...inputs });
+    const res = await axios.post(`/videos/${userId}`, { ...inputs });
+    res.status === 200 && navigate(`/video/${res.data._id}`);
     setOpen(false);
   };
 
@@ -146,7 +149,7 @@ const Upload = ({ setOpen }) => {
           name={'title'}
           onChange={handleChange}
         />
-        <Desc placeholder={'Desc'} rows={5} name={'desc'} onChange={handleChange} />
+        <Desc placeholder={'desc'} rows={5} name={'desc'} onChange={handleChange} />
         <Label>Image:</Label>
         {imgPerc > 0 ? (
           'Uploading ' + imgPerc + '%'

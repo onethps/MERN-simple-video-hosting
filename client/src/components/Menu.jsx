@@ -81,7 +81,7 @@ const Menu = ({ dark, setDartTheme }) => {
         <Link to={'/'}>
           <Logo>
             <Img />
-            <Item>Youtube</Item>
+            <Item>TUBE</Item>
           </Logo>
         </Link>
 

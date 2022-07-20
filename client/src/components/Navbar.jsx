@@ -53,8 +53,8 @@ const TextItem = styled.h1`
 `;
 
 const Photo = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   padding: 10px;
   margin-right: 20px;
   border-radius: 100px;
@@ -80,6 +80,7 @@ const Navbar = () => {
 
   const [open, setOpen] = useState(true);
 
+
   return (
     <Container>
       <Wrapper>
@@ -90,7 +91,7 @@ const Navbar = () => {
         <UploadButton onClick={() => setOpen(true)}>
           <RiVideoUploadLine size={'30px'} />
         </UploadButton>
-        {open && <Upload setOpen={setOpen} />}
+        {open && <Upload setOpen={setOpen} userId={user?._id}/>}
         {user ? (
           <>
             {user.img ? <Photo src={user.img} /> : <NoPhoto />}

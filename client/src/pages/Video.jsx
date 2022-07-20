@@ -162,6 +162,7 @@ const Video = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      console.log('heeee')
       dispatch(VideoStart());
       try {
         const video = await axios.get(`/videos/find/${param}`);
@@ -183,18 +184,18 @@ const Video = () => {
     <Container>
       <Content>
         <VideoWrapper>
-          <VideoFrame src={''} controls />
+          <VideoFrame src={video?.videoUrl} controls />
         </VideoWrapper>
         <Details>
-          <Tittle>{video.title}</Tittle>
+          <Tittle>{video?.title}</Tittle>
           <InfoViewsAndButtons>
             <Views>
-              {video.views} views - {format(video?.createdAt)}
+              {video?.views} views - {format(video?.createdAt)}
             </Views>
 
             <Buttons>
               <Button onClick={likeHandle}>
-                {video.likes?.includes(currentUser.user._id) ? (
+                {video?.likes?.includes(currentUser.user._id) ? (
                   <AiFillLike />
                 ) : (
                   <AiOutlineLike />
@@ -203,7 +204,7 @@ const Video = () => {
               </Button>
 
               <Button onClick={disLikeHandle}>
-                {video.dislikes?.includes(currentUser.user._id) ? (
+                {video?.dislikes?.includes(currentUser.user._id) ? (
                   <AiFillDislike />
                 ) : (
                   <AiOutlineDislike />
@@ -226,13 +227,13 @@ const Video = () => {
               </div>
             </ChannelInfo>
 
-            {currentUser.user.subscribedUsers?.includes(video.userId) ? (
+            {currentUser.user.subscribedUsers?.includes(video?.userId) ? (
               <UnSubscribeButton onClick={subHandle}>Subscribed</UnSubscribeButton>
             ) : (
               <SubscribeButton onClick={subHandle}>Subscribe</SubscribeButton>
             )}
           </ChannelDetail>
-          <VideoDescription>{video.desc}</VideoDescription>
+          <VideoDescription>{video?.desc}</VideoDescription>
         </Details>
 
         <Comments videoId={param} />

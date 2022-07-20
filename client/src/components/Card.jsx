@@ -25,10 +25,9 @@ const Details = styled.div`
   margin-top: ${(props) => props.type !== "sm" && "16px"};
   flex: 1;
 `;
-const Avatar = styled.div`
-  min-width: 30px;
-  height: 30px;
-  background: red;
+const Avatar = styled.img`
+  width: 40px;
+  height: 40px;
   border-radius: 100%;
   display: ${(props) => (props.type === "sm" ? "none" : "block")};
 `;
@@ -61,12 +60,13 @@ function Card({ type, video }) {
     fetchChannel();
   }, [video.userId]);
 
+
   return (
       <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
         <Container type={type}>
-          <ThumbNail type={type} />
+          <ThumbNail type={type} src={video.imgUrl} />
           <Details>
-            <Avatar type={type} />
+            <Avatar type={type} src={channel.img} />
             <Description>
               <Title>{video.title}</Title>
               <Author>{channel.name}</Author>
