@@ -29,6 +29,10 @@ const ChannelAvatar = styled.div`
 const Comments = ({ videoId }) => {
   const [comments, setComments] = useState([]);
 
+  console.log(comments);
+
+  const [isActiveComment, setIsActiveComment] = useState(true);
+
   const [newComment, setNewComment] = useState('');
 
   const newCommentHandle = (e) => {
@@ -36,10 +40,8 @@ const Comments = ({ videoId }) => {
   };
 
   const fetchComments = async () => {
-    try {
-      const comments = await axios.get(`/comments/find/${videoId}`);
-      setComments(comments.data);
-    } catch (error) {}
+    const comments = await axios.get(`/comments/find/${videoId}`);
+    setComments(comments.data);
   };
 
   useEffect(() => {
@@ -61,7 +63,7 @@ const Comments = ({ videoId }) => {
           onChange={newCommentHandle}
           value={newComment}
         />
-        <SendComment onClick={setNewCommentHandle}>Send</SendComment>
+        {isActiveComment && <SendComment onClick={setNewCommentHandle}>Send</SendComment>}
       </NewCommentBox>
       {comments.map((comment) => (
         <Comment key={comment._id} comment={comment} commentOwner={comment.user} />

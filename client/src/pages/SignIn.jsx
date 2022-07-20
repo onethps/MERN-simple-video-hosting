@@ -1,10 +1,11 @@
-import React, {useState} from "react";
-import styled from "styled-components";
-import axios from "axios";
-import {useDispatch} from "react-redux";
-import {loginFailture, loginStart, loginSuccess} from "redux/userSlice";
-import {signInWithPopup} from 'firebase/auth'
-import {auth, Provider} from '../firebase'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { loginFailture, loginStart, loginSuccess } from 'redux/userSlice';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, Provider } from '../firebase';
+import { firstCharAvatarGenerator } from 'utils/firstCharAvatarGenerator';
 
 const Container = styled.div`
   display: flex;
@@ -36,66 +37,85 @@ const Input = styled.input`
 const SubmitButton = styled.button``;
 
 const SignIn = () => {
-    const [userName, setUserName] = useState('test1');
-    const [password, setPassword] = useState('12342');
+  const [email, setEmail] = useState('borya@gmail.com');
+  const [password, setPassword] = useState('12342');
 
-    const dispatch = useDispatch()
+  const [inputs, setInputs] = useState({});
 
-    const onSubmitButton = async (e) => {
-        e.preventDefault();
-        dispatch(loginStart())
+  const handleChange = (e) => {
+    setInputs((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
 
-        try {
-            let {data} =  await axios.post(`/auth/signin`, {
-                name: userName,
-                password: password,
-            });
-            dispatch(loginSuccess(data))
-        } catch (e) {
-            dispatch(loginFailture())
-        }
-    };
+  const dispatch = useDispatch();
 
-    const signInWithGoogle = async () => {
+  const onSubmitButton = async (e) => {
+    e.preventDefault();
+    dispatch(loginStart());
 
-        try {
-            const {user} = await   signInWithPopup(auth, Provider)
-            const {data } = await  axios.post('/auth/google', {email:user.email, name: user.displayName, img: user.photoURL})
-            dispatch(loginSuccess(data))
-        } catch (e) {
-            console.log(e)
-        }
-
-
-
+    try {
+      let { data } = await axios.post(`/auth/signin`, {
+        email,
+        password,
+      });
+      dispatch(loginSuccess(data));
+    } catch (e) {
+      dispatch(loginFailture());
     }
+  };
 
-    return (
-        <Container>
-            <Wrapper>
-                <Title>Sign In</Title>
-                <Subtitle>to Continue to</Subtitle>
-                <Input
-                    placeholder={"userName"}
-                    value={userName}
-                    onChange={(e) => setUserName(e.currentTarget.value)}
-                />
-                <Input
-                    placeholder={"Password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.currentTarget.value)}
-                />
-                <SubmitButton onClick={(e) => onSubmitButton(e)}>Sign In</SubmitButton>
-                <Subtitle>or</Subtitle>
-                <SubmitButton onClick={signInWithGoogle}>Sign with Google</SubmitButton>
-                <Subtitle>or</Subtitle>
-                <Input placeholder={"userName"} />
-                <Input placeholder={"email"} />
-                <Input placeholder={"password"} />
-                <SubmitButton>Sign Up</SubmitButton>
-            </Wrapper>
-        </Container>
-    );
+  const signup = async () => {
+    try {
+      await axios.post(`/auth/signup`, {
+        ...inputs,
+        img: firstCharAvatarGenerator(inputs.name),
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    try {
+      const { user } = await signInWithPopup(auth, Provider);
+      const { data } = await axios.post('/auth/google', {
+        email: user.email,
+        name: user.displayName,
+        img: user.photoURL,
+      });
+      dispatch(loginSuccess(data));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  return (
+    <Container>
+      <Wrapper>
+        <Title>Sign In</Title>
+        <Subtitle>to Continue to</Subtitle>
+        <Input
+          placeholder={'Email'}
+          value={email}
+          onChange={(e) => setEmail(e.currentTarget.value)}
+        />
+        <Input
+          placeholder={'Password'}
+          value={password}
+          onChange={(e) => setPassword(e.currentTarget.value)}
+        />
+        <SubmitButton onClick={(e) => onSubmitButton(e)}>Sign In</SubmitButton>
+        <Subtitle>or</Subtitle>
+        <SubmitButton onClick={signInWithGoogle}>Sign with Google</SubmitButton>
+        <Subtitle>or</Subtitle>
+        <Input placeholder={'email'} name={'email'} onChange={handleChange} />
+        <Input placeholder={'userName'} name={'name'} onChange={handleChange} />
+        <Input placeholder={'password'} name={'password'} onChange={handleChange} />
+        <SubmitButton onClick={signup}>Sign Up</SubmitButton>
+      </Wrapper>
+    </Container>
+  );
 };
 
 export default SignIn;

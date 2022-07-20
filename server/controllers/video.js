@@ -58,12 +58,12 @@ export const getVideo = async (req, res, next) => {
 
 export const addView = async (req, res, next) => {
   try {
-    await findByIdAndUpdate(req.params.id, {
+    await Video.findByIdAndUpdate(req.params.id, {
       $inc: { views: 1 },
     });
     res.status(200).json("views has been inc");
   } catch (e) {
-    next(err);
+    next(e);
   }
 };
 
@@ -72,7 +72,7 @@ export const rand = async (req, res, next) => {
     let videos = await Video.aggregate([{ $sample: { size: 10 } }]);
     res.status(200).json(videos);
   } catch (e) {
-    next(err);
+    next(e);
   }
 };
 
@@ -81,7 +81,7 @@ export const trend = async (req, res, next) => {
     let videos = await Video.findById().sort({ views: -1 });
     res.status(200).json(videos);
   } catch (e) {
-    next(err);
+    next(e);
   }
 };
 
@@ -110,7 +110,7 @@ export const search = async (req, res, next) => {
     }).limit(40);
     res.status(200).json(videos);
   } catch (e) {
-    next(err);
+    next(e);
   }
 };
 

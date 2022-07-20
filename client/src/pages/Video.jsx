@@ -20,6 +20,8 @@ import {
 import { format } from 'timeago.js';
 import Comments from 'components/Comments';
 import { subHandleUser } from 'redux/userSlice';
+import Recomendation from 'components/Recomendation';
+import {firstCharAvatarGenerator} from "utils/firstCharAvatarGenerator";
 
 const Container = styled.div`
   display: flex;
@@ -61,10 +63,6 @@ const IconText = styled.h1`
   display: inline-block;
   padding: 0 15px;
   color: ${({ theme }) => theme.text};
-`;
-const Recommendation = styled.div`
-  flex: 2;
-  width: 200px;
 `;
 
 const SubscribeButton = styled.button`
@@ -128,6 +126,8 @@ const Video = () => {
   const param = location.pathname.split('/')[2];
   const [channel, setChannel] = useState({});
 
+  console.log(channel)
+
   const { video } = useSelector((state) => state.video);
   const { loading } = useSelector((state) => state.video);
 
@@ -162,11 +162,11 @@ const Video = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      console.log('heeee')
       dispatch(VideoStart());
       try {
         const video = await axios.get(`/videos/find/${param}`);
         const user = await axios.get(`/users/find/${video.data.userId}`);
+        await axios.put(`/videos/view/${param}`);
         setChannel(user.data);
         dispatch(VideoSuccess(video.data));
       } catch (e) {
@@ -220,7 +220,7 @@ const Video = () => {
           </InfoViewsAndButtons>
           <ChannelDetail>
             <ChannelInfo>
-              <ChannelAvatar />
+              <ChannelAvatar src={channel.img} />
               <div>
                 <ChannelName>{channel.name}</ChannelName>
                 <SubscribersCount>{channel.subscribers} subscribers</SubscribersCount>
@@ -238,13 +238,9 @@ const Video = () => {
 
         <Comments videoId={param} />
       </Content>
-      <Recommendation>
-        {/*<Card type={"sm"}/>*/}
-        {/*<Card type={"sm"}/>*/}
-        {/*<Card type={"sm"}/>*/}
-      </Recommendation>
+      <Recomendation />
     </Container>
   );
 };
 
-export default  Video;
+export default Video;

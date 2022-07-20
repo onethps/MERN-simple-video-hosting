@@ -16,11 +16,11 @@ const Container = styled.div`
 `;
 
 const Main = styled.div`
-  flex: 4;
+  flex: 5;
 `;
 
 const Wrapper = styled.div`
-  padding: 20px 30px;
+  padding: 20px 20px;
 `;
 
 function App() {

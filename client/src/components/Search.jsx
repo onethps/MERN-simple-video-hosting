@@ -6,41 +6,61 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Input = styled.input`
-  padding: 0 10px;
+  padding: 10px 30px;
   width: 100%;
   outline: none;
   border: none;
   background: transparent;
   color: ${({ theme }) => theme.text};
+  
+  
 `;
 
 const SearchBox = styled.div`
   position: absolute;
   align-items: center;
   left: 0;
-  border: 1px solid ${({ theme }) => theme.text};
+  top: 15px;
+  border: none;
   right: 0;
   margin: auto;
+  background-color: ${({ theme }) => theme.bgLighter};
   color: ${({ theme }) => theme.text};
-  padding: 5px;
   display: flex;
+  border-radius: 10px;
   justify-content: space-between;
   width: 40%;
+
+  & svg {
+    cursor: pointer;
+    background: red;
+    width: 10%;
+    color: white;
+    padding: 5px;
+    border-radius: 0 10px 10px 0;
+  }
+  
 `;
 
 const Container = styled.div``;
 
 const Suggestions = styled.div`
   position: absolute;
-  top: 35px;
+  top: 40px;
   left: 0;
-  background-color: darkred;
+  background-color: ${({ theme }) => theme.bgLighter};
   width: 100%;
   z-index: 5;
 `;
 
 const CurrentSuggestion = styled.div`
+  padding: 20px;
   cursor: pointer;
+  
+  &:hover {
+    background-color: ${({ theme }) => theme.bgMediumLight};
+  }
+  
 `;
 
 const Search = () => {
@@ -78,8 +98,7 @@ const Search = () => {
       <SearchBox>
         <Input placeholder={'search'} value={search} onChange={onSearchHandle} />
         <AiOutlineSearch
-          style={{ cursor: 'pointer' }}
-          size={'20px'}
+          size={'30px'}
           onClick={onClickSearchHandle}
         />
         <Suggestions>

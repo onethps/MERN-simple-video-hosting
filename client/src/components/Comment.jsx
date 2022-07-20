@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import {firstCharAvatarGenerator} from "utils/firstCharAvatarGenerator";
 
 const CommentUser = styled.div`
   margin-top: 10px;
@@ -8,7 +9,7 @@ const CommentUser = styled.div`
   gap: 20px;
 `;
 
-const ChannelAvatar = styled.div`
+const ChannelAvatar = styled.img`
   min-width: 50px;
   height: 50px;
   background-color: grey;
@@ -38,12 +39,13 @@ const Comment = ({ comment }) => {
     };
 
     fetchCommentChanel();
+    //
   }, []);
 
   return (
     <>
       <CommentUser>
-        <ChannelAvatar />
+        <ChannelAvatar src={chanel.img} />
         <div>
           <ChannelName>{chanel.name}</ChannelName>
           <CommentUserDesc>{comment.desc}</CommentUserDesc>

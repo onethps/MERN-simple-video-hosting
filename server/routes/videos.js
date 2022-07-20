@@ -25,6 +25,7 @@ router.get("/sub", VerifyToken, subscribeVideos);
 
 router.put("/like/:videoId", VerifyToken, likeVideo);
 router.put("/dislike/:videoId", VerifyToken, dislikeVideo);
+router.put('/view/:id', addView)
 router.get("/trends", trend);
 router.get("/random", rand);
 router.get("/search/", search);
