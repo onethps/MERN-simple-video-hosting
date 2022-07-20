@@ -144,7 +144,7 @@ const UserBox = styled.div`
 const Menu = ({ dark, setDartTheme }) => {
   const { user } = useSelector((state) => state.user);
 
-  const LinkActive = ({ isActive }) => ({
+  const activeNavLink = ({ isActive }) => ({
     background: isActive && 'rgba(255, 99, 71, 0.3)',
     width: isActive && '100%',
     padding: isActive && '10px 40px',
@@ -173,14 +173,14 @@ const Menu = ({ dark, setDartTheme }) => {
         </UserBox>
 
         <Item>
-          <NavLink to={'/'} style={LinkActive}>
+          <NavLink to={'/'} style={activeNavLink}>
             <RiHome5Fill />
             <h3>Home</h3>
           </NavLink>
         </Item>
 
         <Item>
-          <NavLink to={'/explore'} style={LinkActive}>
+          <NavLink to={'/explore'} style={activeNavLink}>
             <MdOutlineExplore />
             <h3>Explore</h3>
           </NavLink>

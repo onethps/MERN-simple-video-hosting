@@ -110,10 +110,9 @@ const VideoFrame = styled.video`
   object-fit: cover;
 `;
 
-const ChannelAvatar = styled.div`
+const ChannelAvatar = styled.img`
   min-width: 50px;
   height: 50px;
-  background-color: grey;
   border-radius: 100px;
 `;
 

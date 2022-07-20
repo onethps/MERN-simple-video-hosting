@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { format } from 'timeago.js';
 import axios from 'axios';
-import { firstCharAvatarGenerator } from 'utils/firstCharAvatarGenerator';
 
 const Container = styled.div`
-  width: ${(props) => (props.type === 'sm' ? '100%' : '19vw')};
+  width: ${(props) => (props.type === 'sm' ? '100%' : '350px')};
   margin-bottom: ${(props) => (props.type === 'sm' ? '10px' : '45px')};
   cursor: pointer;
   display: ${(props) => props.type === 'sm' && 'flex'};
@@ -14,21 +13,11 @@ const Container = styled.div`
 `;
 
 const ThumbNail = styled.img`
-  min-width: 50%;
+  min-width: ${(props) => (props.type === 'sm' ? '50%' : '100%')};
   object-fit: cover;
-  height: ${(props) => (props.type === 'sm' ? '100px' : '196px')};
+  height: ${(props) => (props.type === 'sm' ? '120px' : '196px')};
   border-radius: 20px;
   background: grey;
-`;
-
-const Details = styled.div`
-  display: flex;
-`;
-const Avatar = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 100%;
-  display: ${(props) => (props.type === 'sm' ? 'none' : 'block')};
 `;
 
 const Description = styled.div``;
@@ -36,6 +25,10 @@ const Description = styled.div``;
 const Title = styled.h1`
   font-size: 16px;
   color: ${({ theme }) => theme.text};
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   text-overflow: ellipsis;
 `;
 
@@ -70,19 +63,13 @@ function Card({ type, video }) {
     <Link to={`/video/${video._id}`} style={{ textDecoration: 'none' }}>
       <Container type={type}>
         <ThumbNail type={type} src={video.imgUrl} />
-        <Details>
-          <Avatar
-            type={type}
-            src={channel.img || firstCharAvatarGenerator(channel?.name)}
-          />
-          <Description>
-            <Title>{video.title}</Title>
-            <Author>{channel.name}</Author>
-            <Views>
-              {video.views} views - {format(video.createdAt)}
-            </Views>
-          </Description>
-        </Details>
+        <Description>
+          <Title>{video.title}</Title>
+          <Author>{channel.name}</Author>
+          <Views>
+            {video.views} views - {format(video.createdAt)}
+          </Views>
+        </Description>
       </Container>
     </Link>
   );

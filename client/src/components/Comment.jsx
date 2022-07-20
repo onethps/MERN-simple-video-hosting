@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import {firstCharAvatarGenerator} from "utils/firstCharAvatarGenerator";
 
 const CommentUser = styled.div`
-  margin-top: 10px;
+  margin-top: 50px;
   display: flex;
   gap: 20px;
 `;
@@ -39,7 +38,6 @@ const Comment = ({ comment }) => {
     };
 
     fetchCommentChanel();
-    //
   }, []);
 
   return (
