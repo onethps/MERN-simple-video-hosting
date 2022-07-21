@@ -5,8 +5,8 @@ import {
   subUser,
   unSubUser,
   updateUser,
-} from "../controllers/user.js";
-import { VerifyToken } from "../utils/verifyToken.js";
+} from "controllers/user.js";
+import { VerifyToken } from "utils/verifyToken.js";
 
 const router = express.Router();
 
