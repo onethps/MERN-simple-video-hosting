@@ -78,12 +78,14 @@ const Comments = ({ videoId }) => {
   const setNewCommentHandle = async () => {
     await axios.post(`/comments/${videoId}`, { desc: newComment });
     fetchComments();
+    setIsActiveComment(false)
     setNewComment('');
   };
 
   const onCancelButtonHandle = () => {
     setIsActiveComment(false)
     setNewComment('')
+
   }
 
   return (
