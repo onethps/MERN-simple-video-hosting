@@ -1,5 +1,5 @@
-import { CreateError } from "utils/error.js";
-import User from "models/Users.js";
+import { CreateError } from "server/utils/error.js";
+import User from "server/models/Users.js";
 
 export const updateUser = async (req, res, next) => {
   if (req.params.id === req.user.id) {

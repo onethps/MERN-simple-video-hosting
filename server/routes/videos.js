@@ -1,5 +1,5 @@
 import express from "express";
-import { VerifyToken } from "utils/verifyToken.js";
+import { VerifyToken } from "server/utils/verifyToken.js";
 import {
   subscribeVideos,
   updateVideo,
@@ -11,7 +11,7 @@ import {
   search,
   rand,
   likeVideo, dislikeVideo,
-} from "controllers/video.js";
+} from "server/controllers/video.js";
 
 const router = express.Router();
 
