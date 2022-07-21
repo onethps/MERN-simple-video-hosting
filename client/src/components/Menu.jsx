@@ -8,7 +8,7 @@ import {
   MdVideoLibrary,
 } from 'react-icons/md';
 import { CgDarkMode } from 'react-icons/cg';
-import {Link, NavLink, useNavigate} from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsYoutube } from 'react-icons/bs';
@@ -35,11 +35,12 @@ const Wrapper = styled.div`
 
 const Logo = styled.div`
   & a {
+    width: 160px;
+    margin-left: 25px;
     color: ${({ theme }) => theme.text};
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
     gap: 5px;
 
     & h1 {
@@ -53,7 +54,6 @@ const UserProfileName = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 160px;
 
   & h1 {
     text-align: center;
@@ -69,31 +69,34 @@ const UserProfileName = styled.div`
 `;
 
 const Item = styled.div`
-  display: flex;
-  align-items: center;
-  color: ${({ theme }) => theme.text};
-  gap: 20px;
-  width: 100%;
-  cursor: pointer;
+  // display: flex;
+  // align-items: center;
+  // color: ${({ theme }) => theme.text};
+  // gap: 20px;
+  // width: 100%;
+  // cursor: pointer;
+  height: 50px;
 
   & a {
+    position: absolute;
+    left: 0;
+    right: 0;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     padding: 10px 40px;
     gap: 20px;
     color: ${({ theme }) => theme.text};
+
+    &:hover {
+      background: rgba(255, 99, 71, 0.3);
+      color: red;
+    }
   }
 
   & h3 {
     font-weight: 400;
     display: inline;
     font-size: 16px;
-  }
-
-  &:hover {
-    background: rgba(255, 99, 71, 0.3);
-    width: 100%;
-    color: red;
   }
 `;
 
@@ -106,6 +109,7 @@ const Login = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
+  align-items: center;
 `;
 
 const SignInDes = styled.h3`
@@ -121,12 +125,13 @@ const TittleCategory = styled.h4`
 
 const Button = styled.button`
   display: block;
-  padding: 5px 15px;
   background: transparent;
   border: 1px solid ${({ theme }) => theme.text};
-  color: ${({ theme }) => theme.text};
   border-radius: 3px;
   margin-top: 15px;
+  cursor: pointer;
+  padding: 5px 40px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const TextItem = styled.h1`
@@ -159,6 +164,7 @@ const Popup = styled.div`
   width: 80%;
   padding: 20px 0;
   border: 1px solid ${({ theme }) => theme.bgDarkLight};
+  z-index: 5;
 `;
 
 const LogOutButton = styled.div`
@@ -175,24 +181,29 @@ const LogOutButton = styled.div`
   }
 `;
 
+const UserInfoBlock = styled.div`
+  display: flex;
+  width: 160px;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const Menu = ({ dark, setDartTheme }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
 
   const [OpenLogOutPopup, setOpenLogOutPopup] = useState(false);
 
   const activeNavLink = ({ isActive }) => ({
-    margin: '20px 0 10px 0',
     background: isActive && 'rgba(255, 99, 71, 0.3)',
-    padding: isActive && '10px 50px',
     color: isActive && 'red',
   });
 
   const logOutHandle = () => {
     dispatch(logout());
     setOpenLogOutPopup(false);
-    navigate('/')
+    navigate('/');
   };
 
   return (
@@ -207,7 +218,7 @@ const Menu = ({ dark, setDartTheme }) => {
 
         <UserBox>
           {user ? (
-            <>
+            <UserInfoBlock>
               <Photo src={user.img} />
               <UserProfileName>
                 <TextItem>{user.name}</TextItem>
@@ -218,9 +229,11 @@ const Menu = ({ dark, setDartTheme }) => {
                   </Popup>
                 )}
               </UserProfileName>
-            </>
+            </UserInfoBlock>
           ) : (
-            <Button>Sign In</Button>
+            <Link to={'signin'}>
+              <Button>Sign In</Button>
+            </Link>
           )}
         </UserBox>
 
@@ -265,11 +278,10 @@ const Menu = ({ dark, setDartTheme }) => {
             <Hr />
             <Login>
               <SignInDes>Sign in to like videos, comments, and subscribe.</SignInDes>
-              <Button>
-                <Link to={'signin'} style={{ textDecoration: 'none', color: 'inherit' }}>
-                  Sign In
-                </Link>
-              </Button>
+
+              <Link to={'signin'}>
+                <Button>Sign In</Button>
+              </Link>
             </Login>
           </>
         )}

@@ -20,11 +20,12 @@ const Main = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding: 20px 20px;
+  padding: 20px 40px;
 `;
 
+
 function App() {
-  const [dark, setDartTheme] = useState(false);
+  const [dark, setDartTheme] = useState(true);
 
   return (
     <ThemeProvider theme={dark ? lightTheme : dartTheme}>

@@ -22,6 +22,7 @@ import Comments from 'components/Comments';
 import { subHandleUser } from 'redux/userSlice';
 import Recomendation from 'components/Recomendation';
 import {firstCharAvatarGenerator} from "utils/firstCharAvatarGenerator";
+import Skeleton from "components/Skeleton";
 
 const Container = styled.div`
   display: flex;
@@ -176,7 +177,16 @@ const Video = () => {
   }, [location]);
 
   if (loading) {
-    return <div>loading</div>;
+    return (
+      <Container>
+      <Content>
+      <Skeleton type={'large'}/>
+      </Content>
+        <div>
+        {[...new Array(3)].map((el, i) => <Skeleton key={el+i} type={'sm'}/>)}
+        </div>
+        </Container>
+    )
   }
 
   return (

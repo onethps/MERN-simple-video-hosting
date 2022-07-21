@@ -43,6 +43,10 @@ const Views = styled.div`
   color: ${({ theme }) => theme.text};
 `;
 
+const LoadingBlock = styled.div`
+  margin-top: 60px;
+`;
+
 function Card({ type, video }) {
   const [channel, setChannel] = useState(null);
 
@@ -55,24 +59,21 @@ function Card({ type, video }) {
     fetchChannel();
   }, [video.userId]);
 
-  if (!channel) {
-    return <div>loading</div>;
-  }
-
   return (
     <Link to={`/video/${video._id}`} style={{ textDecoration: 'none' }}>
       <Container type={type}>
         <ThumbNail type={type} src={video.imgUrl} />
         <Description>
-          <Title>{video.title}</Title>
-          <Author>{channel.name}</Author>
+          <Title>{video?.title}</Title>
+          <Author>{channel?.name}</Author>
           <Views>
-            {video.views} views - {format(video.createdAt)}
+            {video?.views} views - {format(video.createdAt)}
           </Views>
         </Description>
       </Container>
     </Link>
   );
 }
+
 
 export {Card};

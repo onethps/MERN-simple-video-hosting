@@ -5,17 +5,6 @@ import app from '../firebase.js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const Background = styled.div`
   width: 100%;
   height: 100%;
@@ -29,25 +18,46 @@ const Background = styled.div`
   z-index: 5;
 `;
 
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Wrapper = styled.div`
-  width: 600px;
-  height: 600px;
   background-color: ${({ theme }) => theme.bg};
-  text-align: center;
   padding: 50px;
   z-index: 6;
+  width: 600px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
 `;
 
 const Input = styled.input`
   width: 100%;
-  margin: 10px 0;
+  margin: 20px 0;
   color: ${({ theme }) => theme.text};
   background-color: ${({ theme }) => theme.bgLighter};
+  border: none;
+  padding: 20px 20px;
+  border-radius: 10px;
 `;
 const Desc = styled.textarea`
+  margin: 20px 0;
+  padding: 10px 20px;
   width: 100%;
-  margin-top: 20px;
   background-color: ${({ theme }) => theme.bgLighter};
+  border-radius: 10px;
+  border: none;
 `;
 
 const Button = styled.button`
@@ -55,7 +65,6 @@ const Button = styled.button`
   width: 100%;
   background-color: ${({ theme }) => theme.bgLighter};
   color: ${({ theme }) => theme.text};
-  padding: 10px;
 `;
 
 const Label = styled.label`
@@ -149,7 +158,7 @@ const Upload = ({ setOpenPopup, userId }) => {
           name={'title'}
           onChange={handleChange}
         />
-        <Desc placeholder={'desc'} rows={5} name={'desc'} onChange={handleChange} />
+        <Desc placeholder={'Desc'} rows={8} name={'desc'} onChange={handleChange} />
         <Label>Image:</Label>
         {imgPerc > 0 ? (
           'Uploading ' + imgPerc + '%'
