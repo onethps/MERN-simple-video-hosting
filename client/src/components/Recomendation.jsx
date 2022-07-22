@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Card } from 'components/Card';
 import axios from 'axios';
+import {instance} from "api/config";
 
 const Recommendation = styled.div`
   flex: 2;
@@ -13,7 +14,7 @@ const Recomendation = () => {
 
   useEffect(() => {
     const fetchRecommendationVideos = async () => {
-      const { data } = await axios.get(`/videos/random/`);
+      const { data } = await instance.get(`/videos/random/`);
       setVideos(data);
     };
     fetchRecommendationVideos();

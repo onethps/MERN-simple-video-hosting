@@ -7,6 +7,7 @@ import { signInWithPopup } from 'firebase/auth';
 import { auth, Provider } from '../firebase.js';
 import { firstCharAvatarGenerator } from 'utils/firstCharAvatarGenerator';
 import {useNavigate} from "react-router-dom";
+import {instance} from "api/config";
 
 const Container = styled.div`
   display: flex;
@@ -57,7 +58,7 @@ const SignIn = () => {
     dispatch(loginStart());
 
     try {
-      let { data } = await axios.post(`/auth/signin`, {
+      let { data } = await instance.post(`/auth/signin`, {
         email,
         password,
       });
@@ -70,7 +71,7 @@ const SignIn = () => {
 
   const signup = async () => {
     try {
-      await axios.post(`/auth/signup`, {
+      await instance.post(`/auth/signup`, {
         ...inputs,
         img: firstCharAvatarGenerator(inputs.name),
       });
@@ -82,7 +83,7 @@ const SignIn = () => {
   const signInWithGoogle = async () => {
     try {
       const { user } = await signInWithPopup(auth, Provider);
-      const { data } = await axios.post('/auth/google', {
+      const { data } = await instance.post('/auth/google', {
         email: user.email,
         name: user.displayName,
         img: user.photoURL,

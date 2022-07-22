@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import {instance} from "api/config";
 
 const CommentUser = styled.div`
   margin-top: 50px;
@@ -30,7 +31,7 @@ const Comment = ({ comment }) => {
   useEffect(() => {
     const fetchCommentChanel = async () => {
       try {
-        const chanel = await axios.get(`/users/find/${comment.userId}`);
+        const chanel = await instance.get(`/users/find/${comment.userId}`);
         setChanel(chanel.data);
       } catch (error) {
         console.log(error);

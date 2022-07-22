@@ -4,6 +4,7 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/
 import app from '../firebase';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {instance} from "api/config";
 
 const Background = styled.div`
   width: 100%;
@@ -131,7 +132,7 @@ const Upload = ({ setOpenPopup, userId }) => {
 
   const uploadHandle = async (e) => {
     e.preventDefault();
-    const res = await axios.post(`/videos/${userId}`, { ...inputs });
+    const res = await instance.post(`/videos/${userId}`, { ...inputs });
     res.status === 200 && navigate(`/video/${res.data._id}`);
     setOpenPopup(false);
   };

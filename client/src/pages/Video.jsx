@@ -23,6 +23,7 @@ import { subHandleUser } from 'redux/userSlice';
 import Recomendation from 'components/Recomendation';
 import {firstCharAvatarGenerator} from "utils/firstCharAvatarGenerator";
 import Skeleton from "components/Skeleton";
+import {instance} from "api/config";
 
 const Container = styled.div`
   display: flex;
@@ -134,7 +135,7 @@ const Video = () => {
   const likeHandle = async () => {
     if (!video.likes.includes(currentUser.user._id)) {
       try {
-        await axios.put(`/videos/like/${param}`);
+        await instance.put(`/videos/like/${param}`);
         dispatch(likeVideo(currentUser.user._id));
       } catch (e) {
         console.log(e);
@@ -145,7 +146,7 @@ const Video = () => {
   const disLikeHandle = async () => {
     if (!video.dislikes.includes(currentUser.user._id)) {
       try {
-        await axios.put(`/videos/dislike/${param}`);
+        await instance.put(`/videos/dislike/${param}`);
         dispatch(disLikeVideo(currentUser.user._id));
       } catch (e) {
         dispatch(VideoFailure());
@@ -155,8 +156,8 @@ const Video = () => {
 
   const subHandle = async () => {
     currentUser.user.subscribedUsers.includes(video.userId)
-      ? await axios.delete(`/users/unsub/${video.userId}`)
-      : await axios.put(`/users/sub/${video.userId}`);
+      ? await instance.delete(`/users/unsub/${video.userId}`)
+      : await instance.put(`/users/sub/${video.userId}`);
     dispatch(subHandleUser(video.userId));
   };
 

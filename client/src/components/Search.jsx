@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useDebounce } from 'utils/useDebounce';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {instance} from "api/config";
 
 const Input = styled.input`
   padding: 10px 30px;
@@ -75,7 +76,7 @@ const Search = () => {
 
   useEffect(() => {
     const fetchQueryVideos = async () => {
-      const { data } = await axios.get(`/videos/search/?q=${search}`);
+      const { data } = await instance.get(`/videos/search/?q=${search}`);
       setSuggestions(data);
     };
 

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Skeleton from 'components/Skeleton';
 import {useSelector} from "react-redux";
+import {instance} from "api/config";
 
 const Container = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const Home = ({ type }) => {
   useEffect(() => {
     const fetchVideos = async () => {
       setLoading(true)
-      const { data } = await axios.get(`videos/${type}`);
+      const { data } = await instance.get(`videos/${type}`);
       setVideos(data);
       setLoading(false)
     };

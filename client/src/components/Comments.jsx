@@ -3,6 +3,7 @@ import Comment from 'components/Comment';
 import axios from 'axios';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import {instance} from "api/config";
 
 const Container = styled.div``;
 
@@ -67,7 +68,7 @@ const Comments = ({ videoId }) => {
   };
 
   const fetchComments = async () => {
-    const comments = await axios.get(`/comments/find/${videoId}`);
+    const comments = await instance.get(`/comments/find/${videoId}`);
     setComments(comments.data);
   };
 
@@ -76,7 +77,7 @@ const Comments = ({ videoId }) => {
   }, [videoId]);
 
   const setNewCommentHandle = async () => {
-    await axios.post(`/comments/${videoId}`, { desc: newComment });
+    await instance.post(`/comments/${videoId}`, { desc: newComment });
     fetchComments();
     setIsActiveComment(false)
     setNewComment('');
