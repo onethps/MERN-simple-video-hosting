@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "start:dev": "nodemon --inspect ./index.js 8800"
+    "start:dev": "nodemon --inspect index.js 8800",
+    "heroku-postbuild": "cd client && yarn install && yarn run build"
   },
   "author": "",
   "license": "ISC",

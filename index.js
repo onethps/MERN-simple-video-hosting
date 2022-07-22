@@ -7,13 +7,14 @@ import authUser from "./routes/auth.js";
 import cookieParser from "cookie-parser";
 import videoRoutes from "./routes/videos.js";
 import path from 'path'
+import { fileURLToPath } from 'url';
 
 const app = express();
 dotenv.config();
 
 const connect = () => {
   mongoose
-    .connect(process.env.MONGO)
+    .connect(process.env.MONGO_DB)
     .then(() => {
       console.log("connected to DB");
     })
@@ -32,9 +33,15 @@ app.use("/api/auth", authUser);
 app.use("/api/videos", videoRoutes);
 
 
-const PORT = process.env.PORT || 8800
 
-app.use(express.static(path.join(__dirname + "/public")))
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+});
 
 //error handler
 app.use((err, req, res, next) => {
@@ -46,6 +53,8 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+
+const PORT = process.env.PORT || 8800
 
 app.listen(PORT, () => {
   connect();

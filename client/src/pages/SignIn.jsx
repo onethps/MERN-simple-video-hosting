@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { loginFailture, loginStart, loginSuccess } from 'redux/userSlice';
 import { signInWithPopup } from 'firebase/auth';
-import { auth, Provider } from '../firebase';
+import { auth, Provider } from '../firebase.js';
 import { firstCharAvatarGenerator } from 'utils/firstCharAvatarGenerator';
 import {useNavigate} from "react-router-dom";
 

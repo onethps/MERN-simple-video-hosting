@@ -1,7 +1,12 @@
-.idea
-.vscode
 
+# dependencies
 /node_modules
+/.pnp
+.pnp.js
+
+.env
+
+.idea
 
 # misc
 .DS_Store
