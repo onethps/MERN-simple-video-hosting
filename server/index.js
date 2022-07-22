@@ -6,6 +6,7 @@ import userComments from "./routes/comments.js";
 import authUser from "./routes/auth.js";
 import cookieParser from "cookie-parser";
 import videoRoutes from "./routes/videos.js";
+import path from 'path'
 
 const app = express();
 dotenv.config();
@@ -30,6 +31,11 @@ app.use("/api/comments", userComments);
 app.use("/api/auth", authUser);
 app.use("/api/videos", videoRoutes);
 
+
+const PORT = process.env.PORT || 8800
+
+app.use(express.static(path.join(__dirname + "/public")))
+
 //error handler
 app.use((err, req, res, next) => {
   const status = err.status || 500;
@@ -41,7 +47,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(8800, () => {
+app.listen(PORT, () => {
   connect();
-  console.log("connected");
 });
