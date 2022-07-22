@@ -7,10 +7,13 @@ import authUser from "./routes/auth.js";
 import cookieParser from "cookie-parser";
 import videoRoutes from "./routes/videos.js";
 import path from 'path'
-import { fileURLToPath } from 'url';
+import {fileURLToPath} from 'url';
+import cors from 'cors'
 
 const app = express();
 dotenv.config();
+
+app.use(cors());
 
 const connect = () => {
   mongoose
@@ -31,7 +34,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/comments", userComments);
 app.use("/api/auth", authUser);
 app.use("/api/videos", videoRoutes);
-
 
 
 const __filename = fileURLToPath(import.meta.url);
