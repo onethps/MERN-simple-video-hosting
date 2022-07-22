@@ -11,12 +11,11 @@ import {fileURLToPath} from 'url';
 import cors from 'cors'
 
 const app = express();
+
+app.use(cors())
+
 dotenv.config();
 
-app.use(cors({
-  origin: ['http://localhost:3000', 'https://mern-simple-video-hosting.herokuapp.com/'],
-  credentials: true,
-}));
 
 const connect = () => {
   mongoose

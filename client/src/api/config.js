@@ -5,6 +5,5 @@ const settings = {
 };
 
 export const instance = axios.create({
-  baseURL: 'https://mern-simple-video-hosting.herokuapp.com/api/',
-  ...settings,
+  baseURL: 'http://localhost:8800/api/',
 });
