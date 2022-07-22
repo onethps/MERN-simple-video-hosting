@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { format } from 'timeago.js';
-import axios from 'axios';
+import {Link} from 'react-router-dom';
+import {format} from 'timeago.js';
 import {instance} from "api/config";
 
 const Container = styled.div`
@@ -25,7 +24,7 @@ const Description = styled.div``;
 
 const Title = styled.h1`
   font-size: 16px;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -36,24 +35,24 @@ const Title = styled.h1`
 const Author = styled.h2`
   font-size: 14px;
   font-weight: 400;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
 `;
 
 const Views = styled.div`
   font-size: 12px;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
 `;
 
 const LoadingBlock = styled.div`
   margin-top: 60px;
 `;
 
-function Card({ type, video }) {
+function Card({type, video}) {
   const [channel, setChannel] = useState(null);
 
   useEffect(() => {
     const fetchChannel = async () => {
-      const { data } = await instance.get(`/users/find/${video.userId}`);
+      const {data} = await instance.get(`/users/find/${video.userId}`);
       setChannel(data);
     };
 
@@ -61,9 +60,9 @@ function Card({ type, video }) {
   }, [video.userId]);
 
   return (
-    <Link to={`/video/${video._id}`} style={{ textDecoration: 'none' }}>
+    <Link to={`/video/${video._id}`} style={{textDecoration: 'none'}}>
       <Container type={type}>
-        <ThumbNail type={type} src={video.imgUrl} />
+        <ThumbNail type={type} src={video.imgUrl}/>
         <Description>
           <Title>{video?.title}</Title>
           <Author>{channel?.name}</Author>

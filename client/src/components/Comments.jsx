@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Comment from 'components/Comment';
-import axios from 'axios';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import {instance} from "api/config";
 
 const Container = styled.div``;
@@ -20,7 +19,7 @@ const CommentInput = styled.input`
   width: 100%;
   border-bottom: 1px solid grey;
   outline: none;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
   padding: 10px 20px;
 `;
 const ChannelAvatar = styled.img`
@@ -50,13 +49,13 @@ const Cancel = styled.button`
   padding: 10px 25px;
   border: none;
   background: transparent;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
 `
 
-const Comments = ({ videoId }) => {
+const Comments = ({videoId}) => {
   const [comments, setComments] = useState([]);
 
-  const { user } = useSelector((state) => state.user);
+  const {user} = useSelector((state) => state.user);
 
   console.log(comments);
 
@@ -77,7 +76,7 @@ const Comments = ({ videoId }) => {
   }, [videoId]);
 
   const setNewCommentHandle = async () => {
-    await instance.post(`/comments/${videoId}`, { desc: newComment });
+    await instance.post(`/comments/${videoId}`, {desc: newComment});
     fetchComments();
     setIsActiveComment(false)
     setNewComment('');
@@ -92,7 +91,7 @@ const Comments = ({ videoId }) => {
   return (
     <Container>
       <NewCommentBox>
-        <ChannelAvatar src={user.img} />
+        <ChannelAvatar src={user.img}/>
         <CommentInput
           placeholder={'Add a comment...'}
           onChange={newCommentHandle}
@@ -103,14 +102,14 @@ const Comments = ({ videoId }) => {
 
       {isActiveComment && (
         <Buttons>
-          <Cancel onClick={onCancelButtonHandle }>Cancel</Cancel>
+          <Cancel onClick={onCancelButtonHandle}>Cancel</Cancel>
           <Button type={newComment && 'active'} onClick={setNewCommentHandle} disabled={!newComment}>
             Comment
           </Button>
         </Buttons>
       )}
       {comments.map((comment) => (
-        <Comment key={comment._id} comment={comment} commentOwner={comment.user} />
+        <Comment key={comment._id} comment={comment} commentOwner={comment.user}/>
       ))}
     </Container>
   );

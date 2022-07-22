@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { Card } from 'components/Card';
-import axios from 'axios';
+import {Card} from 'components/Card';
 import {instance} from "api/config";
 
 const Recommendation = styled.div`
@@ -14,7 +13,7 @@ const Recomendation = () => {
 
   useEffect(() => {
     const fetchRecommendationVideos = async () => {
-      const { data } = await instance.get(`/videos/random/`);
+      const {data} = await instance.get(`/videos/random/`);
       setVideos(data);
     };
     fetchRecommendationVideos();
@@ -23,7 +22,7 @@ const Recomendation = () => {
   return (
     <Recommendation>
       {videos?.map((currentVideo) => (
-        <Card key={currentVideo._id} type={'sm'} video={currentVideo} />
+        <Card key={currentVideo._id} type={'sm'} video={currentVideo}/>
       ))}
     </Recommendation>
   );

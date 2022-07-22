@@ -1,4 +1,4 @@
-import { CreateError } from "../utils/error.js";
+import {CreateError} from "../utils/error.js";
 import User from "../models/Users.js";
 
 export const updateUser = async (req, res, next) => {
@@ -9,7 +9,7 @@ export const updateUser = async (req, res, next) => {
         {
           $set: req.body,
         },
-        { new: true }
+        {new: true}
       );
       res.status(200).json(updatedUser);
     } catch (e) {
@@ -45,11 +45,11 @@ export const getUser = async (req, res, next) => {
 export const subUser = async (req, res, next) => {
   try {
     await User.findByIdAndUpdate(req.user.id, {
-      $push: { subscribedUsers: req.params.id },
+      $push: {subscribedUsers: req.params.id},
     });
 
     await User.findByIdAndUpdate(req.params.id, {
-      $inc: { subscribers: 1 },
+      $inc: {subscribers: 1},
     });
     res.status(200).json("Success subscribed");
   } catch (e) {
@@ -58,17 +58,17 @@ export const subUser = async (req, res, next) => {
 };
 
 export const unSubUser = async (req, res, next) => {
-   try {
-      await User.findByIdAndUpdate(req.user.id, {
-        $pull: { subscribedUsers: req.params.id },
-      });
+  try {
+    await User.findByIdAndUpdate(req.user.id, {
+      $pull: {subscribedUsers: req.params.id},
+    });
 
-      await User.findByIdAndUpdate(req.params.id, {
-        $inc: { subscribers: -1 },
-      });
-      res.status(200).json("Success unsubscribed");
-    } catch (e) {
-      next(e);
-    }
+    await User.findByIdAndUpdate(req.params.id, {
+      $inc: {subscribers: -1},
+    });
+    res.status(200).json("Success unsubscribed");
+  } catch (e) {
+    next(e);
+  }
 
 };

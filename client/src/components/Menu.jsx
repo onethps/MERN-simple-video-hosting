@@ -1,26 +1,20 @@
 import styled from 'styled-components';
-import { RiHome5Fill } from 'react-icons/ri';
-import {
-  MdHistory,
-  MdMusicVideo,
-  MdOutlineExplore,
-  MdSubscriptions,
-  MdVideoLibrary,
-} from 'react-icons/md';
-import { CgDarkMode } from 'react-icons/cg';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { BsYoutube } from 'react-icons/bs';
-import { GoTriangleDown } from 'react-icons/go';
-import { logout } from 'redux/userSlice';
+import {RiHome5Fill} from 'react-icons/ri';
+import {MdHistory, MdMusicVideo, MdOutlineExplore, MdSubscriptions, MdVideoLibrary,} from 'react-icons/md';
+import {CgDarkMode} from 'react-icons/cg';
+import {Link, NavLink, useNavigate} from 'react-router-dom';
+import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {BsYoutube} from 'react-icons/bs';
+import {GoTriangleDown} from 'react-icons/go';
+import {logout} from 'redux/userSlice';
 
 const Container = styled.div`
   flex: 1;
-  background: ${({ theme }) => theme.bgLighter};
-  color: ${({ theme }) => theme.color};
+  background: ${({theme}) => theme.bgLighter};
+  color: ${({theme}) => theme.color};
   font-size: 14px;
-  background: ${({ theme }) => theme.bgLighter};
+  background: ${({theme}) => theme.bgLighter};
   position: sticky;
   top: 0;
 `;
@@ -37,7 +31,7 @@ const Logo = styled.div`
   & a {
     width: 160px;
     margin-left: 25px;
-    color: ${({ theme }) => theme.text};
+    color: ${({theme}) => theme.text};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -60,7 +54,7 @@ const UserProfileName = styled.div`
     font-size: 16px;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: ${({ theme }) => theme.text};
+    color: ${({theme}) => theme.text};
   }
 
   & svg {
@@ -71,7 +65,7 @@ const UserProfileName = styled.div`
 const Item = styled.div`
   // display: flex;
   // align-items: center;
-  // color: ${({ theme }) => theme.text};
+    // color: ${({theme}) => theme.text};
   // gap: 20px;
   // width: 100%;
   // cursor: pointer;
@@ -85,7 +79,7 @@ const Item = styled.div`
     align-items: center;
     padding: 10px 40px;
     gap: 20px;
-    color: ${({ theme }) => theme.text};
+    color: ${({theme}) => theme.text};
 
     &:hover {
       background: rgba(255, 99, 71, 0.3);
@@ -115,29 +109,29 @@ const Login = styled.div`
 const SignInDes = styled.h3`
   font-size: 16px;
   text-align: center;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
 `;
 
 const TittleCategory = styled.h4`
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
   padding: 10px 40px;
 `;
 
 const Button = styled.button`
   display: block;
   background: transparent;
-  border: 1px solid ${({ theme }) => theme.text};
+  border: 1px solid ${({theme}) => theme.text};
   border-radius: 3px;
   margin-top: 15px;
   cursor: pointer;
   padding: 5px 40px;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
 `;
 
 const TextItem = styled.h1`
   font-size: 16px;
   margin-right: 20px;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
 `;
 
 const Photo = styled.img`
@@ -160,10 +154,10 @@ const UserBox = styled.div`
 const Popup = styled.div`
   position: absolute;
   bottom: -70px;
-  background: ${({ theme }) => theme.bgMediumLight};
+  background: ${({theme}) => theme.bgMediumLight};
   width: 80%;
   padding: 20px 0;
-  border: 1px solid ${({ theme }) => theme.bgDarkLight};
+  border: 1px solid ${({theme}) => theme.bgDarkLight};
   z-index: 5;
 `;
 
@@ -172,12 +166,12 @@ const LogOutButton = styled.div`
   text-align: center;
   font-size: 18px;
   font-weight: 600;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
   border: none;
   cursor: pointer;
 
   &:hover {
-    background: ${({ theme }) => theme.bgDarkLight};
+    background: ${({theme}) => theme.bgDarkLight};
   }
 `;
 
@@ -188,14 +182,14 @@ const UserInfoBlock = styled.div`
   align-items: center;
 `;
 
-const Menu = ({ dark, setDartTheme }) => {
+const Menu = ({dark, setDartTheme}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user);
+  const {user} = useSelector((state) => state.user);
 
   const [OpenLogOutPopup, setOpenLogOutPopup] = useState(false);
 
-  const activeNavLink = ({ isActive }) => ({
+  const activeNavLink = ({isActive}) => ({
     background: isActive && 'rgba(255, 99, 71, 0.3)',
     color: isActive && 'red',
   });
@@ -211,7 +205,7 @@ const Menu = ({ dark, setDartTheme }) => {
       <Wrapper>
         <Logo>
           <NavLink to={'/'}>
-            <BsYoutube size={'40px'} color={'red'} />
+            <BsYoutube size={'40px'} color={'red'}/>
             <h1>YouTube</h1>
           </NavLink>
         </Logo>
@@ -219,10 +213,10 @@ const Menu = ({ dark, setDartTheme }) => {
         <UserBox>
           {user ? (
             <UserInfoBlock>
-              <Photo src={user.img} />
+              <Photo src={user.img}/>
               <UserProfileName>
                 <TextItem>{user.name}</TextItem>
-                <GoTriangleDown onClick={() => setOpenLogOutPopup(!OpenLogOutPopup)} />
+                <GoTriangleDown onClick={() => setOpenLogOutPopup(!OpenLogOutPopup)}/>
                 {OpenLogOutPopup && (
                   <Popup>
                     <LogOutButton onClick={logOutHandle}>Logout</LogOutButton>
@@ -239,43 +233,43 @@ const Menu = ({ dark, setDartTheme }) => {
 
         <Item>
           <NavLink to={'/'} style={activeNavLink}>
-            <RiHome5Fill />
+            <RiHome5Fill/>
             <h3>Home</h3>
           </NavLink>
         </Item>
 
         <Item>
           <NavLink to={'/explore'} style={activeNavLink}>
-            <MdOutlineExplore />
+            <MdOutlineExplore/>
             <h3>Explore</h3>
           </NavLink>
         </Item>
 
         <Item>
           <Link to={'/sub'}>
-            <MdSubscriptions />
+            <MdSubscriptions/>
             <h3>Subscriptions</h3>
           </Link>
         </Item>
 
-        <Hr />
+        <Hr/>
         <Item>
           <NavLink to={'/library'}>
-            <MdVideoLibrary />
+            <MdVideoLibrary/>
             <h3>Library</h3>
           </NavLink>
         </Item>
 
         <Item>
           <NavLink to={'/history'}>
-            <MdHistory />
+            <MdHistory/>
             <h3>History</h3>
           </NavLink>
         </Item>
 
         {!user && (
           <>
-            <Hr />
+            <Hr/>
             <Login>
               <SignInDes>Sign in to like videos, comments, and subscribe.</SignInDes>
 
@@ -286,26 +280,26 @@ const Menu = ({ dark, setDartTheme }) => {
           </>
         )}
 
-        <Hr />
+        <Hr/>
         <TittleCategory>Best of Youtube</TittleCategory>
 
         <Item>
           <NavLink to={'/'}>
-            <MdHistory />
+            <MdHistory/>
             <h3>Music</h3>
           </NavLink>
         </Item>
 
         <Item>
           <NavLink to={'/'}>
-            <MdMusicVideo />
+            <MdMusicVideo/>
             <h3>Live</h3>
           </NavLink>
         </Item>
 
         <Item onClick={() => setDartTheme(!dark)}>
           <a>
-            <CgDarkMode />
+            <CgDarkMode/>
             <h3>Dark Mode</h3>
           </a>
         </Item>

@@ -1,6 +1,6 @@
 import Comment from "../models/Comment.js";
 import Video from "../models/Video.js";
-import { CreateError } from "../utils/error.js";
+import {CreateError} from "../utils/error.js";
 
 export const addComment = async (req, res, next) => {
   try {
@@ -19,7 +19,7 @@ export const addComment = async (req, res, next) => {
 
 export const findComment = async (req, res, next) => {
   try {
-    const comment = await Comment.find({videoId:req.params.id})
+    const comment = await Comment.find({videoId: req.params.id})
     res.status(200).json(comment);
   } catch (e) {
     next(e);

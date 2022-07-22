@@ -1,16 +1,17 @@
 import express from "express";
-import { VerifyToken } from "../utils/verifyToken.js";
+import {VerifyToken} from "../utils/verifyToken.js";
 import {
-  subscribeVideos,
-  updateVideo,
   addVideo,
-  deleteVideo,
   addView,
+  deleteVideo,
+  dislikeVideo,
   getVideo,
-  trend,
-  search,
+  likeVideo,
   rand,
-  likeVideo, dislikeVideo,
+  search,
+  subscribeVideos,
+  trend,
+  updateVideo,
 } from "../controllers/video.js";
 
 const router = express.Router();

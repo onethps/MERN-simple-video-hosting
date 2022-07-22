@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
+import React, {useEffect, useState} from 'react';
+import {AiOutlineSearch} from 'react-icons/ai';
 import styled from 'styled-components';
-import { useDebounce } from 'utils/useDebounce';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import {useDebounce} from 'utils/useDebounce';
+import {useNavigate} from 'react-router-dom';
 import {instance} from "api/config";
 
 const Input = styled.input`
@@ -12,9 +11,9 @@ const Input = styled.input`
   outline: none;
   border: none;
   background: transparent;
-  color: ${({ theme }) => theme.text};
-  
-  
+  color: ${({theme}) => theme.text};
+
+
 `;
 
 const SearchBox = styled.div`
@@ -25,8 +24,8 @@ const SearchBox = styled.div`
   border: none;
   right: 0;
   margin: auto;
-  background-color: ${({ theme }) => theme.bgLighter};
-  color: ${({ theme }) => theme.text};
+  background-color: ${({theme}) => theme.bgLighter};
+  color: ${({theme}) => theme.text};
   display: flex;
   border-radius: 10px;
   justify-content: space-between;
@@ -40,7 +39,7 @@ const SearchBox = styled.div`
     padding: 5px;
     border-radius: 0 10px 10px 0;
   }
-  
+
 `;
 
 const Container = styled.div``;
@@ -49,7 +48,7 @@ const Suggestions = styled.div`
   position: absolute;
   top: 40px;
   left: 0;
-  background-color: ${({ theme }) => theme.bgLighter};
+  background-color: ${({theme}) => theme.bgLighter};
   width: 100%;
   z-index: 5;
 `;
@@ -57,11 +56,11 @@ const Suggestions = styled.div`
 const CurrentSuggestion = styled.div`
   padding: 20px;
   cursor: pointer;
-  
+
   &:hover {
-    background-color: ${({ theme }) => theme.bgMediumLight};
+    background-color: ${({theme}) => theme.bgMediumLight};
   }
-  
+
 `;
 
 const Search = () => {
@@ -76,7 +75,7 @@ const Search = () => {
 
   useEffect(() => {
     const fetchQueryVideos = async () => {
-      const { data } = await instance.get(`/videos/search/?q=${search}`);
+      const {data} = await instance.get(`/videos/search/?q=${search}`);
       setSuggestions(data);
     };
 
@@ -97,7 +96,7 @@ const Search = () => {
   return (
     <Container>
       <SearchBox>
-        <Input placeholder={'search'} value={search} onChange={onSearchHandle} />
+        <Input placeholder={'search'} value={search} onChange={onSearchHandle}/>
         <AiOutlineSearch
           size={'30px'}
           onClick={onClickSearchHandle}

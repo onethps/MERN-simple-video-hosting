@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import {instance} from "api/config";
 
 const CommentUser = styled.div`
@@ -17,15 +16,15 @@ const ChannelAvatar = styled.img`
 `;
 
 const CommentUserDesc = styled.p`
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
 `;
 
 const ChannelName = styled.h1`
   font-size: 16px;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
 `;
 
-const Comment = ({ comment }) => {
+const Comment = ({comment}) => {
   const [chanel, setChanel] = useState({});
 
   useEffect(() => {
@@ -44,7 +43,7 @@ const Comment = ({ comment }) => {
   return (
     <>
       <CommentUser>
-        <ChannelAvatar src={chanel.img} />
+        <ChannelAvatar src={chanel.img}/>
         <div>
           <ChannelName>{chanel.name}</ChannelName>
           <CommentUserDesc>{comment.desc}</CommentUserDesc>
