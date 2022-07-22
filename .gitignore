@@ -4,8 +4,7 @@
 /.pnp
 .pnp.js
 
-/.env
-
+.env
 .idea
 
 # misc
