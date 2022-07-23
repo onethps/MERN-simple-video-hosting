@@ -18,8 +18,11 @@ app.use(cors({
   credentials: true,
   proxy : true,
 }))
+app.set('trust proxy', 1);
 app.use(cookieParser());
 dotenv.config();
+
+
 
 const connect = () => {
   mongoose

@@ -7,7 +7,7 @@ const settings = {
 };
 
 export const instance = axios.create({
-  baseURL: '/api/',
+  baseURL: 'http://localhost:8800/api/',
   ...settings
 
 })
