@@ -12,10 +12,13 @@ import cors from 'cors'
 
 const app = express();
 
-app.use(cors())
-
+app.use(cors({
+  origin: "http://localhost:3000",
+  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+  credentials: true,
+}))
+app.use(cookieParser());
 dotenv.config();
-
 
 const connect = () => {
   mongoose
@@ -29,7 +32,7 @@ const connect = () => {
 };
 
 //middleware
-app.use(cookieParser());
+
 app.use(express.json());
 
 app.use("/api/users", userRoutes);

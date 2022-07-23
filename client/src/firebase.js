@@ -2,12 +2,12 @@ import {initializeApp} from 'firebase/app'
 import {getAuth, GoogleAuthProvider} from 'firebase/auth'
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_API_FIREBASE,
-  authDomain: process.env.REACT_APP_DB_HOST,
+  apiKey: "AIzaSyD3hR3t4br0NPpn-3b2EjvbtnteS8T3sCw",
+  authDomain: "yt-auth-test-aa532.firebaseapp.com",
   projectId: "yt-auth-test-aa532",
   storageBucket: "yt-auth-test-aa532.appspot.com",
-  messagingSenderId: process.env.REACT_APP_APP_MESSEGNG_SENDER,
-  appId: process.env.REACT_APP_APP_ID
+  messagingSenderId: "838628464714",
+  appId: "1:838628464714:web:b9d5aff707c0326c6c6eb3"
 };
 
 // Initialize Firebase

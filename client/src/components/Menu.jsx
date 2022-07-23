@@ -63,12 +63,6 @@ const UserProfileName = styled.div`
 `;
 
 const Item = styled.div`
-  // display: flex;
-  // align-items: center;
-    // color: ${({theme}) => theme.text};
-  // gap: 20px;
-  // width: 100%;
-  // cursor: pointer;
   height: 50px;
 
   & a {

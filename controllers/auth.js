@@ -18,11 +18,13 @@ export const signIn = async (req, res, next) => {
     let {password, ...other} = user._doc;
 
     res
-        .cookie("access_token", token, {
-          httpOnly: true,
-        })
-        .status(200)
-        .json(other);
+      .cookie("access_token", token, {
+        httpOnly: true,
+      })
+      res.set('Access-Control-Allow-Origin', req.headers.origin)
+      res.set('Access-Control-Allow-Credentials', req.headers.origin, 'true')
+      .status(200)
+      .json(other);
   } catch (err) {
     //todo
     next(err);
@@ -49,20 +51,20 @@ export const createGoogleUser = async (req, res, next) => {
     if (user) {
       const token = jwt.sign({id: user._id}, process.env.JWT);
       res
-          .cookie("access_token", token, {
-            httpOnly:true
-          })
-          .json(user._doc)
+        .cookie("access_token", token, {
+          httpOnly: true
+        })
+        .json(user._doc)
 
     } else {
       const newGoogleUser = await new User({isGoogleUser: true, ...req.body})
       await newGoogleUser.save()
       const token = jwt.sign({id: newGoogleUser._id}, process.env.JWT);
       res
-          .cookie("access_token", token, {
-            httpOnly:true
-          })
-          .json(newGoogleUser._doc)
+        .cookie("access_token", token, {
+          httpOnly: true
+        })
+        .json(newGoogleUser._doc)
     }
   } catch (e) {
     next(e)
