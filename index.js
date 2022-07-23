@@ -13,10 +13,11 @@ import cors from 'cors'
 const app = express();
 
 app.use(cors({
-  origin: true,
+  origin: "https://mern-simple-video-hosting.herokuapp.com",
   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
   credentials: true
 }))
+
 app.use(cookieParser());
 dotenv.config();
 
