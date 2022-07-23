@@ -16,6 +16,7 @@ app.use(cors({
   origin: ["http://localhost:3000", "https://mern-simple-video-hosting.herokuapp.com"],
   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
   credentials: true,
+  proxy : true,
 }))
 app.use(cookieParser());
 dotenv.config();
