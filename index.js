@@ -13,8 +13,6 @@ import cors from 'cors'
 const app = express();
 
 app.use(cors({
-  origin: "https://mern-simple-video-hosting.herokuapp.com",
-  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
   credentials: true
 }))
 
