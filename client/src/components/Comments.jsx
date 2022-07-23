@@ -4,7 +4,10 @@ import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {instance} from "api/config";
 
-const Container = styled.div``;
+const Container = styled.div`
+  grid-area: comments;
+  
+`;
 
 const NewCommentBox = styled.div`
   display: flex;

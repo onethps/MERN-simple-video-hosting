@@ -17,6 +17,12 @@ const Container = styled.div`
   background: ${({theme}) => theme.bgLighter};
   position: sticky;
   top: 0;
+
+
+  @media only screen and (max-width: 978px) {
+    display: none;
+  }
+  
 `;
 const Wrapper = styled.div`
   padding: 20px 10px;

@@ -4,8 +4,8 @@ import {Card} from 'components/Card';
 import {instance} from "api/config";
 
 const Recommendation = styled.div`
-  flex: 2;
-  width: 200px;
+  width: 100%;
+  grid-area: rec;
 `;
 
 const Recomendation = () => {
