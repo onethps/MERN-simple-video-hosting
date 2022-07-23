@@ -5,7 +5,7 @@ const settings = {
 };
 
 export const instance = axios.create({
-  baseURL: '/api/',
+  baseURL: 'https://mern-simple-video-hosting.herokuapp.com/api/',
   ...settings
 
 })

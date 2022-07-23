@@ -164,9 +164,9 @@ const Video = () => {
     const fetchUserData = async () => {
       dispatch(VideoStart());
       try {
-        const video = await axios.get(`/videos/find/${param}`);
-        const user = await axios.get(`/users/find/${video.data.userId}`);
-        await axios.put(`/videos/view/${param}`);
+        const video = await instance.get(`/videos/find/${param}`);
+        const user = await instance.get(`/users/find/${video.data.userId}`);
+      const addView =  await instance.put(`/videos/view/${param}`);
         setChannel(user.data);
         dispatch(VideoSuccess(video.data));
       } catch (e) {
