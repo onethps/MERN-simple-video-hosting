@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {AiFillDislike, AiFillLike, AiOutlineDislike, AiOutlineLike,} from 'react-icons/ai';
 import {FaShare} from 'react-icons/fa';
-import axios from 'axios';
-import {useLocation} from 'react-router-dom';
+import {Navigate, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {disLikeVideo, likeVideo, VideoFailure, VideoStart, VideoSuccess,} from 'redux/videoSlice';
 import {format} from 'timeago.js';
@@ -14,20 +13,33 @@ import Skeleton from "components/Skeleton";
 import {instance} from "api/config";
 
 const Container = styled.div`
+  background-color: ${({theme}) => theme.bg};
   display: grid;
   gap: 10px;
-  
-  
-  grid-template: "video rec"
+  max-width: 1600px;
+  margin: 30px auto;
+  row-gap: 10px;
+  position: absolute;
+  height: 100vh;
+  left: 0;
+  padding: 20px;
+
+  grid-template: 
+          "video"
+          "rec"
+          "comments";
+
+  @media only screen and (min-width: 992px) {
+    grid-template: 
+          "video rec"
     "comments  rec";
 
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: 1fr 2fr;
-  row-gap: 10px;
-  
-  @media only screen and (max-width: 978px) {
-    display: block;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 2fr;
+    position: static;
+    margin-top: 0;
   }
+
 `;
 
 const Content = styled.div`
@@ -122,12 +134,10 @@ const Video = () => {
   const dispatch = useDispatch();
 
   const currentUser = useSelector((state) => state.user);
+  console.log(currentUser)
 
   const param = location.pathname.split('/')[2];
   const [channel, setChannel] = useState({});
-
-  console.log(channel)
-
   const {video} = useSelector((state) => state.video);
   const {loading} = useSelector((state) => state.video);
 
@@ -166,7 +176,7 @@ const Video = () => {
       try {
         const video = await instance.get(`/videos/find/${param}`);
         const user = await instance.get(`/users/find/${video.data.userId}`);
-      const addView =  await instance.put(`/videos/view/${param}`);
+        await instance.put(`/videos/view/${param}`);
         setChannel(user.data);
         dispatch(VideoSuccess(video.data));
       } catch (e) {
@@ -189,6 +199,10 @@ const Video = () => {
     )
   }
 
+  if (!currentUser?.user) {
+    return <Navigate to={'/signin'}/>
+  }
+
   return (
     <Container>
       <Content>
@@ -204,7 +218,7 @@ const Video = () => {
 
             <Buttons>
               <Button onClick={likeHandle}>
-                {video?.likes?.includes(currentUser.user._id) ? (
+                {video?.likes?.includes(currentUser?.user._id) ? (
                   <AiFillLike/>
                 ) : (
                   <AiOutlineLike/>
@@ -213,7 +227,7 @@ const Video = () => {
               </Button>
 
               <Button onClick={disLikeHandle}>
-                {video?.dislikes?.includes(currentUser.user._id) ? (
+                {video?.dislikes?.includes(currentUser?.user._id) ? (
                   <AiFillDislike/>
                 ) : (
                   <AiOutlineDislike/>
@@ -229,10 +243,10 @@ const Video = () => {
           </InfoViewsAndButtons>
           <ChannelDetail>
             <ChannelInfo>
-              <ChannelAvatar src={channel.img}/>
+              <ChannelAvatar src={channel?.img}/>
               <div>
-                <ChannelName>{channel.name}</ChannelName>
-                <SubscribersCount>{channel.subscribers} subscribers</SubscribersCount>
+                <ChannelName>{channel?.name}</ChannelName>
+                <SubscribersCount>{channel?.subscribers} subscribers</SubscribersCount>
               </div>
             </ChannelInfo>
 

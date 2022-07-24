@@ -50,6 +50,7 @@ export const createGoogleUser = async (req, res, next) => {
     const user = await User.findOne({email: req.body.email})
     if (user) {
       const token = jwt.sign({id: user._id}, process.env.JWT);
+
       res
         .cookie("access_token", token, {
           httpOnly: true

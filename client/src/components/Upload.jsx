@@ -6,33 +6,54 @@ import {useNavigate} from 'react-router-dom';
 import {instance} from "api/config";
 
 const Background = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
+  bottom: 0;
   background-color: #000000a7;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 5;
+  z-index: 20;
+  background-size: cover;
+  margin: 50vh auto 0;
+  transform: translateY(-50%);
+
+  
+  
 `;
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
   top: 0;
+  z-index: 50;
   left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media only screen and (min-width: 992px) {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  
 `;
 
 const Wrapper = styled.div`
   background-color: ${({theme}) => theme.bg};
   padding: 50px;
-  z-index: 6;
+  z-index: 21;
   width: 600px;
   height: 500px;
   display: flex;

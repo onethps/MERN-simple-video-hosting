@@ -10,19 +10,15 @@ import {GoTriangleDown} from 'react-icons/go';
 import {logout} from 'redux/userSlice';
 
 const Container = styled.div`
-  flex: 1;
   background: ${({theme}) => theme.bgLighter};
   color: ${({theme}) => theme.color};
   font-size: 14px;
   background: ${({theme}) => theme.bgLighter};
   position: sticky;
   top: 0;
-
-
-  @media only screen and (max-width: 978px) {
-    display: none;
-  }
-  
+  min-height: 100vh;
+  z-index: 15;
+}
 `;
 const Wrapper = styled.div`
   padding: 20px 10px;
@@ -48,14 +44,24 @@ const Logo = styled.div`
       text-decoration: none;
     }
   }
+
+`;
+
+const UserInfoBlock = styled.div`
+  display: flex;
+  width: 160px;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const UserProfileName = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
   justify-content: center;
 
   & h1 {
+    margin: 0 5px;
     text-align: center;
     font-size: 16px;
     overflow: hidden;
@@ -64,12 +70,13 @@ const UserProfileName = styled.div`
   }
 
   & svg {
-    cursor: pointer;
+    color: ${({theme}) => theme.text};
   }
 `;
 
 const Item = styled.div`
   height: 50px;
+  cursor: pointer;
 
   & a {
     position: absolute;
@@ -175,12 +182,7 @@ const LogOutButton = styled.div`
   }
 `;
 
-const UserInfoBlock = styled.div`
-  display: flex;
-  width: 160px;
-  flex-direction: column;
-  align-items: center;
-`;
+
 
 const Menu = ({dark, setDartTheme}) => {
   const dispatch = useDispatch();
@@ -214,9 +216,9 @@ const Menu = ({dark, setDartTheme}) => {
           {user ? (
             <UserInfoBlock>
               <Photo src={user.img}/>
-              <UserProfileName>
+              <UserProfileName onClick={() => setOpenLogOutPopup(!OpenLogOutPopup)}>
                 <TextItem>{user.name}</TextItem>
-                <GoTriangleDown onClick={() => setOpenLogOutPopup(!OpenLogOutPopup)}/>
+                <GoTriangleDown />
                 {OpenLogOutPopup && (
                   <Popup>
                     <LogOutButton onClick={logOutHandle}>Logout</LogOutButton>

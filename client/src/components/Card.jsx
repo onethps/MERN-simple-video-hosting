@@ -4,60 +4,23 @@ import {Link} from 'react-router-dom';
 import {instance} from "api/config";
 import {format} from "timeago.js";
 
-// const Container = styled.div`
-//   width: ${(props) => (props.type === 'sm' ? '100%' : '300px')};
-//   margin-bottom: ${(props) => (props.type === 'sm' ? '10px' : '45px')};
-//   cursor: pointer;
-//   display: ${(props) => props.type === 'sm' && 'flex'};
-//   gap: 20px;
-// `;
-//
-// const ThumbNail = styled.img`
-//   min-width: ${(props) => (props.type === 'sm' ? '50%' : '100%')};
-//   object-fit: cover;
-//   height: ${(props) => (props.type === 'sm' ? '120px' : '196px')};
-//   border-radius: 20px;
-//   background: grey;
-// `;
-//
-// const Description = styled.div``;
-//
-// const Title = styled.h1`
-//   font-size: 16px;
-//   color: ${({theme}) => theme.text};
-//   display: -webkit-box;
-//   -webkit-line-clamp: 2;
-//   -webkit-box-orient: vertical;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-// `;
-//
-// const Author = styled.h2`
-//   font-size: 14px;
-//   font-weight: 400;
-//   color: ${({theme}) => theme.text};
-// `;
-//
-// const Views = styled.div`
-//   font-size: 12px;
-//   color: ${({theme}) => theme.text};
-// `;
-
 
 const Container = styled.div`
+  background-color: ${({theme}) => theme.bg};
   
   & a {
     text-decoration: none;
     color: ${({theme}) => theme.text};
     cursor: pointer;
+    //set block for main page and grid for others
     display: ${(props) => (props.type === 'sm' ? 'grid' : 'block')};
     grid-template-rows: repeat(1, 100%);
-    grid-template-columns: repeat(2, 50%);
+    grid-template-columns: repeat(2, 50%);    
+    
     grid-gap: 15px;
-    margin: 10px 0;
+    margin: 10px 6px;
   }
 `
-
 const ThumbnailBox = styled.div`
   position: relative;
   padding: 0 0 58% 0;
@@ -72,13 +35,16 @@ const Thumbnail = styled.img`
 
 const Title = styled.h1`
   margin-top: 10px;
-  font-size: 16px;
+  font-size: 1rem;
   color: ${({theme}) => theme.text};
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  
+  
+  
 
 `
 

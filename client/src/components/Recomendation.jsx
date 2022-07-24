@@ -4,8 +4,8 @@ import {Card} from 'components/Card';
 import {instance} from "api/config";
 
 const Recommendation = styled.div`
-  width: 100%;
   grid-area: rec;
+  background-color: ${({theme}) => theme.bg};
 `;
 
 const Recomendation = () => {
@@ -21,7 +21,7 @@ const Recomendation = () => {
 
   return (
     <Recommendation>
-      {videos?.map((currentVideo) => (
+      {videos?.splice(0,6).map((currentVideo) => (
         <Card key={currentVideo._id} type={'sm'} video={currentVideo}/>
       ))}
     </Recommendation>

@@ -13,12 +13,13 @@ import cors from 'cors'
 const app = express();
 
 app.use(cors({
+  // origin:'http://localhost:3000',
+  //prod
   credentials: true
 }))
 
 app.use(cookieParser());
 dotenv.config();
-
 
 
 const connect = () => {
@@ -40,7 +41,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/comments", userComments);
 app.use("/api/auth", authUser);
 app.use("/api/videos", videoRoutes);
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -5,33 +5,32 @@ import {useDebounce} from 'utils/useDebounce';
 import {useNavigate} from 'react-router-dom';
 import {instance} from "api/config";
 
-const Input = styled.input`
-  padding: 10px 30px;
-  width: 100%;
-  outline: none;
-  border: none;
-  background: transparent;
-  color: ${({theme}) => theme.text};
+
+const Container = styled.div`
+  width: 40%;
+  position: relative;
+  margin-right: 0;
 
 
+  @media only screen and (min-width: 992px) {
+    margin-right: 30%;
+  }
+  
 `;
 
 const SearchBox = styled.div`
-  position: absolute;
-  align-items: center;
-  left: 0;
-  top: 15px;
   border: none;
-  right: 0;
-  margin: auto;
   background-color: ${({theme}) => theme.bgLighter};
   color: ${({theme}) => theme.text};
-  display: flex;
   border-radius: 10px;
-  justify-content: space-between;
-  width: 40%;
+  height: 40px;
+  
+
 
   & svg {
+    position: absolute;
+    right: 0;
+    top: 0;
     cursor: pointer;
     background: red;
     width: 10%;
@@ -42,7 +41,16 @@ const SearchBox = styled.div`
 
 `;
 
-const Container = styled.div``;
+const Input = styled.input`
+  padding: 10px 20px;
+  width: 100%;
+  outline: none;
+  border: none;
+  background: transparent;
+  color: ${({theme}) => theme.text};
+`;
+
+
 
 const Suggestions = styled.div`
   position: absolute;
@@ -69,8 +77,6 @@ const Search = () => {
 
   const nav = useNavigate();
 
-  console.log(search);
-
   const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
@@ -96,7 +102,7 @@ const Search = () => {
   return (
     <Container>
       <SearchBox>
-        <Input placeholder={'search'} value={search} onChange={onSearchHandle}/>
+        <Input placeholder={'Search Video...'} value={search} onChange={onSearchHandle}/>
         <AiOutlineSearch
           size={'30px'}
           onClick={onClickSearchHandle}

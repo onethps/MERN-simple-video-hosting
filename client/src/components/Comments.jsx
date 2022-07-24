@@ -6,7 +6,7 @@ import {instance} from "api/config";
 
 const Container = styled.div`
   grid-area: comments;
-  
+  background-color: ${({theme}) => theme.bg};
 `;
 
 const NewCommentBox = styled.div`
@@ -55,12 +55,14 @@ const Cancel = styled.button`
   color: ${({theme}) => theme.text};
 `
 
+const CommentsUsers = styled.div`
+  margin-bottom: 10%;
+`
+
 const Comments = ({videoId}) => {
   const [comments, setComments] = useState([]);
 
   const {user} = useSelector((state) => state.user);
-
-  console.log(comments);
 
   const [isActiveComment, setIsActiveComment] = useState(false);
   const [newComment, setNewComment] = useState('');
@@ -75,7 +77,7 @@ const Comments = ({videoId}) => {
   };
 
   useEffect(() => {
-    fetchComments().catch((e) => console.log(e));
+    fetchComments()
   }, [videoId]);
 
   const setNewCommentHandle = async () => {
@@ -111,9 +113,11 @@ const Comments = ({videoId}) => {
           </Button>
         </Buttons>
       )}
+      <CommentsUsers>
       {comments.map((comment) => (
         <Comment key={comment._id} comment={comment} commentOwner={comment.user}/>
       ))}
+      </CommentsUsers>
     </Container>
   );
 };
