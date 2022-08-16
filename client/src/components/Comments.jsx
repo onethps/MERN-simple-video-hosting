@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Comment from 'components/Comment';
 import styled from 'styled-components';
-import {useSelector} from 'react-redux';
-import {instance} from "api/config";
+import { useSelector } from 'react-redux';
+import { instance } from 'api/config';
 
 const Container = styled.div`
   grid-area: comments;
-  background-color: ${({theme}) => theme.bg};
+  background-color: ${({ theme }) => theme.bgLighter};
 `;
 
 const NewCommentBox = styled.div`
@@ -22,7 +22,7 @@ const CommentInput = styled.input`
   width: 100%;
   border-bottom: 1px solid grey;
   outline: none;
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
   padding: 10px 20px;
 `;
 const ChannelAvatar = styled.img`
@@ -52,17 +52,17 @@ const Cancel = styled.button`
   padding: 10px 25px;
   border: none;
   background: transparent;
-  color: ${({theme}) => theme.text};
-`
+  color: ${({ theme }) => theme.text};
+`;
 
 const CommentsUsers = styled.div`
   margin-bottom: 10%;
-`
+`;
 
-const Comments = ({videoId}) => {
+const Comments = ({ videoId }) => {
   const [comments, setComments] = useState([]);
 
-  const {user} = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
 
   const [isActiveComment, setIsActiveComment] = useState(false);
   const [newComment, setNewComment] = useState('');
@@ -77,26 +77,25 @@ const Comments = ({videoId}) => {
   };
 
   useEffect(() => {
-    fetchComments()
+    fetchComments();
   }, [videoId]);
 
   const setNewCommentHandle = async () => {
-    await instance.post(`/comments/${videoId}`, {desc: newComment});
+    await instance.post(`/comments/${videoId}`, { desc: newComment });
     fetchComments();
-    setIsActiveComment(false)
+    setIsActiveComment(false);
     setNewComment('');
   };
 
   const onCancelButtonHandle = () => {
-    setIsActiveComment(false)
-    setNewComment('')
-
-  }
+    setIsActiveComment(false);
+    setNewComment('');
+  };
 
   return (
     <Container>
       <NewCommentBox>
-        <ChannelAvatar src={user.img}/>
+        <ChannelAvatar src={user.img} />
         <CommentInput
           placeholder={'Add a comment...'}
           onChange={newCommentHandle}
@@ -108,15 +107,19 @@ const Comments = ({videoId}) => {
       {isActiveComment && (
         <Buttons>
           <Cancel onClick={onCancelButtonHandle}>Cancel</Cancel>
-          <Button type={newComment && 'active'} onClick={setNewCommentHandle} disabled={!newComment}>
+          <Button
+            type={newComment && 'active'}
+            onClick={setNewCommentHandle}
+            disabled={!newComment}
+          >
             Comment
           </Button>
         </Buttons>
       )}
       <CommentsUsers>
-      {comments.map((comment) => (
-        <Comment key={comment._id} comment={comment} commentOwner={comment.user}/>
-      ))}
+        {comments.map((comment) => (
+          <Comment key={comment._id} comment={comment} commentOwner={comment.user} />
+        ))}
       </CommentsUsers>
     </Container>
   );

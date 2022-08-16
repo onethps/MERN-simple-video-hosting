@@ -13,9 +13,13 @@ import cors from 'cors'
 const app = express();
 
 app.use(cors({
-  // origin:'http://localhost:3000',
+ //dev
+  origin:'http://localhost:3000',
+  //
+
   //prod
   credentials: true
+//
 }))
 
 app.use(cookieParser());

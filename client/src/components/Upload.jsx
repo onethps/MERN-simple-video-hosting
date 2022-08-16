@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage';
-import app from '../firebase';
-import {useNavigate} from 'react-router-dom';
-import {instance} from "api/config";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import app from 'lib/firebase.prod';
+import { useNavigate } from 'react-router-dom';
+import { instance } from 'api/config';
 
 const Background = styled.div`
   width: 100vw;
@@ -20,9 +20,6 @@ const Background = styled.div`
   background-size: cover;
   margin: 50vh auto 0;
   transform: translateY(-50%);
-
-  
-  
 `;
 
 const Container = styled.div`
@@ -46,12 +43,10 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
   }
-  
-  
 `;
 
 const Wrapper = styled.div`
-  background-color: ${({theme}) => theme.bg};
+  background-color: ${({ theme }) => theme.bg};
   padding: 50px;
   z-index: 21;
   width: 600px;
@@ -66,8 +61,8 @@ const Wrapper = styled.div`
 const Input = styled.input`
   width: 100%;
   margin: 20px 0;
-  color: ${({theme}) => theme.text};
-  background-color: ${({theme}) => theme.bgLighter};
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.bgLighter};
   border: none;
   padding: 20px 20px;
   border-radius: 10px;
@@ -76,7 +71,7 @@ const Desc = styled.textarea`
   margin: 20px 0;
   padding: 10px 20px;
   width: 100%;
-  background-color: ${({theme}) => theme.bgLighter};
+  background-color: ${({ theme }) => theme.bgLighter};
   border-radius: 10px;
   border: none;
 `;
@@ -84,17 +79,17 @@ const Desc = styled.textarea`
 const Button = styled.button`
   margin-top: 20px;
   width: 100%;
-  background-color: ${({theme}) => theme.bgLighter};
-  color: ${({theme}) => theme.text};
+  background-color: ${({ theme }) => theme.bgLighter};
+  color: ${({ theme }) => theme.text};
 `;
 
 const Label = styled.label`
   display: block;
   text-align: left;
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
 `;
 
-const Upload = ({setOpenPopup, userId}) => {
+const Upload = ({ setUploadModal, userId }) => {
   const navigate = useNavigate();
 
   const [inputs, setInputs] = useState({});
@@ -105,7 +100,7 @@ const Upload = ({setOpenPopup, userId}) => {
 
   const handleChange = (e) => {
     setInputs((prev) => {
-      return {...prev, [e.target.name]: e.target.value};
+      return { ...prev, [e.target.name]: e.target.value };
     });
   };
 
@@ -132,12 +127,11 @@ const Upload = ({setOpenPopup, userId}) => {
             break;
         }
       },
-      (error) => {
-      },
+      (error) => {},
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setInputs((prev) => {
-            return {...prev, [urlType]: downloadURL};
+            return { ...prev, [urlType]: downloadURL };
           });
         });
       },
@@ -153,14 +147,14 @@ const Upload = ({setOpenPopup, userId}) => {
 
   const uploadHandle = async (e) => {
     e.preventDefault();
-    const res = await instance.post(`/videos/${userId}`, {...inputs});
+    const res = await instance.post(`/videos/${userId}`, { ...inputs });
     res.status === 200 && navigate(`/video/${res.data._id}`);
-    setOpenPopup(false);
+    setUploadModal(false);
   };
 
   return (
     <Container>
-      <Background onClick={() => setOpenPopup(false)}/>
+      <Background onClick={() => setUploadModal(false)} />
       <Wrapper>
         <Label>Video:</Label>
 
@@ -180,7 +174,7 @@ const Upload = ({setOpenPopup, userId}) => {
           name={'title'}
           onChange={handleChange}
         />
-        <Desc placeholder={'Desc'} rows={8} name={'desc'} onChange={handleChange}/>
+        <Desc placeholder={'Desc'} rows={8} name={'desc'} onChange={handleChange} />
         <Label>Image:</Label>
         {imgPerc > 0 ? (
           'Uploading ' + imgPerc + '%'

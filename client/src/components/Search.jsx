@@ -1,62 +1,62 @@
-import React, {useEffect, useState} from 'react';
-import {AiOutlineSearch} from 'react-icons/ai';
+import React, { useEffect, useState } from 'react';
+import { AiOutlineSearch } from 'react-icons/ai';
 import styled from 'styled-components';
-import {useDebounce} from 'utils/useDebounce';
-import {useNavigate} from 'react-router-dom';
-import {instance} from "api/config";
-
+import { useDebounce } from 'utils/useDebounce';
+import { useNavigate } from 'react-router-dom';
+import { instance } from 'api/config';
 
 const Container = styled.div`
-  width: 40%;
-  position: relative;
-  margin-right: 0;
-
-
-  @media only screen and (min-width: 992px) {
-    margin-right: 30%;
+  justify-self: flex-end;
+  @media only screen and (min-width: 1024px) {
+    display: flex;
+    flex: 2;
+    justify-content: center;
   }
-  
 `;
 
 const SearchBox = styled.div`
-  border: none;
-  background-color: ${({theme}) => theme.bgLighter};
-  color: ${({theme}) => theme.text};
-  border-radius: 10px;
-  height: 40px;
-  
+  display: none;
 
+  @media only screen and (min-width: 1024px) {
+    display: block;
 
-  & svg {
-    position: absolute;
-    right: 0;
-    top: 0;
-    cursor: pointer;
-    background: red;
-    width: 10%;
-    color: white;
-    padding: 5px;
-    border-radius: 0 10px 10px 0;
+    border: none;
+    background-color: ${({ theme }) => theme.bgLighter};
+    color: ${({ theme }) => theme.text};
+    border-radius: 10px;
+    height: 40px;
+    position: relative;
+    width: 500px;
+
+    & svg {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      cursor: pointer;
+      background: red;
+      width: 15%;
+      color: white;
+      padding: 5px;
+      border-radius: 0 10px 10px 0;
+    }
   }
-
 `;
 
 const Input = styled.input`
-  padding: 10px 20px;
+  padding: 10px 90px 10px 20px;
   width: 100%;
   outline: none;
   border: none;
   background: transparent;
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
 `;
-
-
 
 const Suggestions = styled.div`
   position: absolute;
   top: 40px;
   left: 0;
-  background-color: ${({theme}) => theme.bgLighter};
+  background-color: ${({ theme }) => theme.bgLighter};
   width: 100%;
   z-index: 5;
 `;
@@ -66,12 +66,11 @@ const CurrentSuggestion = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: ${({theme}) => theme.bgMediumLight};
+    background-color: ${({ theme }) => theme.bgMediumLight};
   }
-
 `;
 
-const Search = () => {
+export const Search = () => {
   const [search, setSearch] = useState('');
   const debounce = useDebounce(search);
 
@@ -81,7 +80,7 @@ const Search = () => {
 
   useEffect(() => {
     const fetchQueryVideos = async () => {
-      const {data} = await instance.get(`/videos/search/?q=${search}`);
+      const { data } = await instance.get(`/videos/search/?q=${search}`);
       setSuggestions(data);
     };
 
@@ -102,11 +101,8 @@ const Search = () => {
   return (
     <Container>
       <SearchBox>
-        <Input placeholder={'Search Video...'} value={search} onChange={onSearchHandle}/>
-        <AiOutlineSearch
-          size={'30px'}
-          onClick={onClickSearchHandle}
-        />
+        <Input placeholder={'Search Video...'} value={search} onChange={onSearchHandle} />
+        <AiOutlineSearch size={'30px'} onClick={onClickSearchHandle} />
         <Suggestions>
           {suggestions &&
             suggestions.splice(0, 5).map((suggestion) => (
@@ -122,5 +118,3 @@ const Search = () => {
     </Container>
   );
 };
-
-export default Search;

@@ -4,10 +4,10 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { loginFailture, loginStart, loginSuccess } from 'redux/userSlice';
 import { signInWithPopup } from 'firebase/auth';
-import { auth, Provider } from '../firebase.js';
+import { auth, Provider } from 'lib/firebase.prod.js';
 import { firstCharAvatarGenerator } from 'utils/firstCharAvatarGenerator';
-import {useNavigate} from "react-router-dom";
-import {instance} from "api/config";
+import { useNavigate } from 'react-router-dom';
+import { instance } from 'api/config';
 
 const Container = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ const SubmitButton = styled.button``;
 const SignIn = () => {
   const [email, setEmail] = useState('borya@gmail.com');
   const [password, setPassword] = useState('12342');
-  const nav = useNavigate()
+  const nav = useNavigate();
 
   const [inputs, setInputs] = useState({});
 
@@ -63,7 +63,7 @@ const SignIn = () => {
         password,
       });
       dispatch(loginSuccess(data));
-      nav('/')
+      nav('/');
     } catch (e) {
       dispatch(loginFailture());
     }

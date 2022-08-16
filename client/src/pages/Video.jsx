@@ -1,45 +1,55 @@
-import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
-import {AiFillDislike, AiFillLike, AiOutlineDislike, AiOutlineLike,} from 'react-icons/ai';
-import {FaShare} from 'react-icons/fa';
-import {Navigate, useLocation} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
-import {disLikeVideo, likeVideo, VideoFailure, VideoStart, VideoSuccess,} from 'redux/videoSlice';
-import {format} from 'timeago.js';
+import { instance } from 'api/config';
 import Comments from 'components/Comments';
-import {subHandleUser} from 'redux/userSlice';
 import Recomendation from 'components/Recomendation';
-import Skeleton from "components/Skeleton";
-import {instance} from "api/config";
+import Skeleton from 'components/Skeleton';
+import React, { useEffect, useState } from 'react';
+import {
+  AiFillDislike,
+  AiFillLike,
+  AiOutlineDislike,
+  AiOutlineLike,
+} from 'react-icons/ai';
+import { FaShare } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, useLocation } from 'react-router-dom';
+import { subHandleUser } from 'redux/userSlice';
+import {
+  disLikeVideo,
+  likeVideo,
+  VideoFailure,
+  VideoStart,
+  VideoSuccess,
+} from 'redux/videoSlice';
+import styled from 'styled-components';
+import { format } from 'timeago.js';
 
 const Container = styled.div`
-  background-color: ${({theme}) => theme.bg};
+  background-color: ${({ theme }) => theme.bgLighter};
   display: grid;
   gap: 10px;
   max-width: 1600px;
-  margin: 30px auto;
+  margin: 50px auto;
   row-gap: 10px;
   position: absolute;
   height: 100vh;
   left: 0;
   padding: 20px;
 
-  grid-template: 
-          "video"
-          "rec"
-          "comments";
+  grid-template:
+    'video'
+    'rec'
+    'comments';
 
   @media only screen and (min-width: 992px) {
-    grid-template: 
-          "video rec"
-    "comments  rec";
+    grid-template:
+      'video rec'
+      'comments  rec';
 
     grid-template-columns: 2fr 1fr;
     grid-template-rows: 1fr 2fr;
     position: static;
     margin-top: 0;
   }
-
 `;
 
 const Content = styled.div`
@@ -49,7 +59,7 @@ const Content = styled.div`
 const VideoWrapper = styled.div``;
 
 const Details = styled.div`
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
 `;
 
 const InfoViewsAndButtons = styled.div`
@@ -58,11 +68,11 @@ const InfoViewsAndButtons = styled.div`
 `;
 
 const Views = styled.div`
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
 `;
 const Tittle = styled.h1`
   font-size: 16px;
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
 `;
 const Buttons = styled.div`
   display: flex;
@@ -75,7 +85,7 @@ const IconText = styled.h1`
   font-size: 16px;
   display: inline-block;
   padding: 0 15px;
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
 `;
 
 const SubscribeButton = styled.button`
@@ -114,7 +124,7 @@ const VideoDescription = styled.p`
 
 const ChannelName = styled.h1`
   font-size: 16px;
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
 `;
 
 const VideoFrame = styled.video`
@@ -134,12 +144,11 @@ const Video = () => {
   const dispatch = useDispatch();
 
   const currentUser = useSelector((state) => state.user);
-  console.log(currentUser)
 
   const param = location.pathname.split('/')[2];
   const [channel, setChannel] = useState({});
-  const {video} = useSelector((state) => state.video);
-  const {loading} = useSelector((state) => state.video);
+  const { video } = useSelector((state) => state.video);
+  const { loading } = useSelector((state) => state.video);
 
   const likeHandle = async () => {
     if (!video.likes.includes(currentUser.user._id)) {
@@ -190,24 +199,26 @@ const Video = () => {
     return (
       <Container>
         <Content>
-          <Skeleton type={'large'}/>
+          <Skeleton type={'large'} />
         </Content>
         <div>
-          {[...new Array(3)].map((el, i) => <Skeleton key={el + i} type={'sm'}/>)}
+          {[...new Array(3)].map((el, i) => (
+            <Skeleton key={el + i} type={'sm'} />
+          ))}
         </div>
       </Container>
-    )
+    );
   }
 
   if (!currentUser?.user) {
-    return <Navigate to={'/signin'}/>
+    return <Navigate to={'/signin'} />;
   }
 
   return (
     <Container>
       <Content>
         <VideoWrapper>
-          <VideoFrame src={video?.videoUrl} controls/>
+          <VideoFrame src={video?.videoUrl} controls />
         </VideoWrapper>
         <Details>
           <Tittle>{video?.title}</Tittle>
@@ -219,31 +230,31 @@ const Video = () => {
             <Buttons>
               <Button onClick={likeHandle}>
                 {video?.likes?.includes(currentUser?.user._id) ? (
-                  <AiFillLike/>
+                  <AiFillLike />
                 ) : (
-                  <AiOutlineLike/>
+                  <AiOutlineLike />
                 )}{' '}
                 <IconText>{video?.likes.length}</IconText>
               </Button>
 
               <Button onClick={disLikeHandle}>
                 {video?.dislikes?.includes(currentUser?.user._id) ? (
-                  <AiFillDislike/>
+                  <AiFillDislike />
                 ) : (
-                  <AiOutlineDislike/>
+                  <AiOutlineDislike />
                 )}
 
                 <IconText>Dislike</IconText>
               </Button>
               <Button>
-                <FaShare/>
+                <FaShare />
                 <IconText>Share</IconText>
               </Button>
             </Buttons>
           </InfoViewsAndButtons>
           <ChannelDetail>
             <ChannelInfo>
-              <ChannelAvatar src={channel?.img}/>
+              <ChannelAvatar src={channel?.img} />
               <div>
                 <ChannelName>{channel?.name}</ChannelName>
                 <SubscribersCount>{channel?.subscribers} subscribers</SubscribersCount>
@@ -259,8 +270,8 @@ const Video = () => {
           <VideoDescription>{video?.desc}</VideoDescription>
         </Details>
       </Content>
-      <Recomendation/>
-      <Comments videoId={param}/>
+      <Recomendation />
+      <Comments videoId={param} />
     </Container>
   );
 };
