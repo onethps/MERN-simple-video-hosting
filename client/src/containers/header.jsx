@@ -1,11 +1,8 @@
 import { Button } from 'components/Button';
 import {
-  ArrowBack,
   Border,
   InputSearch,
-  InputSearchIcon,
-  InputWithIconBox,
-  SearchBox,
+  LogoTitle,
   SearchIcon,
 } from 'components/Header/styles/header';
 import { SIGN_IN_ROUTE } from 'constants/routes';
@@ -40,14 +37,18 @@ export const HeaderContainer = ({
     setOpenSearch(true);
   };
 
+  const onNavToHome = () => {
+    nav('/');
+  };
   return (
     <Header>
       <Header.Frame setUploadModal={setOpenPopup} uploadModal={openPopup}>
         <Header.LeftButtonsGroup>
           <Header.GamburgerMenu onClick={() => setIsOpenSidebar(!isOpenSidebar)} />
           <Header.Logo>
-            <AiFillYoutube size={'2rem'} color={'red'} onClick={() => nav('/')} />
+            <AiFillYoutube size={'2rem'} color={'red'} onClick={onNavToHome} />
           </Header.Logo>
+          <LogoTitle onClick={onNavToHome}>utube</LogoTitle>
         </Header.LeftButtonsGroup>
 
         <Header.ActiveSearch openSearch={openSearch} onCloseSearch={onCloseSearchHandle}>

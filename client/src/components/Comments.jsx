@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import Comment from 'components/Comment';
-import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 import { instance } from 'api/config';
+import Comment from 'components/Comment';
+import React, { memo, useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 
 const Container = styled.div`
   grid-area: comments;
@@ -59,7 +59,7 @@ const CommentsUsers = styled.div`
   margin-bottom: 10%;
 `;
 
-const Comments = ({ videoId }) => {
+const Comments = memo(({ videoId }) => {
   const [comments, setComments] = useState([]);
 
   const { user } = useSelector((state) => state.user);
@@ -77,7 +77,7 @@ const Comments = ({ videoId }) => {
   };
 
   useEffect(() => {
-    fetchComments();
+    fetchComments().catch((err) => console.log(err));
   }, [videoId]);
 
   const setNewCommentHandle = async () => {
@@ -91,6 +91,14 @@ const Comments = ({ videoId }) => {
     setIsActiveComment(false);
     setNewComment('');
   };
+
+  const RenderCommentItems = useMemo(
+    () =>
+      comments?.map((comment) => (
+        <Comment key={comment._id} comment={comment} commentOwner={comment.user} />
+      )),
+    [comments],
+  );
 
   return (
     <Container>
@@ -116,13 +124,11 @@ const Comments = ({ videoId }) => {
           </Button>
         </Buttons>
       )}
-      <CommentsUsers>
-        {comments.map((comment) => (
-          <Comment key={comment._id} comment={comment} commentOwner={comment.user} />
-        ))}
-      </CommentsUsers>
+      <CommentsUsers>{RenderCommentItems}</CommentsUsers>
     </Container>
   );
-};
+});
+
+Comments.displayName = 'Comments';
 
 export default Comments;

@@ -15,8 +15,12 @@ import {
   Wrapper,
 } from './styles/sidebar';
 
-const Sidebar = ({ children, isOpen }) => {
-  return <Container isOpen={isOpen}>{children}</Container>;
+const Sidebar = ({ children, isOpen, restProps }) => {
+  return (
+    <Container isOpen={isOpen} {...restProps}>
+      {children}
+    </Container>
+  );
 };
 
 Sidebar.Frame = function SidebarFrame({ children, ...restProps }) {

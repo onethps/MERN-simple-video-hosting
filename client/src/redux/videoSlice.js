@@ -24,19 +24,19 @@ export const videoSlice = createSlice({
     likeVideo: (state, action) => {
       if (!state.video.likes.includes(action.payload)) {
         state.video.likes.push(action.payload);
-        state.video.dislikes.splice(
-          state.video.dislikes.findIndex((userId) => userId === action.payload),
-          1,
+        const indexUserId = state.video.dislikes.findIndex(
+          (userId) => userId === action.payload,
         );
+        state.video.dislikes.splice(indexUserId, 1);
       }
     },
     disLikeVideo: (state, action) => {
       if (!state.video.dislikes.includes(action.payload)) {
         state.video.dislikes.push(action.payload);
-        state.video.likes.splice(
-          state.video.dislikes.findIndex((userId) => userId === action.payload),
-          1,
+        const indexUserId = state.video.likes.findIndex(
+          (userId) => userId === action.payload,
         );
+        state.video.likes.splice(indexUserId, 1);
       }
     },
   },

@@ -2,7 +2,7 @@ import { instance } from 'api/config';
 import Comments from 'components/Comments';
 import Recomendation from 'components/Recomendation';
 import Skeleton from 'components/Skeleton';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   AiFillDislike,
   AiFillLike,
@@ -11,29 +11,20 @@ import {
 } from 'react-icons/ai';
 import { FaShare } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useLocation } from 'react-router-dom';
-import { subHandleUser } from 'redux/userSlice';
-import {
-  disLikeVideo,
-  likeVideo,
-  VideoFailure,
-  VideoStart,
-  VideoSuccess,
-} from 'redux/videoSlice';
+import { Navigate, useParams } from 'react-router-dom';
+import { subHandleUser, userSelector } from 'redux/userSlice';
+import { disLikeVideo, likeVideo, VideoFailure } from 'redux/videoSlice';
 import styled from 'styled-components';
 import { format } from 'timeago.js';
+import { useVideoData } from '../hooks/useVideoData';
 
-const Container = styled.div`
+const VideoContainer = styled.div`
   background-color: ${({ theme }) => theme.bgLighter};
   display: grid;
-  gap: 10px;
   max-width: 1600px;
-  margin: 50px auto;
-  row-gap: 10px;
-  position: absolute;
-  height: 100vh;
-  left: 0;
-  padding: 20px;
+  margin: 0 auto;
+  //row-gap: 10px;
+  padding: 80px 10px;
 
   grid-template:
     'video'
@@ -48,7 +39,7 @@ const Container = styled.div`
     grid-template-columns: 2fr 1fr;
     grid-template-rows: 1fr 2fr;
     position: static;
-    margin-top: 0;
+    padding: 100px;
   }
 `;
 
@@ -140,20 +131,26 @@ const ChannelAvatar = styled.img`
 `;
 
 const Video = () => {
-  const location = useLocation();
+  // const location = useLocation();
   const dispatch = useDispatch();
+  const { id } = useParams();
 
-  const currentUser = useSelector((state) => state.user);
+  const currentUser = useSelector(userSelector);
 
-  const param = location.pathname.split('/')[2];
-  const [channel, setChannel] = useState({});
+  // const param = location.pathname.split('/')[2];
+
+  // const [channel, setChannel] = useState({});
+  // const [recommendations, setRecommendations] = useState(null);
+
+  const { channel, recommendations } = useVideoData(id);
+
   const { video } = useSelector((state) => state.video);
   const { loading } = useSelector((state) => state.video);
 
   const likeHandle = async () => {
     if (!video.likes.includes(currentUser.user._id)) {
       try {
-        await instance.put(`/videos/like/${param}`);
+        await instance.put(`/videos/like/${id}`);
         dispatch(likeVideo(currentUser.user._id));
       } catch (e) {
         console.log(e);
@@ -164,7 +161,7 @@ const Video = () => {
   const disLikeHandle = async () => {
     if (!video.dislikes.includes(currentUser.user._id)) {
       try {
-        await instance.put(`/videos/dislike/${param}`);
+        await instance.put(`/videos/dislike/${id}`);
         dispatch(disLikeVideo(currentUser.user._id));
       } catch (e) {
         dispatch(VideoFailure());
@@ -179,34 +176,40 @@ const Video = () => {
     dispatch(subHandleUser(video.userId));
   };
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      dispatch(VideoStart());
-      try {
-        const video = await instance.get(`/videos/find/${param}`);
-        const user = await instance.get(`/users/find/${video.data.userId}`);
-        await instance.put(`/videos/view/${param}`);
-        setChannel(user.data);
-        dispatch(VideoSuccess(video.data));
-      } catch (e) {
-        dispatch(VideoFailure());
-      }
-    };
-    fetchUserData();
-  }, [location]);
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     dispatch(VideoStart());
+  //     try {
+  //       const video = await instance.get(`/videos/find/${id}`);
+  //       const user = await instance.get(`/users/find/${video.data.userId}`);
+  //       await instance.put(`/videos/view/${id}`);
+  //       setChannel(user.data);
+  //       dispatch(VideoSuccess(video.data));
+  //     } catch (e) {
+  //       dispatch(VideoFailure());
+  //     }
+  //   };
+  //   fetchUserData().catch((err) => console.log(err));
+  //
+  //   const fetchRecommendationVideos = async () => {
+  //     const { data } = await instance.get(`/videos/random/`);
+  //     setRecommendations(data);
+  //   };
+  //   fetchRecommendationVideos().catch((err) => console.log(err));
+  // }, [location]);
 
   if (loading) {
     return (
-      <Container>
+      <VideoContainer>
         <Content>
           <Skeleton type={'large'} />
         </Content>
         <div>
           {[...new Array(3)].map((el, i) => (
-            <Skeleton key={el + i} type={'sm'} />
+            <Skeleton key={(i + 1).toString()} type={'sm'} />
           ))}
         </div>
-      </Container>
+      </VideoContainer>
     );
   }
 
@@ -215,7 +218,7 @@ const Video = () => {
   }
 
   return (
-    <Container>
+    <VideoContainer>
       <Content>
         <VideoWrapper>
           <VideoFrame src={video?.videoUrl} controls />
@@ -270,9 +273,9 @@ const Video = () => {
           <VideoDescription>{video?.desc}</VideoDescription>
         </Details>
       </Content>
-      <Recomendation />
-      <Comments videoId={param} />
-    </Container>
+      <Recomendation recommendations={recommendations} />
+      <Comments videoId={id} />
+    </VideoContainer>
   );
 };
 

@@ -47,14 +47,7 @@ Header.Frame = function HeaderFrame({
 };
 
 Header.LeftButtonsGroup = function HeaderLeftButtonsGroup({ children, ...restProps }) {
-  const nav = useNavigate();
-
-  return (
-    <LeftNavButtons {...restProps}>
-      {children}
-      <h1>YOUTUBE</h1>
-    </LeftNavButtons>
-  );
+  return <LeftNavButtons {...restProps}>{children}</LeftNavButtons>;
 };
 
 Header.GamburgerMenu = function HeaderGamburgerMenu({ ...restProps }) {

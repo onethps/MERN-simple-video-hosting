@@ -4,21 +4,32 @@ import { Index } from 'components/Card';
 import Skeleton from 'components/Skeleton';
 import SidebarContainer from 'containers/sidebar';
 import React, { useContext, useEffect, useState } from 'react';
+import { BsFillArrowLeftSquareFill, BsFillArrowRightSquareFill } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { userSelector } from 'redux/userSlice';
 import styled from 'styled-components';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { devices } from 'styles/variables';
+import { Autoplay, Navigation, Pagination } from 'swiper';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const Container = styled.div`
   max-width: 1998px;
   margin: 0 auto;
   padding: 70px 20px;
 
-  @media only screen and (min-width: 990px) {
-    //margin-left: 100px;
-    margin-left: ${({ isOpenSidebar }) => (!isOpenSidebar ? '100px' : '300px')};
+  @media only screen and ${devices.tablet} {
+    margin-left: 100px;
   }
 
-  @media only screen and (min-width: 2582px) {
+  @media only screen and ${devices.laptopL} {
+    margin-left: ${({ isOpenSidebar }) => (isOpenSidebar ? '300px' : '100px')};
+  }
+
+  @media only screen and ${devices.desktop} {
     margin: 0 auto;
   }
 `;
@@ -27,12 +38,12 @@ const Row = styled.div`
   display: grid;
   grid-gap: 5px;
 
-  @media only screen and (min-width: 600px) {
+  @media only screen and ${devices.mobileL} {
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(1, 1fr);
   }
 
-  @media only screen and (min-width: 768px) {
+  @media only screen and ${devices.tablet} {
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(2, 1fr);
   }
@@ -72,19 +83,39 @@ const EmptyList = styled.h1`
 `;
 
 const CategoryTitle = styled.h1`
-  //position: absolute;
   top: 70px;
-  //left: 0;
-  //right: 0;
   text-align: center;
   color: ${({ theme }) => theme.text};
+`;
 
-  //   @media only screen and (min-width: 997px) {
-  //     position: static;
-  //     text-align: left;
-  //     top: 0;
-  //   }
-  //
+const SwiperBox = styled(Swiper)`
+  width: 100%;
+  height: 400px;
+  position: relative;
+
+  & .swiper-slide-active {
+    @media only screen and ${devices.laptopL} {
+      transform: scale(1.3);
+    }
+  }
+
+  & svg {
+    opacity: 0.7;
+    color: red;
+    transform: scale(1.5);
+  }
+`;
+
+export const SliderItem = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+
+  & img {
+    width: 80%;
+    object-fit: contain;
+  }
 `;
 
 const Home = ({ type }) => {
@@ -116,11 +147,16 @@ const Home = ({ type }) => {
 
   if (loading) {
     return (
-      <LoadingBlock>
-        {[...new Array(6)].map((skeleton, i) => (
-          <Skeleton key={i + new Date().getTime()} type={'medium'} />
-        ))}
-      </LoadingBlock>
+      <>
+        <SidebarContainer user={user} isOpenSidebar={isOpenSidebar} />
+        <Container>
+          <LoadingBlock>
+            {[...new Array(6)].map((skeleton, i) => (
+              <Skeleton key={i + new Date().getTime()} type={'medium'} />
+            ))}
+          </LoadingBlock>
+        </Container>
+      </>
     );
   }
 
@@ -128,6 +164,59 @@ const Home = ({ type }) => {
     <>
       <SidebarContainer user={user} isOpenSidebar={isOpenSidebar} />
       <Container isOpenSidebar={isOpenSidebar}>
+        {/*<HomeSlider videos={videos} />*/}
+        <>
+          <SwiperBox
+            breakpoints={{
+              768: {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                slidesPerGroup: 1,
+              },
+              // when window width is >= 480px
+              1024: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+                slidesPerGroup: 2,
+              },
+              // when window width is >= 640px
+              1440: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+                slidesPerGroup: 3,
+              },
+            }}
+            speed={1200}
+            centeredSlides={true}
+            centerInsufficientSlides={true}
+            centeredSlidesBounds={true}
+            loop={true}
+            pagination={{
+              clickable: true,
+            }}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            navigation={{
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            }}
+            modules={[Pagination, Navigation, Autoplay]}
+            className="mySwiper"
+          >
+            {videos?.map((video) => (
+              <SwiperSlide key={video?.videoId}>
+                <SliderItem>
+                  <img src={video?.imgUrl} />
+                </SliderItem>
+              </SwiperSlide>
+            ))}
+            <BsFillArrowLeftSquareFill className={'swiper-button-prev'} />
+            <BsFillArrowRightSquareFill className={'swiper-button-next'} />
+          </SwiperBox>
+        </>
+
         <CategoryTitle>
           {type === 'sub' && videos ? 'Subscription' : 'Recommendations'}
         </CategoryTitle>

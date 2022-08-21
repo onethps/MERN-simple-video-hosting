@@ -160,6 +160,10 @@ export const InputSearchIcon = styled(BsSearch)`
   padding: 10px;
 `;
 
+export const LogoTitle = styled.h1`
+  cursor: pointer;
+`;
+
 export const ArrowBack = styled(IoArrowBack)`
   flex: 0.3;
   font-size: 30px;

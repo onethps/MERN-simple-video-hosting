@@ -1,5 +1,3 @@
-import { css } from 'styled-components';
-
 export const v = {
   sidebarWidth: `300px`,
   smSpacing: `8px`,
@@ -10,14 +8,18 @@ export const v = {
   borderRadius: `6px`,
 };
 
-export const btnReset = css`
-  font-family: inherit;
-  outline: none;
-  border: none;
-  background: none;
-  letter-spacing: inherit;
-  color: inherit;
-  font-size: inherit;
-  text-align: inherit;
-  padding: 0;
-`;
+const sizes = {
+  mobileL: '425px',
+  tablet: '768px',
+  laptop: '1024px',
+  laptopL: '1440px',
+  desktop: '2560px',
+};
+
+export const devices = {
+  mobileL: `(min-width: ${sizes.mobileL})`,
+  tablet: `(min-width: ${sizes.tablet})`,
+  laptop: `(min-width: ${sizes.laptop})`,
+  laptopL: `(min-width: ${sizes.laptopL})`,
+  desktop: `(min-width: ${sizes.desktop})`,
+};

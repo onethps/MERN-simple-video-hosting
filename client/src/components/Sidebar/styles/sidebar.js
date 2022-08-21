@@ -1,25 +1,28 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { v } from 'styles/variables';
+import { devices } from 'styles/variables';
 
 export const Container = styled.div`
   //background-color: red;
   position: fixed;
   left: 0;
-  
   bottom: 0;
   z-index: 1;
   background: ${({ theme }) => theme.bg};
-  min-width: auto;
   height: 100vh;
   display: none;
+  
 }
 
-@media only screen and (min-width: 990px) {
+@media screen and ${devices.tablet} {
   display: block;
-  min-width: ${({ isOpen }) => (!isOpen ? `auto` : v.sidebarWidth)};
+  min-width: auto;
 }
 
+@media only screen and ${devices.laptopL} {
+  min-width: ${({ isOpen }) => (isOpen ? '300px' : '100px')};
+}
 `;
 
 export const Wrapper = styled.div`
@@ -30,10 +33,6 @@ export const Wrapper = styled.div`
   & a {
     text-decoration: none;
   }
-
-  @media only screen and (min-width: 990px) {
-    display: block;
-  }
 `;
 
 export const UserBox = styled.div`
@@ -43,28 +42,6 @@ export const UserBox = styled.div`
   padding: 20px 0;
   flex-direction: column;
   position: relative;
-`;
-
-export const Item = styled.div`
-  height: 50px;
-  cursor: pointer;
-  padding: 10px 40px;
-  margin: 10px;
-
-  & a {
-    display: flex;
-    position: absolute;
-    left: 0;
-    right: 0;
-    align-items: center;
-    padding: 20px 40px;
-    gap: 20px;
-    color: ${({ theme }) => theme.text};
-
-    &:hover {
-      background: #e0e0e0;
-    }
-  }
 `;
 
 export const Hr = styled.hr`
@@ -133,11 +110,11 @@ export const SLinkIcon = styled.div`
 
 export const SLinkLabel = styled.span`
   display: none;
-  width: fit-content;
 
-  @media only screen and (min-width: 990px) {
+  @media only screen and ${devices.laptopL} {
+    width: fit-content;
     display: block;
     flex: 1;
-    margin-left: ${v.smSpacing};
+    margin-left: (${v.smSpacing});
   }
 `;
