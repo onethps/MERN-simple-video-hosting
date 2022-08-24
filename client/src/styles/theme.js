@@ -1,6 +1,6 @@
 export const dartTheme = {
   bg: '#14191F',
-  bgLighter: '#14191F',
+  bgLighter: '#1f262f',
   hoverColor: '#29333D',
   hoverColorLighter: '#374152',
   bgMediumLight: '#3a3a3a',

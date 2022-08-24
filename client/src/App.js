@@ -16,13 +16,6 @@ function App() {
   const [isOpenSidebar, setIsOpenSidebar] = useState(true);
   const [openPopup, setOpenPopup] = useState(false);
 
-  useEffect(() => {
-    console.log('mo'),
-      () => {
-        console.log('un');
-      };
-  }, []);
-
   return (
     <ThemeProvider theme={dark ? lightTheme : dartTheme}>
       <SidebarContext.Provider value={{ isOpenSidebar, setIsOpenSidebar }}>

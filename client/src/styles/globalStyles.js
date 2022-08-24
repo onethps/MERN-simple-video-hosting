@@ -10,6 +10,6 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: ${({ theme }) => theme.bgLighter};
+    background: ${({ theme }) => theme.bg};
     letter-spacing: .6px;
 }`;

@@ -39,7 +39,6 @@ const VideoContainer = styled.div`
     grid-template-columns: 2fr 1fr;
     grid-template-rows: 0.5fr 1fr;
     position: static;
-    //padding: 100px 0;
   }
 `;
 

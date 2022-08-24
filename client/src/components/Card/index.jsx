@@ -12,7 +12,7 @@ import {
   Author,
 } from './styles/card';
 
-function Index({ type, video }) {
+const Card = ({ type, video }) => {
   const [channel, setChannel] = useState(null);
 
   useEffect(() => {
@@ -40,6 +40,6 @@ function Index({ type, video }) {
       </Link>
     </Container>
   );
-}
+};
 
-export { Index };
+export default Card;

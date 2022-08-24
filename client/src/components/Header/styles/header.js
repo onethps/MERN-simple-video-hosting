@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
   padding: 0 30px;
   min-height: 70px;
   display: flex;
-  background: ${({ theme }) => theme.bg};
+  background: ${({ theme }) => theme.bgLighter};
   align-items: center;
   left: 0;
   right: 0;
@@ -143,7 +143,7 @@ export const SearchBox = styled.div`
   flex: 1;
   align-items: center;
   width: 100%;
-  background: ${({ theme }) => theme.bg};
+  background: ${({ theme }) => theme.bgLighter};
   position: ${({ openSearch }) => (openSearch ? 'absolute' : 'none')};
   left: 0;
   top: 0;

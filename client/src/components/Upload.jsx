@@ -1,7 +1,7 @@
+import { storage } from 'lib/firebase.prod';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import app from 'lib/firebase.prod';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
 import { instance } from 'api/config';
 
@@ -122,7 +122,6 @@ const Upload = ({ setUploadModal, userId }) => {
   };
 
   const uploadFile = (file, urlType) => {
-    const storage = getStorage(app);
     const fileName = new Date().getTime() + file.name;
     const mountainsRef = ref(storage, fileName);
 

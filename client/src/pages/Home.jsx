@@ -1,36 +1,15 @@
 import { instance } from 'api/config';
-import { SidebarContext } from 'App';
-import { Index } from 'components/Card';
+import Card from 'components/Card';
+import Layout from '../components/Layout/Layout';
 import Skeleton from 'components/Skeleton';
 import HomeSlider from 'components/Slider/HomeSlider';
-import SidebarContainer from 'containers/sidebar';
-import React, { useContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { userSelector } from 'redux/userSlice';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { devices } from 'styles/variables';
 
-const Container = styled.div`
-  max-width: 1998px;
-  margin: 0 auto;
-  padding: 70px 20px;
-
-  @media only screen and ${devices.tablet} {
-    margin-left: 100px;
-  }
-
-  @media only screen and ${devices.laptopL} {
-    margin-left: ${({ isOpenSidebar }) => (isOpenSidebar ? '300px' : '100px')};
-  }
-
-  @media only screen and ${devices.desktop} {
-    margin: 0 auto;
-  }
-`;
-
 const Row = styled.div`
   display: grid;
-  grid-gap: 5px;
+  grid-gap: 10px;
 
   @media only screen and ${devices.mobileL} {
     grid-template-rows: repeat(1, 1fr);
@@ -90,20 +69,16 @@ const CategoryTitle = styled.h1`
   color: ${({ theme }) => theme.text};
 `;
 
-const Home = ({ type }) => {
+const Home = () => {
   const [videos, setVideos] = useState(null);
   const [loading, setLoading] = useState(false);
-  // const nav = useNavigate();
-
-  const { isOpenSidebar } = useContext(SidebarContext);
-  const { user } = useSelector(userSelector);
 
   useEffect(() => {
     const fetchVideos = async () => {
       setVideos(null);
       try {
         setLoading(true);
-        const { data } = await instance.get(`videos/${type}`);
+        const { data } = await instance.get(`videos/random`);
         setVideos(data);
       } catch (e) {
         console.log(e);
@@ -113,49 +88,36 @@ const Home = ({ type }) => {
     };
 
     fetchVideos().catch((err) => console.log(err));
-  }, [type]);
+  }, []);
 
   if (loading) {
     return (
-      <>
-        <SidebarContainer user={user} isOpenSidebar={isOpenSidebar} />
-        <Container>
-          <LoadingBlock isOpenSidebar={isOpenSidebar}>
-            {[...new Array(6)].map((skeleton, i) => (
-              <Skeleton key={i + new Date().getTime()} type={'medium'} />
-            ))}
-          </LoadingBlock>
-        </Container>
-      </>
+      <Layout>
+        <LoadingBlock>
+          {[...new Array(6)].map((skeleton, i) => (
+            <Skeleton key={i + new Date().getTime()} type={'medium'} />
+          ))}
+        </LoadingBlock>
+      </Layout>
     );
   }
 
   if (!videos) {
     return (
-      <>
-        <SidebarContainer user={user} isOpenSidebar={isOpenSidebar} />
-        <Container>
-          <EmptyList>Empty List</EmptyList>
-        </Container>
-      </>
+      <Layout>
+        <EmptyList>Empty List</EmptyList>
+      </Layout>
     );
   }
 
   return (
-    <>
-      <SidebarContainer user={user} isOpenSidebar={isOpenSidebar} />
-      <Container isOpenSidebar={isOpenSidebar}>
-        {type !== 'sub' ? <HomeSlider videos={videos} /> : null}
-        <CategoryTitle>
-          {type === 'sub' && videos ? 'Subscription' : 'Recommendations'}
-        </CategoryTitle>
-        <Row>
-          {videos?.map((video) => (
-            <Index key={video._id} video={video} />
-          ))}
-        </Row>
-      </Container>
-    </>
+    <Layout>
+      <HomeSlider videos={videos} />
+      <CategoryTitle>Recomendations</CategoryTitle>
+      <Row>
+        {videos ? videos.map((video) => <Card key={video._id} video={video} />) : null}
+      </Row>
+    </Layout>
   );
 };
 

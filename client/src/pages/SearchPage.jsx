@@ -1,7 +1,7 @@
+import Card from 'components/Card';
 import SidebarContainer from 'containers/sidebar';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Index } from 'components/Card';
 import styled from 'styled-components';
 import { instance } from 'api/config';
 
@@ -48,7 +48,7 @@ const SearchPage = () => {
       <SidebarContainer />
       <Container>
         {videos?.map((video) => (
-          <Index key={video._id} video={video} type={'sm'} />
+          <Card key={video._id} video={video} type={'sm'} />
         ))}
         {!videos && <Text>NO RESULTS</Text>}
       </Container>
