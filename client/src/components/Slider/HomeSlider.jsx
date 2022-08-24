@@ -1,103 +1,97 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React from 'react';
+import { BsFillArrowLeftSquareFill, BsFillArrowRightSquareFill } from 'react-icons/bs';
 import styled from 'styled-components';
+import { devices } from 'styles/variables';
+import { Autoplay, Navigation, Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-const Container = styled.div`
-  //width: 1000vw;
-  //height: 500px;
-  //padding: 150px;
-  height: 30vw;
-  width: 40vw;
-  margin: 0 auto;
-  left: -10%;
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+
+const SwiperBox = styled(Swiper)`
+  width: 100%;
+  height: 400px;
   position: relative;
-  perspective: 1000px;
-  transform-style: preserve-3d;
+
+  & .swiper-slide-active {
+    @media only screen and ${devices.laptopL} {
+      transform: scale(1.3);
+    }
+  }
+
+  & svg {
+    opacity: 0.7;
+    color: ${({ theme }) => theme.blueLight};
+    transform: scale(1.5);
+  }
 `;
 
-const Carorusel = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ImgBox = styled.div`
-  margin: auto;
-  width: 60%;
-  height: 100%;
-  border-radius: 4px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  cursor: pointer;
-  transition: transform 0.4s ease;
-`;
-const Image = styled.img`
+export const SliderItem = styled.div`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  display: flex;
+  justify-content: center;
+
+  & img {
+    width: 80%;
+    object-fit: contain;
+  }
 `;
 
 const HomeSlider = ({ videos }) => {
-  const [activeSlide, setActiveSlide] = useState(2);
-
-  const nextIndexSlide = activeSlide === videos?.length - 1 ? 0 : activeSlide + 1;
-  const prevIndexSlide = activeSlide === 0 ? videos?.length - 1 : activeSlide - 1;
-
-  const prev = () => {
-    setActiveSlide(prevIndexSlide);
-  };
-
-  const next = () => {
-    setActiveSlide(nextIndexSlide);
-  };
-
-  const renderElems = videos?.map((el, index) => (
-    <div key={el + index}>
-      {index === prevIndexSlide && (
-        <ImgBox
-          current={activeSlide}
-          index={index}
-          onClick={prev}
-          style={{
-            transform: 'translate3d(-50%, 0, -100px)',
-          }}
-        >
-          <Image src={el?.imgUrl} />
-        </ImgBox>
-      )}
-
-      {index === activeSlide && (
-        <ImgBox
-          current={activeSlide}
-          index={index}
-          style={{
-            transform: 'translate3d(0, 0, 0)',
-            zIndex: '50',
-          }}
-        >
-          <Image src={el?.imgUrl} />
-        </ImgBox>
-      )}
-
-      {index === nextIndexSlide && (
-        <ImgBox
-          current={activeSlide}
-          index={index}
-          onClick={next}
-          style={{
-            transform: 'translate3d(50%, 0, -100px)',
-          }}
-        >
-          <Image src={el?.imgUrl} />
-        </ImgBox>
-      )}
-    </div>
-  ));
-
   return (
-    <Container>
-      <Carorusel>{renderElems}</Carorusel>
-    </Container>
+    <>
+      <SwiperBox
+        breakpoints={{
+          768: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            slidesPerGroup: 1,
+          },
+          // when window width is >= 480px
+          1024: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+            slidesPerGroup: 2,
+          },
+          // when window width is >= 640px
+          1440: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            slidesPerGroup: 3,
+          },
+        }}
+        speed={1200}
+        centeredSlides={true}
+        centerInsufficientSlides={true}
+        centeredSlidesBounds={true}
+        loop={true}
+        pagination={{
+          clickable: true,
+        }}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        navigation={{
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        }}
+        modules={[Pagination, Navigation, Autoplay]}
+        className="mySwiper"
+      >
+        {videos?.map((video, index) => (
+          <SwiperSlide key={index.toString()}>
+            <SliderItem>
+              <img src={video?.imgUrl} />
+            </SliderItem>
+          </SwiperSlide>
+        ))}
+        <BsFillArrowLeftSquareFill className={'swiper-button-prev'} />
+        <BsFillArrowRightSquareFill className={'swiper-button-next'} />
+      </SwiperBox>
+    </>
   );
 };
 

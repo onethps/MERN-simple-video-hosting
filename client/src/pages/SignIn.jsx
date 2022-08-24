@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { loginFailture, loginStart, loginSuccess } from 'redux/userSlice';
-import { signInWithPopup } from 'firebase/auth';
+import { signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, Provider } from 'lib/firebase.prod.js';
 import { firstCharAvatarGenerator } from 'utils/firstCharAvatarGenerator';
 import { useNavigate } from 'react-router-dom';
@@ -39,6 +39,7 @@ const Input = styled.input`
 const SubmitButton = styled.button``;
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('borya@gmail.com');
   const [password, setPassword] = useState('12342');
   const nav = useNavigate();
@@ -51,9 +52,7 @@ const SignIn = () => {
     });
   };
 
-  const dispatch = useDispatch();
-
-  const onSubmitButton = async (e) => {
+  const signInWithEmail = async (e) => {
     e.preventDefault();
     dispatch(loginStart());
 
@@ -62,6 +61,8 @@ const SignIn = () => {
         email,
         password,
       });
+      //sign In with google in test acc to allow uploading videos in storage
+      await signInWithEmailAndPassword(auth, 'test@gmail.com', 'test123');
       dispatch(loginSuccess(data));
       nav('/');
     } catch (e) {
@@ -69,7 +70,8 @@ const SignIn = () => {
     }
   };
 
-  const signup = async () => {
+  const signup = async (e) => {
+    e.preventDefault();
     try {
       await instance.post(`/auth/signup`, {
         ...inputs,
@@ -94,22 +96,25 @@ const SignIn = () => {
     }
   };
 
+  const onInputEmailHandle = (e) => {
+    setEmail(e.currentTarget.value);
+  };
+
+  const onInputPasswordHandle = (e) => {
+    setPassword(e.currentTarget.value);
+  };
   return (
     <Container>
       <Wrapper>
         <Title>Sign In</Title>
         <Subtitle>to Continue to</Subtitle>
-        <Input
-          placeholder={'Email'}
-          value={email}
-          onChange={(e) => setEmail(e.currentTarget.value)}
-        />
+        <Input placeholder={'Email'} value={email} onChange={onInputEmailHandle} />
         <Input
           placeholder={'Password'}
           value={password}
-          onChange={(e) => setPassword(e.currentTarget.value)}
+          onChange={onInputPasswordHandle}
         />
-        <SubmitButton onClick={(e) => onSubmitButton(e)}>Sign In</SubmitButton>
+        <SubmitButton onClick={(e) => signInWithEmail(e)}>Sign In</SubmitButton>
         <Subtitle>or</Subtitle>
         <SubmitButton onClick={signInWithGoogle}>Sign with Google</SubmitButton>
         <Subtitle>or</Subtitle>

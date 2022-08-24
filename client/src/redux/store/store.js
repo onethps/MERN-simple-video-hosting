@@ -1,6 +1,6 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import userSlice from "redux/userSlice";
-import videoSlice from "redux/videoSlice";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import userSlice from 'redux/userSlice';
+import videoSlice from 'redux/videoSlice';
 import {
   FLUSH,
   PAUSE,
@@ -10,17 +10,16 @@ import {
   PURGE,
   REGISTER,
   REHYDRATE,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   version: 1,
   storage,
 };
 
 const rootReducer = combineReducers({ user: userSlice, video: videoSlice });
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({

@@ -1,3 +1,4 @@
+import { getAuth } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { instance } from 'api/config';
 import { useDispatch } from 'react-redux';

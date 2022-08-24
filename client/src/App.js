@@ -1,21 +1,27 @@
 import { HeaderContainer } from 'containers/header';
-import SidebarContainer from 'containers/sidebar';
-import { GlobalStyles } from 'styles/globalStyles';
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { userSelector } from 'redux/userSlice';
 import AppRoutes from 'routes/AppRoutes';
 import { ThemeProvider } from 'styled-components';
+import { GlobalStyles } from 'styles/globalStyles';
 import { dartTheme, lightTheme } from 'styles/theme';
 
 export const SidebarContext = createContext();
 
 function App() {
   const { user } = useSelector(userSelector);
-  const [dark, setDartTheme] = useState(true);
+  const [dark, setDartTheme] = useState(false);
   const [isOpenSidebar, setIsOpenSidebar] = useState(true);
   const [openPopup, setOpenPopup] = useState(false);
+
+  useEffect(() => {
+    console.log('mo'),
+      () => {
+        console.log('un');
+      };
+  }, []);
 
   return (
     <ThemeProvider theme={dark ? lightTheme : dartTheme}>

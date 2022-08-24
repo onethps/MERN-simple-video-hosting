@@ -46,9 +46,11 @@ export const Author = styled.h2`
   padding: 5px 0;
   font-weight: 400;
   color: ${({ theme }) => theme.text};
+  opacity: 0.5;
 `;
 
 export const Views = styled.div`
   font-size: 12px;
   color: ${({ theme }) => theme.text};
+  opacity: 0.5;
 `;

@@ -2,19 +2,13 @@ import { instance } from 'api/config';
 import { SidebarContext } from 'App';
 import { Index } from 'components/Card';
 import Skeleton from 'components/Skeleton';
+import HomeSlider from 'components/Slider/HomeSlider';
 import SidebarContainer from 'containers/sidebar';
 import React, { useContext, useEffect, useState } from 'react';
-import { BsFillArrowLeftSquareFill, BsFillArrowRightSquareFill } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { userSelector } from 'redux/userSlice';
 import styled from 'styled-components';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { devices } from 'styles/variables';
-import { Autoplay, Navigation, Pagination } from 'swiper';
-
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
 
 const Container = styled.div`
   max-width: 1998px;
@@ -71,7 +65,15 @@ const Row = styled.div`
 `;
 
 const LoadingBlock = styled.div`
-  margin-top: 100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 400px);
+  width: 100%;
+  justify-content: center;
+  margin: 100px 0;
+
+  @media only screen and ${devices.laptopL} {
+    padding: 0 200px;
+  }
 `;
 
 const EmptyList = styled.h1`
@@ -88,69 +90,37 @@ const CategoryTitle = styled.h1`
   color: ${({ theme }) => theme.text};
 `;
 
-const SwiperBox = styled(Swiper)`
-  width: 100%;
-  height: 400px;
-  position: relative;
-
-  & .swiper-slide-active {
-    @media only screen and ${devices.laptopL} {
-      transform: scale(1.3);
-    }
-  }
-
-  & svg {
-    opacity: 0.7;
-    color: red;
-    transform: scale(1.5);
-  }
-`;
-
-export const SliderItem = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-
-  & img {
-    width: 80%;
-    object-fit: contain;
-  }
-`;
-
 const Home = ({ type }) => {
   const [videos, setVideos] = useState(null);
   const [loading, setLoading] = useState(false);
   // const nav = useNavigate();
 
-  const { isOpenSidebar, setIsOpenSidebar } = useContext(SidebarContext);
+  const { isOpenSidebar } = useContext(SidebarContext);
   const { user } = useSelector(userSelector);
 
   useEffect(() => {
     const fetchVideos = async () => {
-      setLoading(true);
-      const { data } = await instance.get(`videos/${type}`);
-      setVideos(data);
-      setLoading(false);
+      setVideos(null);
+      try {
+        setLoading(true);
+        const { data } = await instance.get(`videos/${type}`);
+        setVideos(data);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchVideos().catch((err) => console.log(err));
   }, [type]);
-
-  if (!videos?.length) {
-    return (
-      <Container>
-        <EmptyList>Empty List</EmptyList>
-      </Container>
-    );
-  }
 
   if (loading) {
     return (
       <>
         <SidebarContainer user={user} isOpenSidebar={isOpenSidebar} />
         <Container>
-          <LoadingBlock>
+          <LoadingBlock isOpenSidebar={isOpenSidebar}>
             {[...new Array(6)].map((skeleton, i) => (
               <Skeleton key={i + new Date().getTime()} type={'medium'} />
             ))}
@@ -160,63 +130,22 @@ const Home = ({ type }) => {
     );
   }
 
+  if (!videos) {
+    return (
+      <>
+        <SidebarContainer user={user} isOpenSidebar={isOpenSidebar} />
+        <Container>
+          <EmptyList>Empty List</EmptyList>
+        </Container>
+      </>
+    );
+  }
+
   return (
     <>
       <SidebarContainer user={user} isOpenSidebar={isOpenSidebar} />
       <Container isOpenSidebar={isOpenSidebar}>
-        {/*<HomeSlider videos={videos} />*/}
-        <>
-          <SwiperBox
-            breakpoints={{
-              768: {
-                slidesPerView: 1,
-                spaceBetween: 20,
-                slidesPerGroup: 1,
-              },
-              // when window width is >= 480px
-              1024: {
-                slidesPerView: 2,
-                spaceBetween: 30,
-                slidesPerGroup: 2,
-              },
-              // when window width is >= 640px
-              1440: {
-                slidesPerView: 3,
-                spaceBetween: 30,
-                slidesPerGroup: 3,
-              },
-            }}
-            speed={1200}
-            centeredSlides={true}
-            centerInsufficientSlides={true}
-            centeredSlidesBounds={true}
-            loop={true}
-            pagination={{
-              clickable: true,
-            }}
-            autoplay={{
-              delay: 2500,
-              disableOnInteraction: false,
-            }}
-            navigation={{
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-            }}
-            modules={[Pagination, Navigation, Autoplay]}
-            className="mySwiper"
-          >
-            {videos?.map((video) => (
-              <SwiperSlide key={video?.videoId}>
-                <SliderItem>
-                  <img src={video?.imgUrl} />
-                </SliderItem>
-              </SwiperSlide>
-            ))}
-            <BsFillArrowLeftSquareFill className={'swiper-button-prev'} />
-            <BsFillArrowRightSquareFill className={'swiper-button-next'} />
-          </SwiperBox>
-        </>
-
+        {type !== 'sub' ? <HomeSlider videos={videos} /> : null}
         <CategoryTitle>
           {type === 'sub' && videos ? 'Subscription' : 'Recommendations'}
         </CategoryTitle>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import styled from 'styled-components';
-import { useDebounce } from 'utils/useDebounce';
+import { useDebounce } from 'hooks/useDebounce';
 import { useNavigate } from 'react-router-dom';
 import { instance } from 'api/config';
 

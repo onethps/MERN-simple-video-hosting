@@ -1,9 +1,8 @@
-import { Search } from 'components/Search';
+import { instance } from 'api/config';
 import Upload from 'components/Upload';
-import React, { useState } from 'react';
-import { BsSearch } from 'react-icons/bs';
-import { IoArrowBack } from 'react-icons/io5';
-import { GiHamburgerMenu } from 'react-icons/gi';
+import { useDebounce } from 'hooks/useDebounce';
+import React, { useEffect, useState } from 'react';
+import { RiMenu2Line } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowBack,
@@ -11,16 +10,20 @@ import {
   AvatarContainer,
   AvatarProfile,
   Container,
+  ContainerSearch,
   InputSearch,
   InputSearchIcon,
   InputWithIconBox,
   LeftNavButtons,
+  NonTargetBackground,
   ProfileBox,
   ProfileBoxHeader,
   ProfileBoxItem,
   ProfileBoxUserInfo,
   RightNavButtons,
   SearchBox,
+  SuggestionItem,
+  Suggestions,
   TextDesc,
   TextHeader,
   Wrapper,
@@ -51,7 +54,7 @@ Header.LeftButtonsGroup = function HeaderLeftButtonsGroup({ children, ...restPro
 };
 
 Header.GamburgerMenu = function HeaderGamburgerMenu({ ...restProps }) {
-  return <GiHamburgerMenu {...restProps} size={35} />;
+  return <RiMenu2Line {...restProps} size={35} />;
 };
 
 Header.Logo = function HeaderLogo({ children, ...restProps }) {
@@ -66,32 +69,91 @@ Header.Avatar = function HeaderAvatar({ src, ...restProps }) {
   return <Avatar {...restProps} src={src} alt={'avatar'} />;
 };
 
-// Header.Search = function HeaderSearch({ ...restProps }) {
-//   return <Search {...restProps} />;
-// };
-
-Header.ProfileBox = function HeaderProfileBox({ children, ...restProps }) {
+Header.ProfileModal = function HeaderProfileModal({ children, ...restProps }) {
   return <ProfileBox {...restProps}>{children}</ProfileBox>;
 };
 
-Header.ActiveSearch = function HeaderActiveSearch({
+Header.Search = function HeaderSearch({
   children,
   onCloseSearch,
   openSearch,
   ...restProps
 }) {
+  const [value, setValue] = useState('');
+  const [suggestions, setSuggestions] = useState(null);
+  const debounce = useDebounce(value);
+
+  const nav = useNavigate();
+
+  const onClickSearchHandle = () => {
+    nav(`search/?q=${value}`);
+    setSuggestions(null);
+    setValue('');
+  };
+
+  const handleInputSearch = (e) => {
+    setValue(e.currentTarget.value);
+  };
+
+  const onClickQueryHandle = (suggestion) => {
+    nav(`/video/${suggestion._id}`);
+    setSuggestions(null);
+    setValue('');
+  };
+  useEffect(() => {
+    const fetchQueryVideos = async () => {
+      const { data } = await instance.get(`/videos/search/?q=${value}`);
+      if (!data.length) {
+        setSuggestions([{ title: 'No Results' }]);
+        return;
+      }
+      setSuggestions(data);
+    };
+
+    if (value) {
+      fetchQueryVideos().catch((err) => console.log(err));
+    }
+  }, [debounce]);
+
+  const onBackgroundCloseSuggestionModal = () => {
+    setSuggestions(null);
+  };
+
   return (
-    <SearchBox {...restProps} openSearch={openSearch}>
-      <ArrowBack onClick={onCloseSearch} />
-      <InputWithIconBox>
-        {children}
-        <InputSearchIcon />
-      </InputWithIconBox>
-    </SearchBox>
+    <>
+      <SearchBox {...restProps} openSearch={openSearch}>
+        <ArrowBack onClick={onCloseSearch} />
+        <InputWithIconBox>
+          <InputSearch
+            placeholder={'Search Video...'}
+            value={value}
+            onChange={handleInputSearch}
+          />
+          {children}
+          <InputSearchIcon onClick={onClickSearchHandle} />
+        </InputWithIconBox>
+        {suggestions && value ? (
+          <Suggestions>
+            {suggestions.splice(0, 5).map((suggestion) => (
+              <SuggestionItem
+                disabled={suggestion.title === 'No Results'}
+                key={suggestion._id}
+                type={'text'}
+                defaultValue={suggestion.title}
+                onClick={() => onClickQueryHandle(suggestion)}
+              />
+            ))}
+          </Suggestions>
+        ) : null}
+        {suggestions ? (
+          <NonTargetBackground onClick={onBackgroundCloseSuggestionModal} />
+        ) : null}
+      </SearchBox>
+    </>
   );
 };
 
-Header.ProfileBoxHeader = function HeaderProfileBoxItem({
+Header.ProfileModalHeader = function ProfileModalHeader({
   avatarUrl,
   userName,
   userDesc,
@@ -110,9 +172,9 @@ Header.ProfileBoxHeader = function HeaderProfileBoxItem({
   );
 };
 
-Header.ProfileBoxItem = function HeaderProfileBoxItem({ icon, title }) {
+Header.ProfileBoxItem = function HeaderProfileBoxItem({ title, icon, action }) {
   return (
-    <ProfileBoxItem>
+    <ProfileBoxItem onClick={action}>
       {icon}
       <TextDesc>{title}</TextDesc>
     </ProfileBoxItem>

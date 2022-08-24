@@ -1,28 +1,27 @@
 import User from "../models/Users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import {CreateError} from "../utils/error.js";
-
+import { CreateError } from "../utils/error.js";
 
 export const signIn = async (req, res, next) => {
   try {
-    const user = await User.findOne({email: req.body.email});
+    const user = await User.findOne({ email: req.body.email });
     if (!user) return next(CreateError(404, "User not Found"));
 
     const isCorrect = await bcrypt.compare(req.body.password, user.password);
 
     if (!isCorrect) return next(CreateError(400, "Wrong userName or Password"));
 
-    const token = jwt.sign({id: user._id}, process.env.JWT);
+    const token = jwt.sign({ id: user._id }, process.env.JWT);
 
-    let {password, ...other} = user._doc;
+    let { password, ...other } = user._doc;
 
+    res.cookie("access_token", token, {
+      httpOnly: true,
+    });
+    res.set("Access-Control-Allow-Origin", req.headers.origin);
     res
-      .cookie("access_token", token, {
-        httpOnly: true,
-      })
-      res.set('Access-Control-Allow-Origin', req.headers.origin)
-      res.set('Access-Control-Allow-Credentials', req.headers.origin, 'true')
+      .set("Access-Control-Allow-Credentials", req.headers.origin, "true")
       .status(200)
       .json(other);
   } catch (err) {
@@ -31,11 +30,25 @@ export const signIn = async (req, res, next) => {
   }
 };
 
+export const logOut = async (req, res, next) => {
+  console.log("we here");
+  try {
+    res.clearCookie("access_token", { path: "/" });
+    res
+      .status(200)
+      .json({ success: true, message: "User logged out successfully" });
+  } catch (err) {
+    //todo
+    console.log(err);
+    next(err);
+  }
+};
+
 export const signup = async (req, res, next) => {
   try {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
-    const newUser = new User({...req.body, password: hash});
+    const newUser = new User({ ...req.body, password: hash });
     await newUser.save();
     res.status(200).send("User Created");
   } catch (err) {
@@ -44,30 +57,28 @@ export const signup = async (req, res, next) => {
   }
 };
 
-
 export const createGoogleUser = async (req, res, next) => {
   try {
-    const user = await User.findOne({email: req.body.email})
+    const user = await User.findOne({ email: req.body.email });
     if (user) {
-      const token = jwt.sign({id: user._id}, process.env.JWT);
+      const token = jwt.sign({ id: user._id }, process.env.JWT);
 
       res
         .cookie("access_token", token, {
-          httpOnly: true
+          httpOnly: true,
         })
-        .json(user._doc)
-
+        .json(user._doc);
     } else {
-      const newGoogleUser = await new User({isGoogleUser: true, ...req.body})
-      await newGoogleUser.save()
-      const token = jwt.sign({id: newGoogleUser._id}, process.env.JWT);
+      const newGoogleUser = await new User({ isGoogleUser: true, ...req.body });
+      await newGoogleUser.save();
+      const token = jwt.sign({ id: newGoogleUser._id }, process.env.JWT);
       res
         .cookie("access_token", token, {
-          httpOnly: true
+          httpOnly: true,
         })
-        .json(newGoogleUser._doc)
+        .json(newGoogleUser._doc);
     }
   } catch (e) {
-    next(e)
+    next(e);
   }
-}
+};

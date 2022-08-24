@@ -1,5 +1,7 @@
 import { instance } from 'api/config';
 import Comment from 'components/Comment';
+import { getAuth } from 'firebase/auth';
+import signIn from 'pages/SignIn';
 import React, { memo, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -43,7 +45,7 @@ const Button = styled.button`
   text-transform: uppercase;
   padding: 10px 25px;
   border: none;
-  background-color: ${(props) => (props.type === 'active' ? 'blue' : '')};
+  background-color: ${(props) => (props.type === 'active' ? props.theme.blueLight : '')};
   color: ${(props) => (props.type === 'active' ? 'white' : '')};
 `;
 
@@ -116,7 +118,7 @@ const Comments = memo(({ videoId }) => {
         <Buttons>
           <Cancel onClick={onCancelButtonHandle}>Cancel</Cancel>
           <Button
-            type={newComment && 'active'}
+            type={newComment ? 'active' : null}
             onClick={setNewCommentHandle}
             disabled={!newComment}
           >

@@ -62,8 +62,12 @@ Sidebar.LinkContainer = function SidebarLinkContainer({ label, src, sidebarOpen,
   const { pathname } = useLocation();
 
   return (
-    <SLinkContainer key={label} isActive={pathname === src}>
-      <SLink to={src} style={!sidebarOpen ? { width: `fit-content` } : {}}>
+    <SLinkContainer key={label} active={pathname === src}>
+      <SLink
+        to={src}
+        active={pathname === src ? 1 : 0}
+        style={!sidebarOpen ? { width: `fit-content` } : {}}
+      >
         <SLinkIcon>{icon}</SLinkIcon>
         {sidebarOpen && (
           <>

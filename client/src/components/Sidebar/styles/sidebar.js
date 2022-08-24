@@ -85,22 +85,22 @@ export const Popup = styled.div`
 `;
 
 export const SLinkContainer = styled.div`
-  background: ${({ theme, isActive }) => (!isActive ? `transparent` : theme.bgDarkLight)};
+  background: ${({ theme, active }) => (!active ? `transparent` : theme.hoverColor)};
   border-radius: ${v.borderRadius};
   margin: 8px 20px;
-
-  :hover {
-    background-color: ${({ theme }) => theme.bgLighter};
-  }
 `;
 
 export const SLink = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: inherit;
   font-size: 16px;
   padding: calc(${v.smSpacing} - 2px) 0;
+  color: ${({ theme, active }) => (!active ? theme.text : theme.blueLight)};
+
+  &:hover {
+    color: ${({ theme }) => theme.blueLight};
+  }
 `;
 
 export const SLinkIcon = styled.div`

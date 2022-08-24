@@ -52,6 +52,12 @@ export const YoutubeLogoBox = styled.div`
   align-items: center;
   gap: 2px;
   cursor: pointer;
+
+  ///AiFillYoutube icon
+  & svg {
+    color: red;
+    font-size: 2rem;
+  }
 `;
 
 export const Avatar = styled.img`
@@ -72,6 +78,9 @@ export const AvatarProfile = styled.img`
 `;
 
 export const ProfileBox = styled.div`
+  position: absolute;
+  top: 40px;
+  right: 0;
   border-radius: 10px;
   z-index: 1;
   width: 300px;
@@ -87,16 +96,26 @@ export const ProfileBoxHeader = styled.div`
 `;
 
 export const ProfileBoxUserInfo = styled.div`
+  color: ${({ theme }) => theme.text};
   flex: 3;
 `;
 
 export const TextHeader = styled.h1`
   font-size: 16px;
+  color: ${({ theme }) => theme.text};
+  cursor: default;
 `;
 
 export const TextDesc = styled.h4`
   font-size: 14px;
   font-weight: 400;
+  color: ${({ theme }) => theme.text};
+  width: 100%;
+  cursor: pointer;
+
+  &:hover {
+    color: ${({ theme }) => theme.blueLight};
+  }
 `;
 
 export const ProfileBoxItem = styled.div`
@@ -105,9 +124,10 @@ export const ProfileBoxItem = styled.div`
   padding: 5px 0;
   gap: 20px;
   cursor: pointer;
+  color: ${({ theme }) => theme.text};
 
   &:hover {
-    color: red;
+    color: ${({ theme }) => theme.blueLight};
   }
 `;
 
@@ -123,18 +143,18 @@ export const SearchBox = styled.div`
   flex: 1;
   align-items: center;
   width: 100%;
-  background-color: white;
-  position: absolute;
-  left: 0;
-  top: 0;
+  background: ${({ theme }) => theme.bg};
+  position: ${({ openSearch }) => (openSearch ? 'absolute' : 'none')};
+  //left: 0;
+  //top: 0;
   height: 60px;
   z-index: 99;
   padding: 5px 0;
 
   @media only screen and (min-width: 990px) {
+    position: relative;
     display: flex;
     background-color: transparent;
-    position: relative;
     z-index: 1;
   }
 `;
@@ -143,21 +163,72 @@ export const InputWithIconBox = styled.div`
   display: flex;
   flex: 2;
   height: 80%;
+  z-index: 3;
 `;
 
 export const InputSearch = styled.input`
+  position: relative;
   width: 80%;
   padding: 0 20px;
+  border-radius: 15px 0 0 15px;
+  border: none;
+  background-color: ${({ theme }) => theme.hoverColor};
+  outline: none;
+  color: ${({ theme }) => theme.text};
 
   @media only screen and (min-width: 990px) {
     width: 100%;
   }
 `;
+
+export const Suggestions = styled.div`
+  position: absolute;
+  padding: 10px 0;
+  top: 55px;
+  border-radius: 15px;
+  background-color: ${({ theme }) => theme.hoverColor};
+  width: 80%;
+  left: 12%;
+  z-index: 50;
+
+  @media only screen and (min-width: 990px) {
+    width: 100%;
+    left: 0;
+    z-index: 2;
+  }
+`;
+
+export const SuggestionItem = styled.input`
+  padding: 10px 20px;
+  width: 100%;
+  cursor: pointer;
+  color: ${({ theme }) => theme.text};
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  z-index: 2;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.hoverColorLighter};
+  }
+
+  &:disabled {
+    text-align: center;
+    padding: 50px;
+    pointer-events: none;
+  }
+`;
+
 export const InputSearchIcon = styled(BsSearch)`
   width: 60px;
-  background-color: grey;
+  background-color: ${({ theme }) => theme.blueLight};
   height: 100%;
+  align-self: center;
+  color: white;
   padding: 10px;
+  border-radius: 0 15px 15px 0;
+  outline: none;
 `;
 
 export const LogoTitle = styled.h1`
@@ -167,6 +238,7 @@ export const LogoTitle = styled.h1`
 export const ArrowBack = styled(IoArrowBack)`
   flex: 0.3;
   font-size: 30px;
+  color: ${({ theme }) => theme.text};
 
   @media only screen and (min-width: 990px) {
     display: none;
@@ -176,8 +248,54 @@ export const ArrowBack = styled(IoArrowBack)`
 export const SearchIcon = styled(BsSearch)`
   font-size: 25px;
   align-self: center;
+  color: ${({ theme }) => theme.text};
 
   @media only screen and (min-width: 990px) {
     display: none;
+  }
+`;
+
+export const UploadButton = styled.button`
+  display: flex;
+  padding: 10px 20px;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.hoverColor};
+  cursor: pointer;
+
+  & svg {
+    color: ${({ theme }) => theme.text};
+    font-size: 18px;
+    cursor: pointer;
+  }
+`;
+
+export const ButtonLabel = styled.span`
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+export const NonTargetBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: black;
+  opacity: 0.5;
+  z-index: 1;
+  animation: fadein 0.5s;
+
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 0.5;
+    }
   }
 `;

@@ -1,16 +1,25 @@
+import { instance } from 'api/config';
 import { Button } from 'components/Button';
 import {
   Border,
+  ButtonLabel,
   InputSearch,
   LogoTitle,
+  NonTargetBackground,
   SearchIcon,
+  UploadButton,
 } from 'components/Header/styles/header';
+import { HEADER_MENU_PROFILE_ITEMS } from 'constants/constants';
 import { SIGN_IN_ROUTE } from 'constants/routes';
+import { signOut } from 'firebase/auth';
 import React, { useState } from 'react';
 import { AiFillYoutube } from 'react-icons/ai';
-import { RiVideoUploadLine } from 'react-icons/ri';
+import { RiUploadCloudLine, RiVideoUploadLine } from 'react-icons/ri';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { logout } from 'redux/userSlice';
 import { Header } from '../components';
+import { auth } from 'lib/firebase.prod';
 
 export const HeaderContainer = ({
   isOpenSidebar,
@@ -19,11 +28,11 @@ export const HeaderContainer = ({
   openPopup,
   user,
 }) => {
-  const nav = useNavigate();
-
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+
   const [openSearch, setOpenSearch] = useState(false);
+  const dispatch = useDispatch();
+  const nav = useNavigate();
 
   const uploadModalHandle = () => {
     setOpenPopup(true);
@@ -40,57 +49,77 @@ export const HeaderContainer = ({
   const onNavToHome = () => {
     nav('/');
   };
+
+  const headerToggleProfileModal = () => {
+    setOpenProfileMenu(!openProfileMenu);
+  };
+
+  const Action = () => {};
+
+  const onExitHandle = async (e) => {
+    e.preventDefault();
+
+    try {
+      dispatch(logout());
+      await instance.delete('/auth/logout');
+      nav('/signIn');
+      setOpenProfileMenu(false);
+      await signOut(auth);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <Header>
       <Header.Frame setUploadModal={setOpenPopup} uploadModal={openPopup}>
         <Header.LeftButtonsGroup>
           <Header.GamburgerMenu onClick={() => setIsOpenSidebar(!isOpenSidebar)} />
           <Header.Logo>
-            <AiFillYoutube size={'2rem'} color={'red'} onClick={onNavToHome} />
+            <AiFillYoutube onClick={onNavToHome} />
+            <LogoTitle onClick={onNavToHome}>utube</LogoTitle>
           </Header.Logo>
-          <LogoTitle onClick={onNavToHome}>utube</LogoTitle>
         </Header.LeftButtonsGroup>
 
-        <Header.ActiveSearch openSearch={openSearch} onCloseSearch={onCloseSearchHandle}>
-          <InputSearch
-            placeholder={'search'}
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.currentTarget.value)}
-          />
-        </Header.ActiveSearch>
+        <Header.Search openSearch={openSearch} onCloseSearch={onCloseSearchHandle} />
 
         {user ? (
           <Header.RightButtonsGroup>
+            {/*show this icon if min-with tabletL*/}
             <SearchIcon onClick={onOpenSearchHandle} />
-            <RiVideoUploadLine
-              size={'2rem'}
-              onClick={uploadModalHandle}
-              style={{ cursor: 'pointer' }}
-            />
-            <Header.Avatar
-              src={user?.img}
-              onClick={() => setOpenProfileMenu(!openProfileMenu)}
-            />
-            {openProfileMenu && (
-              <Header.ProfileBox style={{ position: 'absolute', top: 40, right: 0 }}>
-                <Header.ProfileBoxHeader
+            <UploadButton onClick={uploadModalHandle}>
+              <RiUploadCloudLine />
+              <ButtonLabel>Upload</ButtonLabel>
+            </UploadButton>
+
+            <Header.Avatar src={user?.img} onClick={headerToggleProfileModal} />
+
+            {openProfileMenu ? (
+              <Header.ProfileModal>
+                <Header.ProfileModalHeader
                   avatarUrl={user?.img}
                   userName={user?.name}
                   userDesc={'0 Subscriptions'}
                 />
                 <Border />
 
-                {menuItems.map((item) => {
-                  return (
-                    <Header.ProfileBoxItem
-                      key={item.title}
-                      icon={item.icon}
-                      title={item.title}
-                    />
-                  );
-                })}
-              </Header.ProfileBox>
-            )}
+                <Header.ProfileBoxItem
+                  title={HEADER_MENU_PROFILE_ITEMS.MY_CHANNEL}
+                  icon={<RiVideoUploadLine size={30} />}
+                  action={Action}
+                />
+                <Header.ProfileBoxItem
+                  title={HEADER_MENU_PROFILE_ITEMS.DARK_MODE}
+                  icon={<RiVideoUploadLine size={30} />}
+                  action={Action}
+                />
+                <Header.ProfileBoxItem
+                  title={HEADER_MENU_PROFILE_ITEMS.EXIT}
+                  icon={<RiVideoUploadLine size={30} />}
+                  action={onExitHandle}
+                />
+              </Header.ProfileModal>
+            ) : null}
           </Header.RightButtonsGroup>
         ) : (
           <Header.RightButtonsGroup>
@@ -101,11 +130,5 @@ export const HeaderContainer = ({
     </Header>
   );
 };
-
-const menuItems = [
-  { icon: <RiVideoUploadLine size={30} />, title: 'My channel' },
-  { icon: <RiVideoUploadLine size={30} />, title: 'Dark Mode' },
-  { icon: <RiVideoUploadLine size={30} />, title: 'Exit' },
-];
 
 export default Header;

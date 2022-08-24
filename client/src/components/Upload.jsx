@@ -49,8 +49,8 @@ const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.bg};
   padding: 50px;
   z-index: 21;
-  width: 600px;
-  height: 500px;
+  width: 800px;
+  height: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,34 +58,51 @@ const Wrapper = styled.div`
   border-radius: 10px;
 `;
 
-const Input = styled.input`
-  width: 100%;
+const InputBox = styled.div`
   margin: 20px 0;
+  width: 100%;
+  padding: 5px 20px;
+  background-color: ${({ theme }) => theme.hoverColor};
   color: ${({ theme }) => theme.text};
-  background-color: ${({ theme }) => theme.bgLighter};
-  border: none;
-  padding: 20px 20px;
   border-radius: 10px;
+`;
+
+const Input = styled.input`
+  border: none;
+  width: 100%;
+  padding: 10px 5px;
+  background-color: ${({ theme }) => theme.hoverColor};
+  color: ${({ theme }) => theme.text};
+  outline: none;
 `;
 const Desc = styled.textarea`
   margin: 20px 0;
-  padding: 10px 20px;
   width: 100%;
-  background-color: ${({ theme }) => theme.bgLighter};
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.hoverColor};
   border-radius: 10px;
   border: none;
+  outline: none;
+  resize: none;
 `;
 
 const Button = styled.button`
   margin-top: 20px;
-  width: 100%;
-  background-color: ${({ theme }) => theme.bgLighter};
+  width: 50%;
+  padding: 10px 40px;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.blueLight};
   color: ${({ theme }) => theme.text};
 `;
 
 const Label = styled.label`
   display: block;
   text-align: left;
+  color: ${({ theme }) => theme.text};
+`;
+
+const TextItem = styled.span`
+  margin-top: 20px;
   color: ${({ theme }) => theme.text};
 `;
 
@@ -152,6 +169,14 @@ const Upload = ({ setUploadModal, userId }) => {
     setUploadModal(false);
   };
 
+  const onSetVideoHandle = (e) => {
+    setVideo(e.target.files[0]);
+  };
+
+  const onSetImageHandle = (e) => {
+    setImg(e.target.files[0]);
+  };
+
   return (
     <Container>
       <Background onClick={() => setUploadModal(false)} />
@@ -159,32 +184,40 @@ const Upload = ({ setUploadModal, userId }) => {
         <Label>Video:</Label>
 
         {videoPerc > 0 ? (
-          'Uploading ' + videoPerc + '%'
+          <TextItem>Uploading {Math.floor(videoPerc)} %</TextItem>
         ) : (
-          <Input
-            name={'video'}
-            type={'file'}
-            accept={'video/*'}
-            onChange={(e) => setVideo(e.target.files[0])}
-          />
+          <InputBox>
+            <Input
+              name={'video'}
+              type={'file'}
+              accept={'video/*'}
+              onChange={onSetVideoHandle}
+            />
+          </InputBox>
         )}
-        <Input
-          type={'text'}
-          placeholder={'Title'}
-          name={'title'}
-          onChange={handleChange}
-        />
-        <Desc placeholder={'Desc'} rows={8} name={'desc'} onChange={handleChange} />
+        <InputBox>
+          <Input
+            type={'text'}
+            placeholder={'Title'}
+            name={'title'}
+            onChange={handleChange}
+          />
+        </InputBox>
+        <InputBox>
+          <Desc placeholder={'Desc'} rows={8} name={'desc'} onChange={handleChange} />
+        </InputBox>
         <Label>Image:</Label>
         {imgPerc > 0 ? (
-          'Uploading ' + imgPerc + '%'
+          <TextItem>Uploading ${imgPerc} %</TextItem>
         ) : (
-          <Input
-            name={'image'}
-            type={'file'}
-            accept={'image/*'}
-            onChange={(e) => setImg(e.target.files[0])}
-          />
+          <InputBox>
+            <Input
+              name={'image'}
+              type={'file'}
+              accept={'image/*'}
+              onChange={onSetImageHandle}
+            />
+          </InputBox>
         )}
         <Button onClick={uploadHandle}>Upload</Button>
       </Wrapper>
