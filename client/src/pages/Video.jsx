@@ -16,14 +16,14 @@ import { subHandleUser, userSelector } from 'redux/userSlice';
 import { disLikeVideo, likeVideo, VideoFailure } from 'redux/videoSlice';
 import styled from 'styled-components';
 import { format } from 'timeago.js';
-import { useVideoData } from '../hooks/useVideoData';
+import { useVideoData } from 'hooks/useVideoData';
 
 const VideoContainer = styled.div`
   background-color: ${({ theme }) => theme.bgLighter};
   display: grid;
   max-width: 1600px;
   margin: 0 auto;
-  //row-gap: 10px;
+  column-gap: 10px;
   padding: 80px 10px;
 
   grid-template:
@@ -37,14 +37,15 @@ const VideoContainer = styled.div`
       'comments  rec';
 
     grid-template-columns: 2fr 1fr;
-    grid-template-rows: 1fr 2fr;
+    grid-template-rows: 0.5fr 1fr;
     position: static;
-    padding: 100px;
+    //padding: 100px 0;
   }
 `;
 
 const Content = styled.div`
   grid-area: video;
+  margin-top: 10px;
 `;
 
 const VideoWrapper = styled.div``;
@@ -131,16 +132,10 @@ const ChannelAvatar = styled.img`
 `;
 
 const Video = () => {
-  // const location = useLocation();
   const dispatch = useDispatch();
   const { id } = useParams();
 
   const currentUser = useSelector(userSelector);
-
-  // const param = location.pathname.split('/')[2];
-
-  // const [channel, setChannel] = useState({});
-  // const [recommendations, setRecommendations] = useState(null);
 
   const { channel, recommendations } = useVideoData(id);
 
@@ -175,28 +170,6 @@ const Video = () => {
       : await instance.put(`/users/sub/${video.userId}`);
     dispatch(subHandleUser(video.userId));
   };
-
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     dispatch(VideoStart());
-  //     try {
-  //       const video = await instance.get(`/videos/find/${id}`);
-  //       const user = await instance.get(`/users/find/${video.data.userId}`);
-  //       await instance.put(`/videos/view/${id}`);
-  //       setChannel(user.data);
-  //       dispatch(VideoSuccess(video.data));
-  //     } catch (e) {
-  //       dispatch(VideoFailure());
-  //     }
-  //   };
-  //   fetchUserData().catch((err) => console.log(err));
-  //
-  //   const fetchRecommendationVideos = async () => {
-  //     const { data } = await instance.get(`/videos/random/`);
-  //     setRecommendations(data);
-  //   };
-  //   fetchRecommendationVideos().catch((err) => console.log(err));
-  // }, [location]);
 
   if (loading) {
     return (

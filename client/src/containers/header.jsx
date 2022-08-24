@@ -3,9 +3,7 @@ import { Button } from 'components/Button';
 import {
   Border,
   ButtonLabel,
-  InputSearch,
   LogoTitle,
-  NonTargetBackground,
   SearchIcon,
   UploadButton,
 } from 'components/Header/styles/header';
@@ -95,7 +93,7 @@ export const HeaderContainer = ({
             <Header.Avatar src={user?.img} onClick={headerToggleProfileModal} />
 
             {openProfileMenu ? (
-              <Header.ProfileModal>
+              <Header.ProfileModal setOpenProfileMenu={setOpenProfileMenu}>
                 <Header.ProfileModalHeader
                   avatarUrl={user?.img}
                   userName={user?.name}

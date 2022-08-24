@@ -10,7 +10,6 @@ import {
   AvatarContainer,
   AvatarProfile,
   Container,
-  ContainerSearch,
   InputSearch,
   InputSearchIcon,
   InputWithIconBox,
@@ -69,8 +68,17 @@ Header.Avatar = function HeaderAvatar({ src, ...restProps }) {
   return <Avatar {...restProps} src={src} alt={'avatar'} />;
 };
 
-Header.ProfileModal = function HeaderProfileModal({ children, ...restProps }) {
-  return <ProfileBox {...restProps}>{children}</ProfileBox>;
+Header.ProfileModal = function HeaderProfileModal({
+  setOpenProfileMenu,
+  children,
+  ...restProps
+}) {
+  return (
+    <>
+      <ProfileBox {...restProps}>{children}</ProfileBox>
+      <NonTargetBackground onClick={() => setOpenProfileMenu(false)} />
+    </>
+  );
 };
 
 Header.Search = function HeaderSearch({
@@ -88,7 +96,7 @@ Header.Search = function HeaderSearch({
   const onClickSearchHandle = () => {
     nav(`search/?q=${value}`);
     setSuggestions(null);
-    setValue('');
+    // setValue('');
   };
 
   const handleInputSearch = (e) => {
@@ -104,7 +112,7 @@ Header.Search = function HeaderSearch({
     const fetchQueryVideos = async () => {
       const { data } = await instance.get(`/videos/search/?q=${value}`);
       if (!data.length) {
-        setSuggestions([{ title: 'No Results' }]);
+        setSuggestions([{ _id: 1, title: 'No Results' }]);
         return;
       }
       setSuggestions(data);
@@ -120,36 +128,34 @@ Header.Search = function HeaderSearch({
   };
 
   return (
-    <>
-      <SearchBox {...restProps} openSearch={openSearch}>
-        <ArrowBack onClick={onCloseSearch} />
-        <InputWithIconBox>
-          <InputSearch
-            placeholder={'Search Video...'}
-            value={value}
-            onChange={handleInputSearch}
-          />
-          {children}
-          <InputSearchIcon onClick={onClickSearchHandle} />
-        </InputWithIconBox>
-        {suggestions && value ? (
-          <Suggestions>
-            {suggestions.splice(0, 5).map((suggestion) => (
-              <SuggestionItem
-                disabled={suggestion.title === 'No Results'}
-                key={suggestion._id}
-                type={'text'}
-                defaultValue={suggestion.title}
-                onClick={() => onClickQueryHandle(suggestion)}
-              />
-            ))}
-          </Suggestions>
-        ) : null}
-        {suggestions ? (
-          <NonTargetBackground onClick={onBackgroundCloseSuggestionModal} />
-        ) : null}
-      </SearchBox>
-    </>
+    <SearchBox {...restProps} openSearch={openSearch}>
+      <ArrowBack onClick={onCloseSearch} />
+      <InputWithIconBox>
+        <InputSearch
+          placeholder={'Search Video...'}
+          value={value}
+          onChange={handleInputSearch}
+        />
+        {children}
+        <InputSearchIcon onClick={onClickSearchHandle} />
+      </InputWithIconBox>
+      {suggestions && value ? (
+        <Suggestions>
+          {suggestions.splice(0, 5).map((suggestion) => (
+            <SuggestionItem
+              disabled={suggestion.title === 'No Results'}
+              key={suggestion._id}
+              type={'text'}
+              defaultValue={suggestion.title}
+              onClick={() => onClickQueryHandle(suggestion)}
+            />
+          ))}
+        </Suggestions>
+      ) : null}
+      {suggestions ? (
+        <NonTargetBackground onClick={onBackgroundCloseSuggestionModal} />
+      ) : null}
+    </SearchBox>
   );
 };
 

@@ -82,7 +82,7 @@ export const ProfileBox = styled.div`
   top: 40px;
   right: 0;
   border-radius: 10px;
-  z-index: 1;
+  z-index: 3;
   width: 300px;
   height: 300px;
   background: ${({ theme }) => theme.bg};
@@ -145,8 +145,8 @@ export const SearchBox = styled.div`
   width: 100%;
   background: ${({ theme }) => theme.bg};
   position: ${({ openSearch }) => (openSearch ? 'absolute' : 'none')};
-  //left: 0;
-  //top: 0;
+  left: 0;
+  top: 0;
   height: 60px;
   z-index: 99;
   padding: 5px 0;
