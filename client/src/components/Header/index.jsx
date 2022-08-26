@@ -127,6 +127,13 @@ Header.Search = function HeaderSearch({
     setSuggestions(null);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      nav(`search/?q=${value}`);
+      setSuggestions(null);
+    }
+  };
+
   return (
     <SearchBox {...restProps} openSearch={openSearch}>
       <ArrowBack onClick={onCloseSearch} />
@@ -135,6 +142,7 @@ Header.Search = function HeaderSearch({
           placeholder={'Search Video...'}
           value={value}
           onChange={handleInputSearch}
+          onKeyDown={handleKeyDown}
         />
         {children}
         <InputSearchIcon onClick={onClickSearchHandle} />

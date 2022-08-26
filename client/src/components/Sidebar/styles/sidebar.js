@@ -4,10 +4,9 @@ import { v } from 'styles/variables';
 import { devices } from 'styles/variables';
 
 export const Container = styled.div`
-  //background-color: red;
-  position: fixed;
+  position: sticky;
+  top: 0;
   left: 0;
-  bottom: 0;
   z-index: 1;
   background: ${({ theme }) => theme.bgLighter};
   height: 100vh;

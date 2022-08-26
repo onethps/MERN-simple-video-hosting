@@ -1,9 +1,9 @@
 import Video from "../models/Video.js";
-import {CreateError} from "../utils/error.js";
+import { CreateError } from "../utils/error.js";
 import User from "../models/Users.js";
 
 export const addVideo = async (req, res, next) => {
-  const video = new Video({userId: req.user.id, ...req.body});
+  const video = new Video({ userId: req.user.id, ...req.body });
   try {
     const saveVideo = await video.save();
     res.status(200).json(saveVideo);
@@ -22,7 +22,7 @@ export const updateVideo = async (req, res, next) => {
         {
           $set: req.body,
         },
-        {new: true}
+        { new: true }
       );
       res.status(200).json(updatedVideo);
     } else {
@@ -59,7 +59,7 @@ export const getVideo = async (req, res, next) => {
 export const addView = async (req, res, next) => {
   try {
     await Video.findByIdAndUpdate(req.params.id, {
-      $inc: {views: 1},
+      $inc: { views: 1 },
     });
     res.status(200).json("views has been inc");
   } catch (e) {
@@ -69,7 +69,7 @@ export const addView = async (req, res, next) => {
 
 export const rand = async (req, res, next) => {
   try {
-    let videos = await Video.aggregate([{$sample: {size: 10}}]);
+    let videos = await Video.aggregate([{ $sample: { size: 10 } }]);
     res.status(200).json(videos);
   } catch (e) {
     next(e);
@@ -78,7 +78,8 @@ export const rand = async (req, res, next) => {
 
 export const trend = async (req, res, next) => {
   try {
-    let videos = await Video.findById().sort({views: -1});
+    // let videos = await Video.findById().sort({views: -1});
+    let videos = await Video.aggregate([{ $sort: { views: -1 } }]);
     res.status(200).json(videos);
   } catch (e) {
     next(e);
@@ -92,7 +93,7 @@ export const subscribeVideos = async (req, res, next) => {
 
     const list = await Promise.all(
       subChannels.map((channelId) => {
-        return Video.find({userId: channelId});
+        return Video.find({ userId: channelId });
       })
     );
 
@@ -106,7 +107,7 @@ export const search = async (req, res, next) => {
   const query = req.query.q;
   try {
     const videos = await Video.find({
-      title: {$regex: query, $options: "i"},
+      title: { $regex: query, $options: "i" },
     }).limit(40);
     res.status(200).json(videos);
   } catch (e) {
@@ -120,8 +121,8 @@ export const likeVideo = async (req, res, next) => {
 
   try {
     await Video.findByIdAndUpdate(videoId, {
-      $addToSet: {likes: id},
-      $pull: {dislikes: id},
+      $addToSet: { likes: id },
+      $pull: { dislikes: id },
     });
     res.status(200).json("The videos has been liked");
   } catch (e) {
@@ -135,8 +136,8 @@ export const dislikeVideo = async (req, res, next) => {
 
   try {
     await Video.findByIdAndUpdate(videoId, {
-      $addToSet: {dislikes: id},
-      $pull: {likes: id},
+      $addToSet: { dislikes: id },
+      $pull: { likes: id },
     });
     res.status(200).json("The videos has been disliked");
   } catch (e) {

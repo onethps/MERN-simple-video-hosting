@@ -8,22 +8,27 @@ import styled from 'styled-components';
 import { devices } from 'styles/variables';
 
 const Container = styled.div`
-  max-width: 1998px;
-  margin: 0 auto;
-  padding: 70px 20px;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   background: ${({ theme }) => theme.bg};
-
-  @media only screen and ${devices.tablet} {
-    margin-left: 100px;
-  }
-
+  padding: 0 20px;
   @media only screen and ${devices.laptopL} {
-    margin-left: ${({ isOpenSidebar }) => (isOpenSidebar ? '300px' : '100px')};
+    max-width: 1298px;
   }
+`;
 
-  @media only screen and ${devices.desktop} {
-    margin: 0 auto;
-  }
+const ContentBox = styled.div`
+  display: flex;
+  margin-top: 70px;
+  width: 100%;
+  justify-content: center;
 `;
 
 const Layout = ({ children }) => {
@@ -31,10 +36,12 @@ const Layout = ({ children }) => {
   const { user } = useSelector(userSelector);
 
   return (
-    <>
+    <Container>
       <SidebarContainer user={user} isOpenSidebar={isOpenSidebar} />
-      <Container isOpenSidebar={isOpenSidebar}>{children}</Container>
-    </>
+      <ContentBox>
+        <Content isOpenSidebar={isOpenSidebar}>{children}</Content>
+      </ContentBox>
+    </Container>
   );
 };
 

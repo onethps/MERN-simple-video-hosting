@@ -23,8 +23,6 @@ const SearchPage = () => {
   const [loading, setLoading] = useState(false);
   const location = useLocation().search;
 
-  console.log(videos);
-
   useEffect(() => {
     const fetchQueryVideos = async () => {
       setLoading(true);

@@ -1,14 +1,12 @@
 import { instance } from 'api/config';
 import Comment from 'components/Comment';
-import { getAuth } from 'firebase/auth';
-import signIn from 'pages/SignIn';
 import React, { memo, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const Container = styled.div`
   grid-area: comments;
-  background-color: ${({ theme }) => theme.bgLighter};
+  background-color: ${({ theme }) => theme.bg};
 `;
 
 const NewCommentBox = styled.div`

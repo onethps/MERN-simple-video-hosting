@@ -2,7 +2,7 @@ import { instance } from 'api/config';
 import Comments from 'components/Comments';
 import Recomendation from 'components/Recomendation';
 import Skeleton from 'components/Skeleton';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   AiFillDislike,
   AiFillLike,
@@ -19,7 +19,7 @@ import { format } from 'timeago.js';
 import { useVideoData } from 'hooks/useVideoData';
 
 const VideoContainer = styled.div`
-  background-color: ${({ theme }) => theme.bgLighter};
+  background-color: ${({ theme }) => theme.bg};
   display: grid;
   max-width: 1600px;
   margin: 0 auto;
@@ -133,6 +133,10 @@ const ChannelAvatar = styled.img`
 const Video = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   const currentUser = useSelector(userSelector);
 

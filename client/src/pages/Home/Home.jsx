@@ -1,6 +1,6 @@
 import { instance } from 'api/config';
 import Card from 'components/Card';
-import Layout from '../components/Layout/Layout';
+import Layout from 'components/Layout/Layout';
 import Skeleton from 'components/Skeleton';
 import HomeSlider from 'components/Slider/HomeSlider';
 import React, { useEffect, useState } from 'react';
@@ -71,13 +71,12 @@ const CategoryTitle = styled.h1`
 
 const Home = () => {
   const [videos, setVideos] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchVideos = async () => {
       setVideos(null);
       try {
-        setLoading(true);
         const { data } = await instance.get(`videos/random`);
         setVideos(data);
       } catch (e) {
@@ -102,7 +101,7 @@ const Home = () => {
     );
   }
 
-  if (!videos) {
+  if (!videos && !loading) {
     return (
       <Layout>
         <EmptyList>Empty List</EmptyList>

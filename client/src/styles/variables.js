@@ -13,7 +13,7 @@ const sizes = {
   tablet: '768px',
   laptop: '1024px',
   laptopL: '1440px',
-  desktop: '2560px',
+  desktop: '1998px',
 };
 
 export const devices = {

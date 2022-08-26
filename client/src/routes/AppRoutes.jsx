@@ -6,9 +6,9 @@ import {
   SIGN_IN_ROUTE,
   SEARCH_ROUTE,
 } from 'constants/routes';
-import Explore from 'pages/Explore';
+import Explore from 'pages/Explore/Explore';
 // import Explore from 'pages/Explore';
-import Home from 'pages/Home';
+import Index from 'pages/Home/Home';
 import SearchPage from '../pages/SearchPage';
 import SignIn from 'pages/SignIn';
 import Subs from 'pages/Subs';
@@ -19,7 +19,7 @@ import { Routes, Route } from 'react-router-dom';
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path={HOME_ROUTE} element={<Home />} />
+      <Route path={HOME_ROUTE} element={<Index />} />
       <Route path={EXPLORE_ROUTE} element={<Explore />} />
       <Route path={SUB_ROUTE} element={<Subs />} />
       <Route path={VIDEO_ROUTE} element={<Video />} />

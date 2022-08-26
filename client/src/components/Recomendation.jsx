@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const Recommendation = styled.div`
   grid-area: rec;
-  background-color: ${({ theme }) => theme.bgLighter};
+  background-color: ${({ theme }) => theme.bg};
 `;
 
 const Recomendation = ({ recommendations }) => {
