@@ -1,5 +1,9 @@
+import DropDown from 'components/Dropdown';
+import { OptionUploadData } from 'data/categories';
 import { storage } from 'lib/firebase.prod';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { userSelector } from 'redux/userSlice';
 import styled from 'styled-components';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
@@ -105,9 +109,10 @@ const TextItem = styled.span`
   margin-top: 20px;
   color: ${({ theme }) => theme.text};
 `;
-
-const Upload = ({ setUploadModal, userId }) => {
+const Upload = ({ setUploadModal }) => {
   const navigate = useNavigate();
+
+  const { user } = useSelector(userSelector);
 
   const [inputs, setInputs] = useState({});
   const [img, setImg] = useState(undefined);
@@ -120,7 +125,6 @@ const Upload = ({ setUploadModal, userId }) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
-
   const uploadFile = (file, urlType) => {
     const fileName = new Date().getTime() + file.name;
     const mountainsRef = ref(storage, fileName);
@@ -143,7 +147,8 @@ const Upload = ({ setUploadModal, userId }) => {
             break;
         }
       },
-      (error) => {},
+      () => {},
+
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setInputs((prev) => {
@@ -163,7 +168,7 @@ const Upload = ({ setUploadModal, userId }) => {
 
   const uploadHandle = async (e) => {
     e.preventDefault();
-    const res = await instance.post(`/videos/${userId}`, { ...inputs });
+    const res = await instance.post(`/videos/${user?._id}`, { ...inputs });
     res.status === 200 && navigate(`/video/${res.data._id}`);
     setUploadModal(false);
   };
@@ -176,6 +181,12 @@ const Upload = ({ setUploadModal, userId }) => {
     setImg(e.target.files[0]);
   };
 
+  const handleCategory = (category) => {
+    if (category)
+      setInputs((prev) => {
+        return { ...prev, category: category };
+      });
+  };
   return (
     <Container>
       <Background onClick={() => setUploadModal(false)} />
@@ -205,9 +216,18 @@ const Upload = ({ setUploadModal, userId }) => {
         <InputBox>
           <Desc placeholder={'Desc'} rows={8} name={'desc'} onChange={handleChange} />
         </InputBox>
+        <DropDown
+          options={OptionUploadData}
+          value={inputs.category}
+          prompt={'Select Category'}
+          onChange={handleCategory}
+          label={'name'}
+          id={'id'}
+        />
+
         <Label>Image:</Label>
         {imgPerc > 0 ? (
-          <TextItem>Uploading ${imgPerc} %</TextItem>
+          <TextItem>Uploading {imgPerc} %</TextItem>
         ) : (
           <InputBox>
             <Input

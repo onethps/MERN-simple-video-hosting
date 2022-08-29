@@ -16,7 +16,7 @@ export const Thumbnail = styled.img`
   object-fit: cover;
   width: 100%;
   height: 150px;
-  background-color: red;
+  background-color: grey;
   flex: 2;
 
   @media only screen and ${devices.tablet} {
@@ -31,6 +31,12 @@ export const VideoTextContainer = styled.div`
 
 export const Title = styled.h1`
   opacity: 1;
+  font-size: 18px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  max-height: 40px;
+  overflow: hidden;
 `;
 export const ViewsAndData = styled.span`
   opacity: 0.5;
@@ -38,6 +44,7 @@ export const ViewsAndData = styled.span`
 
 export const ProfileBlock = styled.div`
   display: flex;
+  gap: 10px;
   align-items: center;
   padding: 0;
 
@@ -49,7 +56,7 @@ export const ProfileBlock = styled.div`
 export const ProfileImage = styled.img`
   width: 30px;
   height: 30px;
-  background-color: red;
+  border-radius: 50px;
   display: none;
 
   @media only screen and ${devices.tablet} {

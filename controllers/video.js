@@ -1,6 +1,6 @@
+import User from "../models/Users.js";
 import Video from "../models/Video.js";
 import { CreateError } from "../utils/error.js";
-import User from "../models/Users.js";
 
 export const addVideo = async (req, res, next) => {
   const video = new Video({ userId: req.user.id, ...req.body });
@@ -69,8 +69,27 @@ export const addView = async (req, res, next) => {
 
 export const rand = async (req, res, next) => {
   try {
-    let videos = await Video.aggregate([{ $sample: { size: 10 } }]);
+    let videos = await Video.aggregate([{ $sample: { size: 20 } }]);
     res.status(200).json(videos);
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const allVideos = async (req, res, next) => {
+  const page = req.query.page || 1;
+  const ITEMS_PER_PAGE = 10;
+
+  try {
+    const skip = (page - 1) * ITEMS_PER_PAGE; // 1 * 20 = 20
+    const count = await Video.estimatedDocumentCount();
+    const items = await Video.find().limit(ITEMS_PER_PAGE).skip(skip);
+    res.status(200).json({
+      pagination: {
+        count,
+      },
+      items,
+    });
   } catch (e) {
     next(e);
   }
@@ -82,6 +101,19 @@ export const trend = async (req, res, next) => {
     let videos = await Video.aggregate([{ $sort: { views: -1 } }]);
     res.status(200).json(videos);
   } catch (e) {
+    next(e);
+  }
+};
+
+export const category = async (req, res, next) => {
+  const param = req.params.category;
+  console.log(param);
+  try {
+    // let videos = await Video.findById().sort({views: -1});
+    let videos = await Video.find({ category: param });
+    res.status(200).json(videos);
+  } catch (e) {
+    res.status(400).send("No such a category or wrong request");
     next(e);
   }
 };

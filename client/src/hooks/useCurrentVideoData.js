@@ -1,11 +1,10 @@
-import { getAuth } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { instance } from 'api/config';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { VideoFailure, VideoStart, VideoSuccess } from 'redux/videoSlice';
 
-export const useVideoData = (id) => {
+export const useCurrentVideoData = (id) => {
   const [channel, setChannel] = useState({});
   const [recommendations, setRecommendations] = useState(null);
 

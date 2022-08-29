@@ -2,6 +2,7 @@ import { instance } from 'api/config';
 import Comments from 'components/Comments';
 import Recomendation from 'components/Recomendation';
 import Skeleton from 'components/Skeleton';
+import { useCurrentVideoData } from 'hooks/useCurrentVideoData';
 import React, { useEffect } from 'react';
 import {
   AiFillDislike,
@@ -16,7 +17,6 @@ import { subHandleUser, userSelector } from 'redux/userSlice';
 import { disLikeVideo, likeVideo, VideoFailure } from 'redux/videoSlice';
 import styled from 'styled-components';
 import { format } from 'timeago.js';
-import { useVideoData } from 'hooks/useVideoData';
 
 const VideoContainer = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -135,13 +135,12 @@ const Video = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    // eslint-disable-next-line no-undef
     window.scrollTo(0, 0);
   }, [id]);
 
   const currentUser = useSelector(userSelector);
-
-  const { channel, recommendations } = useVideoData(id);
-
+  const { channel, recommendations } = useCurrentVideoData(id);
   const { video } = useSelector((state) => state.video);
   const { loading } = useSelector((state) => state.video);
 

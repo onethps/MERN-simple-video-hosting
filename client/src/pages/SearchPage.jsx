@@ -1,9 +1,9 @@
-import Card from 'components/Card';
-import SidebarContainer from 'containers/sidebar';
-import React, { useEffect, useState } from 'react';
+import ExtendedCard from 'components/ExtendedCard';
+import Layout from 'components/Layout/Layout';
+import { useVideoListData } from 'hooks/useVideoListData';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { instance } from 'api/config';
 
 const Container = styled.div`
   display: grid;
@@ -19,38 +19,22 @@ const Text = styled.h1`
 `;
 
 const SearchPage = () => {
-  const [videos, setVideos] = useState(null);
-  const [loading, setLoading] = useState(false);
   const location = useLocation().search;
-
-  useEffect(() => {
-    const fetchQueryVideos = async () => {
-      setLoading(true);
-      setVideos(null);
-      const { data } = await instance.get(`/videos/search/${location}`);
-      setLoading(false);
-      if (!data.length) {
-        return;
-      }
-      setVideos(data);
-    };
-    fetchQueryVideos().catch((err) => console.log(err));
-  }, [location]);
+  const { videos, loading } = useVideoListData(`search/${location}`);
 
   if (loading) {
     return <div>loading</div>;
   }
 
   return (
-    <>
-      <SidebarContainer />
+    <Layout>
       <Container>
         {videos?.map((video) => (
-          <Card key={video._id} video={video} type={'sm'} />
+          <ExtendedCard key={video._id} video={video} />
         ))}
         {!videos && <Text>NO RESULTS</Text>}
       </Container>
-    </>
+    </Layout>
   );
 };
 

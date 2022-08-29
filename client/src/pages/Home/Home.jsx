@@ -1,43 +1,53 @@
 import { instance } from 'api/config';
 import Card from 'components/Card';
 import Layout from 'components/Layout/Layout';
-import Skeleton from 'components/Skeleton';
 import HomeSlider from 'components/Slider/HomeSlider';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { devices } from 'styles/variables';
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 4%;
+
+  @media only screen and ${devices.laptopL} {
+    max-width: 2332px;
+  }
+`;
+
 const Row = styled.div`
   display: grid;
   grid-gap: 10px;
 
-  @media only screen and ${devices.mobileL} {
+  @media only screen and ${devices.mobile} {
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(1, 1fr);
   }
 
-  @media only screen and ${devices.tablet} {
+  @media only screen and ${devices.mobileL} {
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media only screen and (min-width: 997px) {
+  @media only screen and ${devices.tablet} {
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(3, 1fr);
-    position: static;
   }
 
-  @media only screen and (min-width: 1200px) {
+  @media only screen and ${devices.laptop} {
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(4, 1fr);
   }
 
-  @media only screen and (min-width: 1970px) {
+  @media only screen and ${devices.laptopM} {
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(5, 1fr);
   }
 
-  @media only screen and (min-width: 2300px) {
+  @media only screen and ${devices.laptopL} {
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(6, 1fr);
   }
@@ -63,59 +73,83 @@ const EmptyList = styled.h1`
   color: ${({ theme }) => theme.text};
 `;
 
-const CategoryTitle = styled.h1`
-  top: 70px;
-  text-align: center;
+const SectionTitle = styled.h1`
+  text-align: left;
+  padding: 10px 0;
   color: ${({ theme }) => theme.text};
 `;
 
 const Home = () => {
-  const [videos, setVideos] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const { videos, loading } = useVideoListData(`random`);
 
+  const [videos, setVideos] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [fetching, setFetching] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+
+  const scrollHandler = (e) => {
+    if (
+      e.target.documentElement.scrollHeight -
+        // eslint-disable-next-line no-undef
+        (e.target.documentElement.scrollTop + window.innerHeight) <
+      50
+    ) {
+      setFetching(true);
+    }
+  };
   useEffect(() => {
-    const fetchVideos = async () => {
-      setVideos(null);
-      try {
-        const { data } = await instance.get(`videos/random`);
-        setVideos(data);
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchVideos().catch((err) => console.log(err));
+    document.addEventListener('scroll', scrollHandler);
+    return () => document.removeEventListener('scroll', scrollHandler);
   }, []);
 
-  if (loading) {
-    return (
-      <Layout>
-        <LoadingBlock>
-          {[...new Array(6)].map((skeleton, i) => (
-            <Skeleton key={i + new Date().getTime()} type={'medium'} />
-          ))}
-        </LoadingBlock>
-      </Layout>
-    );
-  }
+  useEffect(() => {
+    if (videos.length > 0 && videos.length === totalCount) {
+      return;
+    }
+    if (fetching) {
+      instance
+        .get(`videos/allvideos?page=${currentPage}`)
+        .then((res) => {
+          setVideos([...videos, ...res.data.items]);
+          setTotalCount(res.data.pagination.count);
+          setCurrentPage((prev) => prev + 1);
+        })
+        .finally(() => {
+          setFetching(false);
+        });
+    }
+  }, [fetching]);
 
-  if (!videos && !loading) {
-    return (
-      <Layout>
-        <EmptyList>Empty List</EmptyList>
-      </Layout>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <Layout>
+  //       <LoadingBlock>
+  //         {[...new Array(6)].map((skeleton, i) => (
+  //           <Skeleton key={i + new Date().getTime()} type={'medium'} />
+  //         ))}
+  //       </LoadingBlock>
+  //     </Layout>
+  //   );
+  // }
+  //
+  // if (!videos && !loading) {
+  //   return (
+  //     <Layout>
+  //       <EmptyList>Empty List</EmptyList>
+  //     </Layout>
+  //   );
+  // }
 
   return (
     <Layout>
-      <HomeSlider videos={videos} />
-      <CategoryTitle>Recomendations</CategoryTitle>
-      <Row>
-        {videos ? videos.map((video) => <Card key={video._id} video={video} />) : null}
-      </Row>
+      <Container>
+        <HomeSlider videos={videos} />
+        <SectionTitle>Recommendations</SectionTitle>
+        <Row>
+          {videos ? videos.map((video) => <Card key={video._id} video={video} />) : null}
+        </Row>
+      </Container>
     </Layout>
   );
 };

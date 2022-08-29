@@ -1,26 +1,27 @@
+import { SIDEBAR_COMPACT_SIZE, SIDEBAR_FULL_SIZE } from 'constants/constants';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { v } from 'styles/variables';
-import { devices } from 'styles/variables';
+import { devices, v } from 'styles/variables';
 
 export const Container = styled.div`
-  position: sticky;
+  position: fixed;
   top: 0;
-  left: 0;
   z-index: 1;
   background: ${({ theme }) => theme.bgLighter};
-  height: 100vh;
+  min-height: 100vh;
   display: none;
-  
+
 }
 
-@media screen and ${devices.tablet} {
+
+@media screen and ${devices.mobileL} {
   display: block;
   min-width: auto;
 }
 
-@media only screen and ${devices.laptopL} {
-  min-width: ${({ isOpen }) => (isOpen ? '300px' : '100px')};
+
+@media only screen and ${devices.laptop} {
+  min-width: ${({ isOpen }) => (isOpen ? SIDEBAR_FULL_SIZE : SIDEBAR_COMPACT_SIZE)};
 }
 `;
 
@@ -110,7 +111,7 @@ export const SLinkIcon = styled.div`
 export const SLinkLabel = styled.span`
   display: none;
 
-  @media only screen and ${devices.laptopL} {
+  @media only screen and ${devices.laptop} {
     width: fit-content;
     display: block;
     flex: 1;

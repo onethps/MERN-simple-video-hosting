@@ -43,7 +43,7 @@ Header.Frame = function HeaderFrame({
   return (
     <Wrapper {...restProps}>
       {children}
-      {uploadModal && <Upload setUploadModal={setUploadModal} userId={user?._id} />}
+      {uploadModal && <Upload setUploadModal={setUploadModal} />}
     </Wrapper>
   );
 };

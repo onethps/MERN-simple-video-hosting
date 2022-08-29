@@ -1,5 +1,6 @@
+import AuthProvider from 'components/AuthProvider/AuthProvider';
 import { HeaderContainer } from 'containers/header';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { userSelector } from 'redux/userSlice';
@@ -8,7 +9,7 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from 'styles/globalStyles';
 import { dartTheme, lightTheme } from 'styles/theme';
 
-export const SidebarContext = createContext();
+export const SidebarContext = createContext(null);
 
 function App() {
   const { user } = useSelector(userSelector);

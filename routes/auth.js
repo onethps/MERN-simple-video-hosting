@@ -4,12 +4,16 @@ import {
   signIn,
   signup,
   logOut,
+  checkAuth,
 } from "../controllers/auth.js";
 
 const router = express.Router();
 
 //create A USER
 router.post("/signup", signup);
+
+//check AUth
+router.get("/auth", checkAuth);
 
 //SIGN IN
 router.post("/signin", signIn);

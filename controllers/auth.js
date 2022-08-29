@@ -57,6 +57,17 @@ export const signup = async (req, res, next) => {
   }
 };
 
+export const checkAuth = async (req, res, next) => {
+  const token = req.cookies.access_token;
+  try {
+    if (token) {
+      res.status(200).send("U ARE COOl");
+    }
+    if (!token) return next(CreateError(401, "You Are not Authorized"));
+  } catch (e) {
+    next(e);
+  }
+};
 export const createGoogleUser = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });

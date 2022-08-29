@@ -9,17 +9,21 @@ export const v = {
 };
 
 const sizes = {
+  mobile: '325px',
   mobileL: '425px',
   tablet: '768px',
-  laptop: '1024px',
-  laptopL: '1440px',
-  desktop: '1998px',
+  laptop: '1124px',
+  laptopM: '1990px',
+  laptopL: '2279px',
+  desktop: '1552px',
 };
 
 export const devices = {
+  mobile: `(min-width: ${sizes.mobile})`,
   mobileL: `(min-width: ${sizes.mobileL})`,
   tablet: `(min-width: ${sizes.tablet})`,
   laptop: `(min-width: ${sizes.laptop})`,
+  laptopM: `(min-width: ${sizes.laptopM})`,
   laptopL: `(min-width: ${sizes.laptopL})`,
   desktop: `(min-width: ${sizes.desktop})`,
 };

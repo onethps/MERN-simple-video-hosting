@@ -1,16 +1,47 @@
 import { instance } from 'api/config';
 import ExtendedCard from 'components/ExtendedCard';
 import Layout from 'components/Layout/Layout';
+import { useVideoListData } from 'hooks/useVideoListData';
 import React, { useEffect, useState } from 'react';
-import { IoFastFoodSharp } from 'react-icons/io5';
-import {
-  MdOutlineTravelExplore,
-  MdSportsEsports,
-  MdSportsHandball,
-} from 'react-icons/md';
 import { FaCat } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { devices } from 'styles/variables';
+
+export const exploreCategories = {
+  animals: {
+    id: 1,
+    name: 'Animals',
+    icon: <FaCat size={70} color={'#FD8A86'} />,
+    category: 'animals',
+  },
+  sport: {
+    id: 2,
+    name: 'Sport',
+    category: 'sport',
+    icon: <FaCat size={70} color={'#EDAF00'} />,
+  },
+
+  gaming: {
+    id: 3,
+    name: 'Gaming',
+    category: 'gaming',
+    icon: <FaCat size={70} color={'#9A55FB'} />,
+  },
+  food: {
+    id: 4,
+    name: 'Food',
+    category: 'food',
+    icon: <FaCat size={70} color={'#FD6821'} />,
+  },
+
+  travel: {
+    id: 5,
+    name: 'Travel',
+    category: 'travel',
+    icon: <FaCat size={70} color={'#71A4FC'} />,
+  },
+};
 
 const Row = styled.div`
   display: grid;
@@ -19,48 +50,28 @@ const Row = styled.div`
   @media only screen and ${devices.mobileL} {
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(1, 1fr);
-  }
-  //
-  // @media only screen and ${devices.tablet} {
-  //   grid-template-rows: repeat(1, 1fr);
-  //   grid-template-columns: repeat(2, 1fr);
-  // }
-  //
-  // @media only screen and (min-width: 997px) {
-  //   grid-template-rows: repeat(1, 1fr);
-  //   grid-template-columns: repeat(3, 1fr);
-  //   position: static;
-  // }
-  //
-  // @media only screen and (min-width: 1200px) {
-  //   grid-template-rows: repeat(1, 1fr);
-  //   grid-template-columns: repeat(4, 1fr);
-  // }
-  //
-  // @media only screen and (min-width: 1970px) {
-  //   grid-template-rows: repeat(1, 1fr);
-  //   grid-template-columns: repeat(5, 1fr);
-  // }
-  //
-  // @media only screen and (min-width: 2300px) {
-  //   grid-template-rows: repeat(1, 1fr);
-  //   grid-template-columns: repeat(6, 1fr);
-  // }
+
 `;
 
 export const Container = styled.div`
-  margin-top: 50px;
-  max-width: 1292px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  @media only screen and ${devices.laptopL} {
+    max-width: 1298px;
+  }
 `;
 
 export const CategoriesContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, 220px);
   grid-row-gap: 15px;
   justify-content: space-around;
+  grid-template-columns: repeat(2, 50%);
+  padding: 0 20px;
+
+  @media only screen and ${devices.tablet} {
+    grid-template-columns: repeat(auto-fill, 220px);
+    padding: 0;
+  }
 `;
 export const CategoryItem = styled.div`
   display: flex;
@@ -72,6 +83,7 @@ export const CategoryItem = styled.div`
   background-color: ${({ theme }) => theme.bgMediumLight};
   border: 1px solid black;
   border-radius: 10px;
+  cursor: pointer;
 
   &:hover {
     background-color: ${({ theme }) => theme.hoverColorLighter};
@@ -93,41 +105,22 @@ export const VideoContainer = styled.div`
 `;
 
 const Explore = () => {
-  const [videos, setVideos] = useState(null);
-
-  useEffect(() => {
-    const fetchTrendVideos = async () => {
-      const { data } = await instance.get('videos/trends');
-      setVideos(data);
-      console.log(data);
-    };
-    fetchTrendVideos();
-  }, []);
+  const nav = useNavigate();
+  const { videos, loading } = useVideoListData(`trends`);
 
   return (
     <Layout>
       <Container>
         <CategoriesContainer>
-          <CategoryItem>
-            <FaCat size={50} color={'#FD8A86'} />
-            <CategoryTitle>Animals</CategoryTitle>
-          </CategoryItem>
-          <CategoryItem>
-            <MdSportsHandball size={50} color={'#EDAF00'} />
-            <CategoryTitle>Sport</CategoryTitle>
-          </CategoryItem>
-          <CategoryItem>
-            <MdSportsEsports size={50} color={'#9A55FB'} />
-            <CategoryTitle>Gaming</CategoryTitle>
-          </CategoryItem>
-          <CategoryItem>
-            <IoFastFoodSharp size={50} color={'#FD6821'} />
-            <CategoryTitle>Food</CategoryTitle>
-          </CategoryItem>
-          <CategoryItem>
-            <MdOutlineTravelExplore size={50} color={'#71A4FC'} />
-            <CategoryTitle>Travel</CategoryTitle>
-          </CategoryItem>
+          {Object.keys(exploreCategories).map((category, index) => (
+            <CategoryItem
+              key={index}
+              onClick={() => nav(exploreCategories[category].category)}
+            >
+              {exploreCategories[category].icon}
+              <CategoryTitle>{exploreCategories[category].name}</CategoryTitle>
+            </CategoryItem>
+          ))}
         </CategoriesContainer>
         <SectionTitle>Popular Videos</SectionTitle>
 

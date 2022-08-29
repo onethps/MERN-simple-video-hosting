@@ -16,7 +16,7 @@ const SwiperBox = styled(Swiper)`
 
   & .swiper-slide-active {
     @media only screen and ${devices.laptopL} {
-      transform: scale(1.3);
+      transform: scale(1.1);
     }
   }
 
@@ -49,13 +49,11 @@ const HomeSlider = ({ videos }) => {
             spaceBetween: 20,
             slidesPerGroup: 1,
           },
-          // when window width is >= 480px
           1024: {
             slidesPerView: 2,
             spaceBetween: 30,
             slidesPerGroup: 2,
           },
-          // when window width is >= 640px
           1440: {
             slidesPerView: 3,
             spaceBetween: 30,
@@ -67,9 +65,8 @@ const HomeSlider = ({ videos }) => {
         centerInsufficientSlides={true}
         centeredSlidesBounds={true}
         loop={true}
-        pagination={{
-          clickable: true,
-        }}
+        cssMode={true}
+        pagination={true}
         autoplay={{
           delay: 2500,
           disableOnInteraction: false,

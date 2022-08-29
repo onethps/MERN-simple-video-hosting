@@ -1,3 +1,6 @@
+import { instance } from 'api/config';
+import { Link } from 'react-router-dom';
+import { format } from 'timeago.js';
 import {
   Container,
   Thumbnail,
@@ -9,27 +12,38 @@ import {
   Desc,
   VideoTextContainer,
 } from './styles/extendedcard';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ExtendedCard = ({ video }) => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data } = await instance.get(`users/find/${video.userId}`);
+      setUser(data);
+    };
+    fetchUser().catch((err) => console.log(err));
+  }, []);
+
   return (
-    <Container>
-      <Thumbnail src={'/'} />
+    <Link to={`/video/${video._id}`} style={{ textDecoration: 'none' }}>
+      <Container>
+        <Thumbnail src={video?.imgUrl} />
+        <VideoTextContainer>
+          <Title>{video?.title}</Title>
+          <ProfileBlock>
+            <ProfileImage src={user?.img} />
+            <ProfileName>{user?.name}</ProfileName>
+          </ProfileBlock>
 
-      <VideoTextContainer>
-        <Title>Title</Title>
-        <ProfileBlock>
-          <ProfileImage />
-          <ProfileName>Profile Name</ProfileName>
-        </ProfileBlock>
+          <ViewsAndData>
+            {video?.views} views - {format(video?.createdAt)}
+          </ViewsAndData>
 
-        <ViewsAndData>24k views 8 hours ago</ViewsAndData>
-
-        <Desc>
-          Here is few descriptions words to provide example and create new component
-        </Desc>
-      </VideoTextContainer>
-    </Container>
+          <Desc>{video?.desc}</Desc>
+        </VideoTextContainer>
+      </Container>
+    </Link>
   );
 };
 
