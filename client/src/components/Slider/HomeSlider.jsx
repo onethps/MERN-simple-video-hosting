@@ -1,94 +1,71 @@
+import { useVideoListData } from 'hooks/useVideoListData';
 import React from 'react';
-import { BsFillArrowLeftSquareFill, BsFillArrowRightSquareFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { devices } from 'styles/variables';
 import { Autoplay, Navigation, Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-const SwiperBox = styled(Swiper)`
+export const CarouselBox = styled(Swiper)`
   width: 100%;
-  height: 400px;
-  position: relative;
+  height: 100%;
+  margin-top: 2%;
 
-  & .swiper-slide-active {
-    @media only screen and ${devices.laptopL} {
+  & .swiper-slide {
+    opacity: 0.5;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
       transform: scale(1.1);
+      opacity: 1;
     }
   }
 
-  & svg {
-    opacity: 0.7;
-    color: ${({ theme }) => theme.blueLight};
-    transform: scale(1.5);
+  & .swiper-pagination-bullet {
+    background-color: ${({ theme }) => theme.text};
   }
 `;
 
-export const SliderItem = styled.div`
+export const ThumbnailImage = styled.img`
+  object-fit: cover;
   width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-
-  & img {
-    width: 80%;
-    object-fit: contain;
-  }
+  height: 80%;
 `;
 
-const HomeSlider = ({ videos }) => {
+const HomeSlider = () => {
+  const { videos } = useVideoListData('random');
+
   return (
-    <>
-      <SwiperBox
-        breakpoints={{
-          768: {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            slidesPerGroup: 1,
-          },
-          1024: {
-            slidesPerView: 2,
-            spaceBetween: 30,
-            slidesPerGroup: 2,
-          },
-          1440: {
-            slidesPerView: 3,
-            spaceBetween: 30,
-            slidesPerGroup: 3,
-          },
-        }}
-        speed={1200}
-        centeredSlides={true}
-        centerInsufficientSlides={true}
-        centeredSlidesBounds={true}
-        loop={true}
-        cssMode={true}
-        pagination={true}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-        navigation={{
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        }}
-        modules={[Pagination, Navigation, Autoplay]}
-        className="mySwiper"
-      >
-        {videos?.map((video, index) => (
-          <SwiperSlide key={index.toString()}>
-            <SliderItem>
-              <img src={video?.imgUrl} />
-            </SliderItem>
+    <CarouselBox
+      slidesPerView={3}
+      spaceBetween={50}
+      pagination={{
+        clickable: true,
+      }}
+      loop={true}
+      modules={[Autoplay, Navigation, Pagination]}
+      className="mySwiper"
+      autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
+      navigation={true}
+    >
+      {videos?.map((video) => {
+        return (
+          <SwiperSlide key={video?._id}>
+            <Link to={`/video/${video._id}`}>
+              <ThumbnailImage src={video?.imgUrl} />
+            </Link>
           </SwiperSlide>
-        ))}
-        <BsFillArrowLeftSquareFill className={'swiper-button-prev'} />
-        <BsFillArrowRightSquareFill className={'swiper-button-next'} />
-      </SwiperBox>
-    </>
+        );
+      })}
+    </CarouselBox>
   );
 };
 

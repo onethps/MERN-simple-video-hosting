@@ -14,7 +14,7 @@ export const SidebarContext = createContext(null);
 function App() {
   const { user } = useSelector(userSelector);
   const [dark, setDartTheme] = useState(false);
-  const [isOpenSidebar, setIsOpenSidebar] = useState(true);
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
 
   return (

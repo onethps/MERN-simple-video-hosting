@@ -2,9 +2,16 @@ import { instance } from 'api/config';
 import Card from 'components/Card';
 import Layout from 'components/Layout/Layout';
 import HomeSlider from 'components/Slider/HomeSlider';
+
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { devices } from 'styles/variables';
+import { Navigation, Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 const Container = styled.div`
   display: flex;
@@ -144,7 +151,7 @@ const Home = () => {
   return (
     <Layout>
       <Container>
-        <HomeSlider videos={videos} />
+        <HomeSlider />
         <SectionTitle>Recommendations</SectionTitle>
         <Row>
           {videos ? videos.map((video) => <Card key={video._id} video={video} />) : null}
