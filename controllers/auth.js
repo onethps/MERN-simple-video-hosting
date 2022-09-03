@@ -31,7 +31,6 @@ export const signIn = async (req, res, next) => {
 };
 
 export const logOut = async (req, res, next) => {
-  console.log("we here");
   try {
     res.clearCookie("access_token", { path: "/" });
     res

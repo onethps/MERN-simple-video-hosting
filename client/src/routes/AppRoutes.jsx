@@ -10,7 +10,7 @@ import {
 } from 'constants/routes';
 import Explore from 'pages/Explore/Explore';
 import ExploreCategory from 'pages/ExploreCategory';
-import Index from 'pages/Home/Home';
+import Index from 'pages/Home';
 import SearchPage from '../pages/SearchPage';
 import SignIn from 'pages/SignIn';
 import Subs from 'pages/Subs';

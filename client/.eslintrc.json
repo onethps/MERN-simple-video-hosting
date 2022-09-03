@@ -1,7 +1,11 @@
 {
   "env": {
     "node": true,
-    "commonjs": true
+    "commonjs": true,
+    "jest": true
+  },
+  "globals": {
+    "document": false
   },
   "extends": [
     "eslint:recommended",
@@ -20,5 +24,18 @@
   ],
   "rules": {
     "react/prop-types": "off"
-  }
+  },
+
+  "overrides": [
+    {
+      "files": [
+        "**/*.spec.js",
+        "**/*.spec.jsx"
+      ]
+    }
+  ]
+
+
 }
+
+

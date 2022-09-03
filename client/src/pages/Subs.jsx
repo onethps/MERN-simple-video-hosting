@@ -1,5 +1,5 @@
 import Card from 'components/Card';
-import Layout from 'components/Layout/Layout';
+import Index from 'components/Layout';
 import { useVideoListData } from 'hooks/useVideoListData';
 import React from 'react';
 import styled from 'styled-components';
@@ -50,12 +50,12 @@ const Subs = () => {
   const { videos } = useVideoListData(`sub`);
 
   return (
-    <Layout>
+    <Index>
       <SectionTitle>Subscriptions</SectionTitle>
       <Row>
         {videos ? videos.map((video) => <Card key={video._id} video={video} />) : null}
       </Row>
-    </Layout>
+    </Index>
   );
 };
 

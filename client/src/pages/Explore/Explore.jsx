@@ -1,8 +1,8 @@
-import { instance } from 'api/config';
-import ExtendedCard from 'components/ExtendedCard';
-import Layout from 'components/Layout/Layout';
-import { useVideoListData } from 'hooks/useVideoListData';
-import React, { useEffect, useState } from 'react';
+import Index from 'components/Layout';
+import Spinner from 'components/LoaderSpinner';
+import ExtendedCardContainer from 'containers/ecard';
+import { useFetchVideosPagesData } from 'hooks/useFetchVideosPagesData';
+import React from 'react';
 import { FaCat } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -56,21 +56,37 @@ const Row = styled.div`
 export const Container = styled.div`
   margin: 0 auto;
   width: 100%;
-  @media only screen and ${devices.laptopL} {
-    max-width: 1298px;
+  padding: 0 4%;
+
+  @media only screen and ${devices.laptop} {
+    padding: 0;
+  }
+
+  @media only screen and ${devices.laptop} {
+    max-width: 862px;
   }
 `;
 
 export const CategoriesContainer = styled.div`
   display: grid;
   grid-row-gap: 15px;
-  justify-content: space-around;
+  justify-content: center;
   grid-template-columns: repeat(2, 50%);
   padding: 0 20px;
+  width: 100%;
+  margin-top: 20px;
 
   @media only screen and ${devices.tablet} {
-    grid-template-columns: repeat(auto-fill, 220px);
-    padding: 0;
+    grid-template-columns: repeat(3, 220px);
+    grid-gap: 10px;
+  }
+
+  @media only screen and ${devices.laptop} {
+    grid-template-columns: repeat(4, 220px);
+  }
+
+  @media only screen and ${devices.laptopM} {
+    grid-template-columns: repeat(5, 220px);
   }
 `;
 export const CategoryItem = styled.div`
@@ -80,7 +96,7 @@ export const CategoryItem = styled.div`
   gap: 10px;
   width: 100%;
   height: 150px;
-  background-color: ${({ theme }) => theme.bgMediumLight};
+  background-color: ${({ theme }) => theme.bgLighter};
   border: 1px solid black;
   border-radius: 10px;
   cursor: pointer;
@@ -94,8 +110,8 @@ export const CategoryTitle = styled.h2`
   color: ${({ theme }) => theme.text};
 `;
 
-export const SectionTitle = styled.h1`
-  padding: 30px;
+export const SectionTitle = styled.h3`
+  padding: 30px 0;
   width: 100%;
   color: ${({ theme }) => theme.text};
 `;
@@ -106,31 +122,35 @@ export const VideoContainer = styled.div`
 
 const Explore = () => {
   const nav = useNavigate();
-  const { videos, loading } = useVideoListData(`trends`);
+
+  const { videos, loading } = useFetchVideosPagesData(`trends`);
 
   return (
-    <Layout>
+    <Index>
+      <CategoriesContainer>
+        {Object.keys(exploreCategories).map((category, index) => (
+          <CategoryItem
+            key={index}
+            onClick={() => nav(exploreCategories[category].category)}
+          >
+            {exploreCategories[category].icon}
+            <CategoryTitle>{exploreCategories[category].name}</CategoryTitle>
+          </CategoryItem>
+        ))}
+      </CategoriesContainer>
       <Container>
-        <CategoriesContainer>
-          {Object.keys(exploreCategories).map((category, index) => (
-            <CategoryItem
-              key={index}
-              onClick={() => nav(exploreCategories[category].category)}
-            >
-              {exploreCategories[category].icon}
-              <CategoryTitle>{exploreCategories[category].name}</CategoryTitle>
-            </CategoryItem>
-          ))}
-        </CategoriesContainer>
         <SectionTitle>Popular Videos</SectionTitle>
 
         <Row>
           {videos
-            ? videos.map((video) => <ExtendedCard key={video._id} video={video} />)
+            ? videos.map((video) => (
+                <ExtendedCardContainer key={video._id} video={video} />
+              ))
             : null}
         </Row>
+        {loading ? <Spinner /> : null}
       </Container>
-    </Layout>
+    </Index>
   );
 };
 

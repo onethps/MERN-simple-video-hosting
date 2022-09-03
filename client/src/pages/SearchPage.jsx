@@ -1,5 +1,5 @@
 import ExtendedCard from 'components/ExtendedCard';
-import Layout from 'components/Layout/Layout';
+import Index from 'components/Layout';
 import { useVideoListData } from 'hooks/useVideoListData';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
@@ -27,14 +27,14 @@ const SearchPage = () => {
   }
 
   return (
-    <Layout>
+    <Index>
       <Container>
         {videos?.map((video) => (
           <ExtendedCard key={video._id} video={video} />
         ))}
         {!videos && <Text>NO RESULTS</Text>}
       </Container>
-    </Layout>
+    </Index>
   );
 };
 

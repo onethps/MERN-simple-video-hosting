@@ -1,45 +1,55 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { instance } from 'api/config';
-import { format } from 'timeago.js';
+import React from 'react';
 import {
-  Container,
-  ThumbnailBox,
-  Desc,
-  Thumbnail,
-  Title,
-  Views,
   Author,
+  Base,
+  CardLinks,
+  Container,
+  Thumbnail,
+  ThumbnailBox,
+  Title,
+  ViewsAndDate,
 } from './styles/card';
 
-const Card = ({ type, video }) => {
-  const [channel, setChannel] = useState(null);
-
-  useEffect(() => {
-    const fetchChannel = async () => {
-      const { data } = await instance.get(`/users/find/${video.userId}`);
-      setChannel(data);
-    };
-
-    fetchChannel();
-  }, [video.userId]);
-
+export default function Card({ children, type, ...restProps }) {
   return (
-    <Container type={type}>
-      <Link type={type} to={`/video/${video._id}`} style={{ textDecoration: 'none' }}>
-        <ThumbnailBox type={type}>
-          <Thumbnail type={type} src={video.imgUrl} />
-        </ThumbnailBox>
-        <Desc>
-          <Title>{video?.title}</Title>
-          <Author>{channel?.name}</Author>
-          <Views>
-            {video?.views} views - {format(video?.createdAt)}
-          </Views>
-        </Desc>
-      </Link>
+    <Container {...restProps} type={type}>
+      {children}
     </Container>
+  );
+}
+
+Card.Link = function CardLink({ to, children, ...restProps }) {
+  return (
+    <CardLinks to={to} {...restProps}>
+      {children}
+    </CardLinks>
   );
 };
 
-export default Card;
+Card.ThumbnailBox = function CardThumbnailBox({ children, type, ...restProps }) {
+  return (
+    <ThumbnailBox {...restProps} type={type}>
+      {children}
+    </ThumbnailBox>
+  );
+};
+
+Card.Thumbnail = function CardThumbnail({ src, type, ...restProps }) {
+  return <Thumbnail {...restProps} src={src} type={type} />;
+};
+
+Card.Base = function CardBase({ children, ...restProps }) {
+  return <Base {...restProps}>{children}</Base>;
+};
+
+Card.Title = function CardTitle({ children, ...restProps }) {
+  return <Title {...restProps}>{children}</Title>;
+};
+
+Card.Author = function CardAuthor({ children, ...restProps }) {
+  return <Author {...restProps}>{children}</Author>;
+};
+
+Card.ViewsAndDate = function CardViewsAndDate({ children, ...restProps }) {
+  return <ViewsAndDate {...restProps}>{children}</ViewsAndDate>;
+};

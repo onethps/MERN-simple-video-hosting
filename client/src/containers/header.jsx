@@ -1,5 +1,5 @@
 import { instance } from 'api/config';
-import { Button } from 'components/Button';
+import Button from 'components/Button';
 import {
   Border,
   ButtonLabel,

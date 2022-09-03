@@ -81,7 +81,7 @@ export const allVideos = async (req, res, next) => {
   const ITEMS_PER_PAGE = 10;
 
   try {
-    const skip = (page - 1) * ITEMS_PER_PAGE; // 1 * 20 = 20
+    const skip = (page - 1) * ITEMS_PER_PAGE;
     const count = await Video.estimatedDocumentCount();
     const items = await Video.find().limit(ITEMS_PER_PAGE).skip(skip);
     res.status(200).json({
@@ -96,10 +96,22 @@ export const allVideos = async (req, res, next) => {
 };
 
 export const trend = async (req, res, next) => {
+  const page = req.query.page || 1;
+  const ITEMS_PER_PAGE = 10;
+
   try {
-    // let videos = await Video.findById().sort({views: -1});
-    let videos = await Video.aggregate([{ $sort: { views: -1 } }]);
-    res.status(200).json(videos);
+    const skip = (page - 1) * ITEMS_PER_PAGE;
+    const count = await Video.estimatedDocumentCount();
+    let items = await Video.find()
+      .sort({ views: -1 })
+      .limit(ITEMS_PER_PAGE)
+      .skip(skip);
+    res.status(200).json({
+      pagination: {
+        count,
+      },
+      items,
+    });
   } catch (e) {
     next(e);
   }
@@ -107,7 +119,6 @@ export const trend = async (req, res, next) => {
 
 export const category = async (req, res, next) => {
   const param = req.params.category;
-  console.log(param);
   try {
     // let videos = await Video.findById().sort({views: -1});
     let videos = await Video.find({ category: param });

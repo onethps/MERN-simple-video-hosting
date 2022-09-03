@@ -1,6 +1,6 @@
 import { SidebarContext } from 'App';
 import ExtendedCard from 'components/ExtendedCard';
-import Layout from 'components/Layout/Layout';
+import Index from 'components/Layout';
 import { SIDEBAR_COMPACT_SIZE, SIDEBAR_FULL_SIZE } from 'constants/constants';
 import { useVideoListData } from 'hooks/useVideoListData';
 import { exploreCategories } from 'pages/Explore/Explore';
@@ -14,11 +14,10 @@ export const Container = styled.div``;
 export const Content = styled.div`
   width: 100%;
   margin: ${({ fixedHeader }) => (fixedHeader ? '200px auto' : '80px auto')};
-  padding: 0 25px;
+  padding: 0 4%;
 
-  @media only screen and ${devices.laptopL} {
+  @media only screen and ${devices.laptop} {
     max-width: 1298px;
-    padding: 0;
   }
 `;
 
@@ -33,15 +32,11 @@ const Row = styled.div`
 `;
 
 export const CategoryHeader = styled.div`
-  background-color: ${({ theme }) => theme.hoverColor};
+  background-color: ${({ theme }) => theme.bg2};
   width: 100%;
   align-items: center;
   position: relative;
-  padding: 0 25px;
-
-  @media only screen and ${devices.laptopL} {
-    padding: 0;
-  }
+  padding: 0 4%;
 `;
 
 export const Wrapper = styled.div`
@@ -54,6 +49,7 @@ export const Wrapper = styled.div`
 export const IconBox = styled.div`
   display: ${({ fixedHeader }) => (fixedHeader ? 'none' : 'flex')};
   max-width: 1298px;
+  padding: 0 4%;
   margin: 0 auto;
 `;
 
@@ -63,7 +59,7 @@ export const TitleBox = styled.div`
     position: fixed;
     top: 70px;
     padding: 0 25px;
-    background-color: ${({ theme }) => theme.hoverColor};
+    background-color: ${({ theme }) => theme.bg2};
     left: 0;
     right: 0;
 
@@ -81,6 +77,7 @@ export const TitleBox = styled.div`
 export const Title = styled.h2`
   max-width: 1298px;
   width: 100%;
+  padding: 0 4%;
   margin: 0 auto;
   justify-content: flex-start;
   color: white;
@@ -112,7 +109,7 @@ const ExploreCategory = () => {
   }, [fixedHeader]);
 
   return (
-    <Layout>
+    <Index>
       <CategoryHeader>
         <Wrapper>
           <IconBox fixedHeader={fixedHeader}> {icon} </IconBox>
@@ -128,7 +125,7 @@ const ExploreCategory = () => {
             : null}
         </Row>
       </Content>
-    </Layout>
+    </Index>
   );
 };
 

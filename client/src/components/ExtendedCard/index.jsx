@@ -1,50 +1,63 @@
-import { instance } from 'api/config';
-import { Link } from 'react-router-dom';
-import { format } from 'timeago.js';
+import React from 'react';
 import {
+  Base,
   Container,
+  Desc,
+  ECardLink,
+  ProfileBlock,
+  ProfileImage,
+  ProfileName,
   Thumbnail,
   Title,
   ViewsAndData,
-  ProfileName,
-  ProfileImage,
-  ProfileBlock,
-  Desc,
-  VideoTextContainer,
 } from './styles/extendedcard';
-import React, { useEffect, useState } from 'react';
 
-const ExtendedCard = ({ video }) => {
-  const [user, setUser] = useState(null);
+export default function ExtendedCard({ children }) {
+  return <Container>{children}</Container>;
+}
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data } = await instance.get(`users/find/${video.userId}`);
-      setUser(data);
-    };
-    fetchUser().catch((err) => console.log(err));
-  }, []);
+ExtendedCard.Thumbnail = function ExtendedCardThumbnail({ src, ...restProps }) {
+  return <Thumbnail {...restProps} src={src} />;
+};
 
+ExtendedCard.Base = function ExtendedCardBase({ children, ...restProps }) {
+  return <Base {...restProps}>{children}</Base>;
+};
+
+ExtendedCard.Title = function ExtendedCardTitle({ children, ...restProps }) {
+  return <Title {...restProps}>{children}</Title>;
+};
+
+ExtendedCard.Link = function ExtendedCardLink({ children, to, ...restProps }) {
   return (
-    <Link to={`/video/${video._id}`} style={{ textDecoration: 'none' }}>
-      <Container>
-        <Thumbnail src={video?.imgUrl} />
-        <VideoTextContainer>
-          <Title>{video?.title}</Title>
-          <ProfileBlock>
-            <ProfileImage src={user?.img} />
-            <ProfileName>{user?.name}</ProfileName>
-          </ProfileBlock>
-
-          <ViewsAndData>
-            {video?.views} views - {format(video?.createdAt)}
-          </ViewsAndData>
-
-          <Desc>{video?.desc}</Desc>
-        </VideoTextContainer>
-      </Container>
-    </Link>
+    <ECardLink to={to} {...restProps}>
+      {children}
+    </ECardLink>
   );
 };
 
-export default ExtendedCard;
+ExtendedCard.ProfileFrame = function ExtendedCardProfileFrame({
+  children,
+  ...restProps
+}) {
+  return <ProfileBlock {...restProps}>{children}</ProfileBlock>;
+};
+
+ExtendedCard.ProfileImage = function ExtendedCardProfileImage({ src, ...restProps }) {
+  return <ProfileImage src={src} {...restProps} />;
+};
+
+ExtendedCard.ProfileName = function ExtendedCardProfileName({ children, ...restProps }) {
+  return <ProfileName {...restProps}>{children}</ProfileName>;
+};
+
+ExtendedCard.ViewsAndData = function ExtendedCardViewsAndData({
+  children,
+  ...restProps
+}) {
+  return <ViewsAndData {...restProps}>{children}</ViewsAndData>;
+};
+
+ExtendedCard.Description = function ExtendedCardDescription({ children, ...restProps }) {
+  return <Desc {...restProps}>{children}</Desc>;
+};

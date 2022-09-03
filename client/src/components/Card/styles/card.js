@@ -1,18 +1,19 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Container = styled.div`
   background: ${({ theme }) => theme.bgLighter};
   transition: all 0.2s ease-in-out;
+  padding-right: 20px;
   & a {
     text-decoration: none;
     color: ${({ theme }) => theme.text};
-    cursor: pointer;
     //set block for main page and grid for others
     display: ${(props) => (props.type === 'sm' ? 'grid' : 'block')};
     grid-template-rows: repeat(1, 100%);
     grid-template-columns: repeat(2, 50%);
     grid-gap: 15px;
-    margin: 10px 6px;
+    margin: 10px 0;
   }
 
   &:hover {
@@ -20,6 +21,11 @@ export const Container = styled.div`
     z-index: 5;
   }
 `;
+
+export const CardLinks = styled(Link)`
+  display: block;
+`;
+
 export const ThumbnailBox = styled.div`
   position: relative;
   padding: 0 0 58% 0;
@@ -41,9 +47,10 @@ export const Title = styled.h1`
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: default;
 `;
 
-export const Desc = styled.div``;
+export const Base = styled.div``;
 
 export const Author = styled.h2`
   font-size: 14px;
@@ -51,10 +58,12 @@ export const Author = styled.h2`
   font-weight: 400;
   color: ${({ theme }) => theme.text};
   opacity: 0.5;
+  cursor: default;
 `;
 
-export const Views = styled.div`
+export const ViewsAndDate = styled.div`
   font-size: 12px;
   color: ${({ theme }) => theme.text};
   opacity: 0.5;
+  cursor: default;
 `;

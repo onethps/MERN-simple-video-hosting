@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { devices } from 'styles/variables';
 
@@ -25,20 +26,29 @@ export const Thumbnail = styled.img`
   }
 `;
 
-export const VideoTextContainer = styled.div`
+export const Base = styled.div`
+  font-size: 14px;
   flex: 2;
 `;
 
+export const ECardLink = styled(Link)`
+  font-size: 14px;
+  //flex: 2;
+  //text-decoration: none;
+`;
+
 export const Title = styled.h1`
+  cursor: default;
   opacity: 1;
   font-size: 18px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  max-height: 40px;
+  -webkit-line-clamp: 2;
+  max-height: 60px;
   overflow: hidden;
 `;
 export const ViewsAndData = styled.span`
+  cursor: default;
   opacity: 0.5;
 `;
 
@@ -46,10 +56,9 @@ export const ProfileBlock = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
-  padding: 0;
+  padding: 5px 0;
 
   @media only screen and ${devices.tablet} {
-    padding: 0;
   }
 `;
 
@@ -64,9 +73,11 @@ export const ProfileImage = styled.img`
   }
 `;
 export const ProfileName = styled.span`
+  cursor: default;
   opacity: 0.5;
 `;
 export const Desc = styled.p`
+  cursor: default;
   opacity: 0.5;
   overflow: hidden;
   text-overflow: ellipsis;

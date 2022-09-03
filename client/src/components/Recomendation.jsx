@@ -1,4 +1,5 @@
 import Card from 'components/Card';
+import CardContainer from 'containers/card';
 import React, { memo } from 'react';
 import styled from 'styled-components';
 
@@ -11,7 +12,7 @@ const Recomendation = ({ recommendations }) => {
   return (
     <Recommendation>
       {recommendations?.map((currentVideo) => (
-        <Card key={currentVideo._id} type={'sm'} video={currentVideo} />
+        <CardContainer key={currentVideo._id} type={'sm'} video={currentVideo} />
       ))}
     </Recommendation>
   );
