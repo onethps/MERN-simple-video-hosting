@@ -1,7 +1,8 @@
 import { SidebarContext } from 'App';
-import ExtendedCard from 'components/ExtendedCard';
+import Layout from 'components/Layout';
 import Index from 'components/Layout';
 import { SIDEBAR_COMPACT_SIZE, SIDEBAR_FULL_SIZE } from 'constants/constants';
+import ExtendedCardContainer from 'containers/ecard';
 import { useVideoListData } from 'hooks/useVideoListData';
 import { exploreCategories } from 'pages/Explore/Explore';
 import React, { useContext, useEffect, useState } from 'react';
@@ -26,8 +27,8 @@ const Row = styled.div`
   grid-gap: 10px;
 
   @media only screen and ${devices.mobileL} {
-    grid-template-rows: repeat(1, 1fr);
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -80,7 +81,7 @@ export const Title = styled.h2`
   padding: 0 4%;
   margin: 0 auto;
   justify-content: flex-start;
-  color: white;
+  color: ${({ theme }) => theme.text};
 `;
 
 const ExploreCategory = () => {
@@ -109,7 +110,7 @@ const ExploreCategory = () => {
   }, [fixedHeader]);
 
   return (
-    <Index>
+    <Layout>
       <CategoryHeader>
         <Wrapper>
           <IconBox fixedHeader={fixedHeader}> {icon} </IconBox>
@@ -121,11 +122,13 @@ const ExploreCategory = () => {
       <Content fixedHeader={fixedHeader}>
         <Row>
           {videos
-            ? videos.map((video) => <ExtendedCard key={video._id} video={video} />)
+            ? videos.map((video) => (
+                <ExtendedCardContainer key={video._id} video={video} />
+              ))
             : null}
         </Row>
       </Content>
-    </Index>
+    </Layout>
   );
 };
 

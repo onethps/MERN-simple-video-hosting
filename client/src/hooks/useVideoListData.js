@@ -12,6 +12,7 @@ export const useVideoListData = (link) => {
       setLoading(true);
       try {
         const { data } = await instance.get(`videos/${link}`);
+        console.log(data);
         setLoading(false);
         setVideos(data);
         if (!data.length) {

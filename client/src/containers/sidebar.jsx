@@ -1,5 +1,14 @@
 import { Hr } from 'components/Sidebar/styles/sidebar';
-import { EXPLORE_ROUTE, HOME_ROUTE, SUB_ROUTE } from 'constants/routes';
+import {
+  EXPLORE_ROUTE,
+  HISTORY_ROUTE,
+  HOME_ROUTE,
+  LIBRARY_ROUTE,
+  LIVE_ROUTE,
+  MUSIC_ROUTE,
+  SUB_ROUTE,
+} from 'constants/routes';
+import React from 'react';
 import { CgDarkMode } from 'react-icons/cg';
 import {
   MdHistory,
@@ -9,21 +18,9 @@ import {
   MdVideoLibrary,
 } from 'react-icons/md';
 import { RiHome5Fill } from 'react-icons/ri';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { logout } from 'redux/userSlice';
 import { Sidebar } from '../components';
-import React from 'react';
 
 const SidebarContainer = ({ isOpenSidebar }) => {
-  const dispatch = useDispatch();
-  const nav = useNavigate();
-
-  const logOutHandle = () => {
-    dispatch(logout());
-    nav('/');
-  };
-
   return (
     <Sidebar isOpen={isOpenSidebar}>
       <Sidebar.Frame>
@@ -85,12 +82,12 @@ const secondMenuItems = [
   {
     title: 'Library',
     Icon: <MdVideoLibrary size={30} />,
-    src: '/library',
+    src: LIBRARY_ROUTE,
   },
   {
     title: 'History',
     Icon: <MdHistory size={30} />,
-    src: '/history',
+    src: HISTORY_ROUTE,
   },
 ];
 
@@ -98,12 +95,12 @@ const thirdMenuItems = [
   {
     title: 'Music',
     Icon: <MdMusicVideo size={30} />,
-    src: '/music',
+    src: MUSIC_ROUTE,
   },
   {
     title: 'Live',
     Icon: <CgDarkMode size={30} />,
-    src: '/live',
+    src: LIVE_ROUTE,
   },
 ];
 

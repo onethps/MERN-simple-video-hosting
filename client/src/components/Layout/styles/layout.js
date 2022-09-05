@@ -19,7 +19,6 @@ export const Content = styled.div`
 
 export const ContentBox = styled.div`
   display: flex;
-
   width: 100%;
   justify-content: center;
 
@@ -27,7 +26,7 @@ export const ContentBox = styled.div`
     margin: 0 auto;
   }
 
-  @media only screen and ${devices.mobileL} {
+  @media only screen and ${devices.tablet} {
     padding-left: ${SIDEBAR_COMPACT_SIZE}
     
   }

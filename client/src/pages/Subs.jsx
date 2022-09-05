@@ -1,9 +1,22 @@
-import Card from 'components/Card';
-import Index from 'components/Layout';
+import Layout from 'components/Layout';
+import Spinner from 'components/LoaderSpinner';
+import CardContainer from 'containers/card';
 import { useVideoListData } from 'hooks/useVideoListData';
 import React from 'react';
 import styled from 'styled-components';
 import { devices } from 'styles/variables';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 4%;
+
+  @media only screen and ${devices.laptopL} {
+    max-width: 2332px;
+  }
+`;
 
 const Row = styled.div`
   display: grid;
@@ -40,22 +53,26 @@ const Row = styled.div`
   }
 `;
 
-export const SectionTitle = styled.h1`
-  padding: 30px;
-  width: 100%;
+export const SectionTitle = styled.h2`
+  padding: 20px 0;
   color: ${({ theme }) => theme.text};
 `;
 
 const Subs = () => {
-  const { videos } = useVideoListData(`sub`);
+  const { loading, videos } = useVideoListData(`sub`);
 
   return (
-    <Index>
-      <SectionTitle>Subscriptions</SectionTitle>
-      <Row>
-        {videos ? videos.map((video) => <Card key={video._id} video={video} />) : null}
-      </Row>
-    </Index>
+    <Layout>
+      <Container>
+        <SectionTitle>Subscriptions</SectionTitle>
+        <Row>
+          {videos
+            ? videos.map((video) => <CardContainer key={video._id} video={video} />)
+            : null}
+        </Row>
+        {loading ? <Spinner /> : null}
+      </Container>
+    </Layout>
   );
 };
 

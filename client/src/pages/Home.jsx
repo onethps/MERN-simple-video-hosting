@@ -1,5 +1,4 @@
-import Card from 'components/Card';
-import Index from 'components/Layout';
+import Layout from 'components/Layout';
 import Spinner from 'components/LoaderSpinner';
 import HomeSlider from 'components/Slider';
 import CardContainer from 'containers/card';
@@ -93,14 +92,14 @@ const Home = () => {
 
   if (!videos && !loading) {
     return (
-      <Index>
+      <Layout>
         <EmptyList>Empty List</EmptyList>
-      </Index>
+      </Layout>
     );
   }
 
   return (
-    <Index>
+    <Layout>
       <Container>
         <HomeSlider />
         <SectionTitle>Recommendations</SectionTitle>
@@ -111,7 +110,7 @@ const Home = () => {
         </Row>
       </Container>
       {loading ? <Spinner /> : null}
-    </Index>
+    </Layout>
   );
 };
 

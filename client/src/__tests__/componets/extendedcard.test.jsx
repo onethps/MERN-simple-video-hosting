@@ -1,11 +1,5 @@
 import '@testing-library/jest-dom';
-import {
-  fireEvent,
-  getAllByTestId,
-  getByTestId,
-  render,
-  screen,
-} from '@testing-library/react';
+import { render } from '@testing-library/react';
 import ExtendedCard from 'components/ExtendedCard';
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';

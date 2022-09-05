@@ -14,7 +14,7 @@ export const Container = styled.div`
 }
 
 
-@media screen and ${devices.mobileL} {
+@media screen and ${devices.tablet} {
   display: block;
   min-width: auto;
 }

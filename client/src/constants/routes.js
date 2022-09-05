@@ -3,12 +3,11 @@ export const SUB_ROUTE = '/sub';
 export const EXPLORE_ROUTE = '/explore';
 export const EXPLORE_ROUTE_CATEGORY = '/explore/:category';
 
-export const EXPLORE_ANIMALS_ROUTE = '/explore/animals';
-export const EXPLORE_SPORT_ROUTE = '/explore/sport';
-export const EXPLORE_GAMING_ROUTE = '/explore/gaming';
-export const EXPLORE_FOOD_ROUTE = '/explore/food';
-export const EXPLORE_TRAVEL_ROUTE = '/explore/travel';
-
 export const SIGN_IN_ROUTE = '/signin';
 export const VIDEO_ROUTE = '/video/:id';
 export const SEARCH_ROUTE = '/search';
+
+export const LIBRARY_ROUTE = '/library';
+export const HISTORY_ROUTE = '/history';
+export const MUSIC_ROUTE = '/music';
+export const LIVE_ROUTE = '/live';

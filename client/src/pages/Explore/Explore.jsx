@@ -1,8 +1,14 @@
-import Index from 'components/Layout';
+import Layout from 'components/Layout';
 import Spinner from 'components/LoaderSpinner';
 import ExtendedCardContainer from 'containers/ecard';
 import { useFetchVideosPagesData } from 'hooks/useFetchVideosPagesData';
 import React from 'react';
+import {
+  MdCardTravel,
+  MdFastfood,
+  MdSportsHandball,
+  MdVideogameAsset,
+} from 'react-icons/md';
 import { FaCat } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -19,27 +25,25 @@ export const exploreCategories = {
     id: 2,
     name: 'Sport',
     category: 'sport',
-    icon: <FaCat size={70} color={'#EDAF00'} />,
+    icon: <MdSportsHandball size={70} color={'#EDAF00'} />,
   },
-
   gaming: {
     id: 3,
     name: 'Gaming',
     category: 'gaming',
-    icon: <FaCat size={70} color={'#9A55FB'} />,
+    icon: <MdVideogameAsset size={70} color={'#9A55FB'} />,
   },
   food: {
     id: 4,
     name: 'Food',
     category: 'food',
-    icon: <FaCat size={70} color={'#FD6821'} />,
+    icon: <MdFastfood size={70} color={'#FD6821'} />,
   },
-
   travel: {
     id: 5,
     name: 'Travel',
     category: 'travel',
-    icon: <FaCat size={70} color={'#71A4FC'} />,
+    icon: <MdCardTravel size={70} color={'#71A4FC'} />,
   },
 };
 
@@ -63,7 +67,7 @@ export const Container = styled.div`
   }
 
   @media only screen and ${devices.laptop} {
-    max-width: 862px;
+    max-width: 1298px;
   }
 `;
 
@@ -85,7 +89,7 @@ export const CategoriesContainer = styled.div`
     grid-template-columns: repeat(4, 220px);
   }
 
-  @media only screen and ${devices.laptopM} {
+  @media only screen and ${devices.laptopXM} {
     grid-template-columns: repeat(5, 220px);
   }
 `;
@@ -116,17 +120,13 @@ export const SectionTitle = styled.h3`
   color: ${({ theme }) => theme.text};
 `;
 
-export const VideoContainer = styled.div`
-  padding: 20px;
-`;
-
 const Explore = () => {
   const nav = useNavigate();
 
   const { videos, loading } = useFetchVideosPagesData(`trends`);
 
   return (
-    <Index>
+    <Layout>
       <CategoriesContainer>
         {Object.keys(exploreCategories).map((category, index) => (
           <CategoryItem
@@ -150,7 +150,7 @@ const Explore = () => {
         </Row>
         {loading ? <Spinner /> : null}
       </Container>
-    </Index>
+    </Layout>
   );
 };
 

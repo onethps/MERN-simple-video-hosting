@@ -16,25 +16,26 @@ export const Container = styled.div`
 export const Thumbnail = styled.img`
   object-fit: cover;
   width: 100%;
-  height: 150px;
+  height: 100%;
   background-color: grey;
-  flex: 2;
 
   @media only screen and ${devices.tablet} {
-    flex: 1;
     max-width: 300px;
   }
 `;
 
 export const Base = styled.div`
   font-size: 14px;
-  flex: 2;
+  flex: 1;
+
+  @media only screen and ${devices.tablet} {
+    flex: 3;
+  }
 `;
 
 export const ECardLink = styled(Link)`
   font-size: 14px;
-  //flex: 2;
-  //text-decoration: none;
+  flex: 1;
 `;
 
 export const Title = styled.h1`

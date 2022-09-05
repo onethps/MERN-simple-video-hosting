@@ -36,7 +36,7 @@ const Header = ({ children }) => {
 Header.Frame = function HeaderFrame({
   children,
   setUploadModal,
-  uploadModal,
+  uploadModal = false,
   user,
   ...restProps
 }) {
