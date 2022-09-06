@@ -9,7 +9,6 @@ import {
   SUB_ROUTE,
 } from 'constants/routes';
 import React from 'react';
-import { CgDarkMode } from 'react-icons/cg';
 import {
   MdHistory,
   MdMusicVideo,
@@ -17,7 +16,7 @@ import {
   MdSubscriptions,
   MdVideoLibrary,
 } from 'react-icons/md';
-import { RiHome5Fill } from 'react-icons/ri';
+import { RiHome5Fill, RiLiveFill } from 'react-icons/ri';
 import { Sidebar } from '../components';
 
 const SidebarContainer = ({ isOpenSidebar }) => {
@@ -99,7 +98,7 @@ const thirdMenuItems = [
   },
   {
     title: 'Live',
-    Icon: <CgDarkMode size={30} />,
+    Icon: <RiLiveFill size={30} />,
     src: LIVE_ROUTE,
   },
 ];

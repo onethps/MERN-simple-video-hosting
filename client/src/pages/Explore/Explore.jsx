@@ -47,6 +47,10 @@ export const exploreCategories = {
   },
 };
 
+export const Content = styled.div`
+  margin-top: 20px;
+`;
+
 const Row = styled.div`
   display: grid;
   grid-gap: 10px;
@@ -54,7 +58,6 @@ const Row = styled.div`
   @media only screen and ${devices.mobileL} {
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(1, 1fr);
-
 `;
 
 export const Container = styled.div`
@@ -63,34 +66,36 @@ export const Container = styled.div`
   padding: 0 4%;
 
   @media only screen and ${devices.laptop} {
-    padding: 0;
+    max-width: 1298px;
   }
 
-  @media only screen and ${devices.laptop} {
-    max-width: 1298px;
+  @media only screen and ${devices.laptopXM} {
+    margin: 0 auto;
   }
 `;
 
 export const CategoriesContainer = styled.div`
   display: grid;
-  grid-row-gap: 15px;
-  justify-content: center;
-  grid-template-columns: repeat(2, 50%);
+  grid-gap: 15px;
+  justify-content: space-between;
+
+  grid-template-columns: repeat(2, 1fr);
   padding: 0 20px;
   width: 100%;
-  margin-top: 20px;
+  max-width: 1298px;
+  margin: 0 auto;
 
   @media only screen and ${devices.tablet} {
-    grid-template-columns: repeat(3, 220px);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
   }
 
   @media only screen and ${devices.laptop} {
-    grid-template-columns: repeat(4, 220px);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   @media only screen and ${devices.laptopXM} {
-    grid-template-columns: repeat(5, 220px);
+    grid-template-columns: repeat(5, 1fr);
   }
 `;
 export const CategoryItem = styled.div`
@@ -101,12 +106,11 @@ export const CategoryItem = styled.div`
   width: 100%;
   height: 150px;
   background-color: ${({ theme }) => theme.bgLighter};
-  border: 1px solid black;
   border-radius: 10px;
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.hoverColorLighter};
+    background-color: ${({ theme }) => theme.bgMediumLight};
   }
 `;
 
@@ -127,29 +131,31 @@ const Explore = () => {
 
   return (
     <Layout>
-      <CategoriesContainer>
-        {Object.keys(exploreCategories).map((category, index) => (
-          <CategoryItem
-            key={index}
-            onClick={() => nav(exploreCategories[category].category)}
-          >
-            {exploreCategories[category].icon}
-            <CategoryTitle>{exploreCategories[category].name}</CategoryTitle>
-          </CategoryItem>
-        ))}
-      </CategoriesContainer>
-      <Container>
-        <SectionTitle>Popular Videos</SectionTitle>
+      <Content>
+        <CategoriesContainer>
+          {Object.keys(exploreCategories).map((category, index) => (
+            <CategoryItem
+              key={index}
+              onClick={() => nav(exploreCategories[category].category)}
+            >
+              {exploreCategories[category].icon}
+              <CategoryTitle>{exploreCategories[category].name}</CategoryTitle>
+            </CategoryItem>
+          ))}
+        </CategoriesContainer>
+        <Container>
+          <SectionTitle>Popular Videos</SectionTitle>
 
-        <Row>
-          {videos
-            ? videos.map((video) => (
-                <ExtendedCardContainer key={video._id} video={video} />
-              ))
-            : null}
-        </Row>
-        {loading ? <Spinner /> : null}
-      </Container>
+          <Row>
+            {videos
+              ? videos.map((video) => (
+                  <ExtendedCardContainer key={video._id} video={video} />
+                ))
+              : null}
+          </Row>
+          {loading ? <Spinner /> : null}
+        </Container>
+      </Content>
     </Layout>
   );
 };

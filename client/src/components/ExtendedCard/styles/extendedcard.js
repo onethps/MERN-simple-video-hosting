@@ -13,12 +13,16 @@ export const Container = styled.div`
   }
 `;
 
+export const ECardLink = styled(Link)`
+  font-size: 14px;
+  flex: 1;
+`;
+
 export const Thumbnail = styled.img`
   object-fit: cover;
-  width: 100%;
+  min-width: 100px;
+  max-width: 300px;
   height: 100%;
-  background-color: grey;
-
   @media only screen and ${devices.tablet} {
     max-width: 300px;
   }
@@ -31,11 +35,6 @@ export const Base = styled.div`
   @media only screen and ${devices.tablet} {
     flex: 3;
   }
-`;
-
-export const ECardLink = styled(Link)`
-  font-size: 14px;
-  flex: 1;
 `;
 
 export const Title = styled.h1`

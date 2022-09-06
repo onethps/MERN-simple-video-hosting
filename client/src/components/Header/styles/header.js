@@ -114,7 +114,7 @@ export const TextDesc = styled.h4`
   cursor: pointer;
 
   &:hover {
-    color: ${({ theme }) => theme.blueLight};
+    color: ${({ theme }) => theme.logoColor};
   }
 `;
 
@@ -127,7 +127,7 @@ export const ProfileBoxItem = styled.div`
   color: ${({ theme }) => theme.text};
 
   &:hover {
-    color: ${({ theme }) => theme.blueLight};
+    color: ${({ theme }) => theme.logoColor};
   }
 `;
 
@@ -143,7 +143,10 @@ export const SearchBox = styled.div`
   flex: 1;
   align-items: center;
   width: 100%;
-  background: ${({ theme }) => theme.bgLighter};
+
+  //min-header BG
+  background: ${({ theme }) => theme.bg2};
+  //
   position: ${({ openSearch }) => (openSearch ? 'absolute' : 'none')};
   left: 0;
   top: 0;
@@ -172,7 +175,7 @@ export const InputSearch = styled.input`
   padding: 0 20px;
   border-radius: 15px 0 0 15px;
   border: none;
-  background-color: ${({ theme }) => theme.hoverColor};
+  background-color: ${({ theme }) => theme.bgMediumLight};
   outline: none;
   color: ${({ theme }) => theme.text};
 
@@ -186,7 +189,7 @@ export const Suggestions = styled.div`
   padding: 10px 0;
   top: 55px;
   border-radius: 15px;
-  background-color: ${({ theme }) => theme.hoverColor};
+  background-color: ${({ theme }) => theme.bgMediumLight};
   width: 80%;
   left: 12%;
   z-index: 50;
@@ -222,7 +225,7 @@ export const SuggestionItem = styled.input`
 
 export const InputSearchIcon = styled(BsSearch)`
   width: 60px;
-  background-color: ${({ theme }) => theme.blueLight};
+  background-color: ${({ theme }) => theme.logoColor};
   height: 100%;
   align-self: center;
   color: white;
@@ -264,7 +267,7 @@ export const UploadButton = styled.button`
   gap: 10px;
   border: none;
   color: ${({ theme }) => theme.text};
-  background-color: ${({ theme }) => theme.hoverColor};
+  background-color: ${({ theme }) => theme.bgMediumLight};
   cursor: pointer;
 
   & svg {

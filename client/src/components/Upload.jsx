@@ -66,7 +66,7 @@ const InputBox = styled.div`
   margin: 20px 0;
   width: 100%;
   padding: 5px 20px;
-  background-color: ${({ theme }) => theme.hoverColor};
+  background-color: ${({ theme }) => theme.bgMediumLight};
   color: ${({ theme }) => theme.text};
   border-radius: 10px;
 `;
@@ -75,7 +75,7 @@ const Input = styled.input`
   border: none;
   width: 100%;
   padding: 10px 5px;
-  background-color: ${({ theme }) => theme.hoverColor};
+  background-color: ${({ theme }) => theme.bgMediumLight};
   color: ${({ theme }) => theme.text};
   outline: none;
 `;
@@ -83,7 +83,7 @@ const Desc = styled.textarea`
   margin: 20px 0;
   width: 100%;
   color: ${({ theme }) => theme.text};
-  background-color: ${({ theme }) => theme.hoverColor};
+  background-color: ${({ theme }) => theme.bgMediumLight};
   border-radius: 10px;
   border: none;
   outline: none;
@@ -93,10 +93,18 @@ const Desc = styled.textarea`
 const Button = styled.button`
   margin-top: 20px;
   width: 50%;
+  font-size: 18px;
   padding: 10px 40px;
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.blueLight};
+  border: none;
+  font-weight: 700;
+  background-color: ${({ theme }) => theme.logoColor};
   color: ${({ theme }) => theme.text};
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.logoColorHover};
+  }
 `;
 
 const Label = styled.label`

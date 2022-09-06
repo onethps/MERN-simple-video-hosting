@@ -1,6 +1,5 @@
 import { SidebarContext } from 'App';
 import Layout from 'components/Layout';
-import Index from 'components/Layout';
 import { SIDEBAR_COMPACT_SIZE, SIDEBAR_FULL_SIZE } from 'constants/constants';
 import ExtendedCardContainer from 'containers/ecard';
 import { useVideoListData } from 'hooks/useVideoListData';
@@ -33,7 +32,7 @@ const Row = styled.div`
 `;
 
 export const CategoryHeader = styled.div`
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: ${({ theme }) => theme.bgMediumLight};
   width: 100%;
   align-items: center;
   position: relative;
@@ -59,8 +58,8 @@ export const TitleBox = styled.div`
     z-index: 100;
     position: fixed;
     top: 70px;
-    padding: 0 25px;
-    background-color: ${({ theme }) => theme.bg2};
+    padding: 10px 25px;
+    background-color: ${({ theme }) => theme.bgMediumLight};
     left: 0;
     right: 0;
 

@@ -85,7 +85,7 @@ export const Popup = styled.div`
 `;
 
 export const SLinkContainer = styled.div`
-  background: ${({ theme, active }) => (!active ? `transparent` : theme.hoverColor)};
+  background: ${({ theme, active }) => (!active ? `transparent` : theme.bgMediumLight)};
   border-radius: ${v.borderRadius};
   margin: 8px 20px;
 `;
@@ -96,10 +96,10 @@ export const SLink = styled(Link)`
   text-decoration: none;
   font-size: 16px;
   padding: calc(${v.smSpacing} - 2px) 0;
-  color: ${({ theme, active }) => (!active ? theme.text : theme.blueLight)};
+  color: ${({ theme, active }) => (!active ? theme.text : theme.logoColor)};
 
   &:hover {
-    color: ${({ theme }) => theme.blueLight};
+    color: ${({ theme }) => theme.logoColor};
   }
 `;
 

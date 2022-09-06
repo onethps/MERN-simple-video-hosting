@@ -4,7 +4,6 @@ import styled from 'styled-components';
 export const Container = styled.div`
   background: ${({ theme }) => theme.bgLighter};
   transition: all 0.2s ease-in-out;
-  padding-right: 20px;
   & a {
     text-decoration: none;
     color: ${({ theme }) => theme.text};
@@ -13,7 +12,6 @@ export const Container = styled.div`
     grid-template-rows: repeat(1, 100%);
     grid-template-columns: repeat(2, 50%);
     grid-gap: 15px;
-    margin: 10px 0;
   }
 
   &:hover {
@@ -29,6 +27,7 @@ export const CardLinks = styled(Link)`
 export const ThumbnailBox = styled.div`
   position: relative;
   padding: 0 0 58% 0;
+  width: 100%;
 `;
 
 export const Thumbnail = styled.img`
@@ -50,7 +49,9 @@ export const Title = styled.h1`
   cursor: default;
 `;
 
-export const Base = styled.div``;
+export const Base = styled.div`
+  padding: 10px;
+`;
 
 export const Author = styled.h2`
   font-size: 14px;

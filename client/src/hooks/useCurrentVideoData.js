@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { VideoFailure, VideoStart, VideoSuccess } from 'redux/videoSlice';
 
 export const useCurrentVideoData = (id) => {
-  const [channel, setChannel] = useState({});
+  const [videoOwner, setVideoOwner] = useState({});
   const [recommendations, setRecommendations] = useState(null);
 
   const location = useLocation();
@@ -24,7 +24,7 @@ export const useCurrentVideoData = (id) => {
         await instance.put(`/videos/view/${id}`);
         //
         setRecommendations(data);
-        setChannel(user.data);
+        setVideoOwner(user.data);
         dispatch(VideoSuccess(video.data));
       } catch (e) {
         dispatch(VideoFailure());
@@ -33,5 +33,5 @@ export const useCurrentVideoData = (id) => {
     fetchUserData().catch((err) => console.log(err));
   }, [location]);
 
-  return { channel, recommendations };
+  return { videoOwner, recommendations };
 };

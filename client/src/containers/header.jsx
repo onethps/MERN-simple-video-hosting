@@ -10,20 +10,25 @@ import {
 import { HEADER_MENU_PROFILE_ITEMS } from 'constants/constants';
 import { SIGN_IN_ROUTE } from 'constants/routes';
 import { signOut } from 'firebase/auth';
+import { auth } from 'lib/firebase.prod';
 import React, { useState } from 'react';
 import { AiFillYoutube } from 'react-icons/ai';
-import { RiUploadCloudLine, RiVideoUploadLine } from 'react-icons/ri';
+import { CgDarkMode } from 'react-icons/cg';
+import { FaUserAlt } from 'react-icons/fa';
+import { IoExit } from 'react-icons/io5';
+import { RiUploadCloudLine } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from 'redux/userSlice';
 import { Header } from '../components';
-import { auth } from 'lib/firebase.prod';
 
 export const HeaderContainer = ({
   isOpenSidebar,
   setIsOpenSidebar,
   setOpenPopup,
   openPopup,
+  setDarkTheme,
+  darkTheme,
   user,
 }) => {
   const [openProfileMenu, setOpenProfileMenu] = useState(false);
@@ -53,6 +58,10 @@ export const HeaderContainer = ({
   };
 
   const Action = () => {};
+
+  const darModeSwitchHandler = () => {
+    setDarkTheme(!darkTheme);
+  };
 
   const onExitHandle = async (e) => {
     e.preventDefault();
@@ -103,17 +112,17 @@ export const HeaderContainer = ({
 
                 <Header.ProfileBoxItem
                   title={HEADER_MENU_PROFILE_ITEMS.MY_CHANNEL}
-                  icon={<RiVideoUploadLine size={30} />}
+                  icon={<FaUserAlt size={30} />}
                   action={Action}
                 />
                 <Header.ProfileBoxItem
                   title={HEADER_MENU_PROFILE_ITEMS.DARK_MODE}
-                  icon={<RiVideoUploadLine size={30} />}
-                  action={Action}
+                  icon={<CgDarkMode size={30} />}
+                  action={darModeSwitchHandler}
                 />
                 <Header.ProfileBoxItem
                   title={HEADER_MENU_PROFILE_ITEMS.EXIT}
-                  icon={<RiVideoUploadLine size={30} />}
+                  icon={<IoExit size={30} />}
                   action={onExitHandle}
                 />
               </Header.ProfileModal>

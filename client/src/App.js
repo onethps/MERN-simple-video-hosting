@@ -13,16 +13,18 @@ export const SidebarContext = createContext(null);
 
 function App() {
   const { user } = useSelector(userSelector);
-  const [dark, setDartTheme] = useState(false);
+  const [darkTheme, setDarkTheme] = useState(false);
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
 
   return (
-    <ThemeProvider theme={dark ? lightTheme : dartTheme}>
+    <ThemeProvider theme={darkTheme ? lightTheme : dartTheme}>
       <SidebarContext.Provider value={{ isOpenSidebar, setIsOpenSidebar }}>
         <GlobalStyles />
         <BrowserRouter>
           <HeaderContainer
+            darkTheme={darkTheme}
+            setDarkTheme={setDarkTheme}
             isOpenSidebar={isOpenSidebar}
             setIsOpenSidebar={setIsOpenSidebar}
             openPopup={openPopup}

@@ -31,7 +31,7 @@ export const Arrow = styled.div`
 export const Input = styled.input`
   line-height: 1.5;
   font-size: 1rem;
-  background-color: ${({ theme }) => theme.hoverColor};
+  background-color: ${({ theme }) => theme.bgMediumLight};
   color: ${({ theme }) => theme.text};
   border: none;
   box-sizing: border-box;
@@ -46,7 +46,7 @@ export const SelectedValue = styled.div``;
 
 export const Options = styled.div`
   display: none;
-  background-color: ${({ theme }) => theme.hoverColor};
+  background-color: ${({ theme }) => theme.bgMediumLight};
   border: 1px solid #ccc;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   box-sizing: border-box;
@@ -72,12 +72,12 @@ export const Option = styled.div`
   padding: 8px 10px;
 
   &.selected {
-    background-color: #f2f9fc;
+    background-color: ${({ theme }) => theme.hoverColorLighter};
     color: #333;
   }
 
   &:hover {
-    background: ${({ theme }) => theme.hoverColorLighter};
+    background: ${({ theme }) => theme.bgDarkLight};
     color: ${({ theme }) => theme.text};
   }
 `;

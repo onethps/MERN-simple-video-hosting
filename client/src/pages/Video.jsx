@@ -1,138 +1,21 @@
 import { instance } from 'api/config';
-import Comments from 'components/Comments';
+import Feature from 'components/Feature';
 import Recomendation from 'components/Recomendation';
 import Skeleton from 'components/Skeleton';
+import { SIGN_IN_ROUTE } from 'constants/routes';
+import CommentsContainer from 'containers/comments';
 import { useCurrentVideoData } from 'hooks/useCurrentVideoData';
 import React, { useEffect } from 'react';
-import {
-  AiFillDislike,
-  AiFillLike,
-  AiOutlineDislike,
-  AiOutlineLike,
-} from 'react-icons/ai';
-import { FaShare } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { subHandleUser, userSelector } from 'redux/userSlice';
 import { disLikeVideo, likeVideo, VideoFailure } from 'redux/videoSlice';
-import styled from 'styled-components';
 import { format } from 'timeago.js';
-
-const VideoContainer = styled.div`
-  background-color: ${({ theme }) => theme.bg};
-  display: grid;
-  max-width: 1600px;
-  margin: 0 auto;
-  column-gap: 10px;
-  padding: 80px 10px;
-
-  grid-template:
-    'video'
-    'rec'
-    'comments';
-
-  @media only screen and (min-width: 992px) {
-    grid-template:
-      'video rec'
-      'comments  rec';
-
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: 0.5fr 1fr;
-    position: static;
-  }
-`;
-
-const Content = styled.div`
-  grid-area: video;
-  margin-top: 10px;
-`;
-
-const VideoWrapper = styled.div``;
-
-const Details = styled.div`
-  color: ${({ theme }) => theme.text};
-`;
-
-const InfoViewsAndButtons = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const Views = styled.div`
-  color: ${({ theme }) => theme.text};
-`;
-const Tittle = styled.h1`
-  font-size: 16px;
-  color: ${({ theme }) => theme.text};
-`;
-const Buttons = styled.div`
-  display: flex;
-  gap: 15px;
-`;
-const Button = styled.div`
-  cursor: pointer;
-`;
-const IconText = styled.h1`
-  font-size: 16px;
-  display: inline-block;
-  padding: 0 15px;
-  color: ${({ theme }) => theme.text};
-`;
-
-const SubscribeButton = styled.button`
-  background-color: darkred;
-  color: white;
-  border: none;
-  padding: 10px 30px;
-  cursor: pointer;
-`;
-const UnSubscribeButton = styled.button`
-  background-color: #626262;
-  color: #000000;
-  border: none;
-  padding: 10px 30px;
-  cursor: pointer;
-`;
-
-const ChannelInfo = styled.div`
-  display: flex;
-  gap: 15px;
-`;
-
-const ChannelDetail = styled.div`
-  margin-top: 10px;
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-`;
-
-const SubscribersCount = styled.div``;
-
-const VideoDescription = styled.p`
-  margin: 10px 0 0 65px;
-`;
-
-const ChannelName = styled.h1`
-  font-size: 16px;
-  color: ${({ theme }) => theme.text};
-`;
-
-const VideoFrame = styled.video`
-  max-height: 720px;
-  width: 100%;
-  object-fit: cover;
-`;
-
-const ChannelAvatar = styled.img`
-  min-width: 50px;
-  height: 50px;
-  border-radius: 100px;
-`;
 
 const Video = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const nav = useNavigate();
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
@@ -140,7 +23,7 @@ const Video = () => {
   }, [id]);
 
   const currentUser = useSelector(userSelector);
-  const { channel, recommendations } = useCurrentVideoData(id);
+  const { videoOwner, recommendations } = useCurrentVideoData(id);
   const { video } = useSelector((state) => state.video);
   const { loading } = useSelector((state) => state.video);
 
@@ -173,84 +56,70 @@ const Video = () => {
     dispatch(subHandleUser(video.userId));
   };
 
-  if (loading) {
+  if (loading || !currentUser) {
     return (
-      <VideoContainer>
-        <Content>
+      <Feature>
+        <Feature.Base>
           <Skeleton type={'large'} />
-        </Content>
+        </Feature.Base>
         <div>
           {[...new Array(3)].map((el, i) => (
             <Skeleton key={(i + 1).toString()} type={'sm'} />
           ))}
         </div>
-      </VideoContainer>
+      </Feature>
     );
   }
 
   if (!currentUser?.user) {
-    return <Navigate to={'/signin'} />;
+    nav(SIGN_IN_ROUTE);
   }
 
   return (
-    <VideoContainer>
-      <Content>
-        <VideoWrapper>
-          <VideoFrame src={video?.videoUrl} controls />
-        </VideoWrapper>
-        <Details>
-          <Tittle>{video?.title}</Tittle>
-          <InfoViewsAndButtons>
-            <Views>
-              {video?.views} views - {format(video?.createdAt)}
-            </Views>
+    <Feature>
+      <Feature.Base>
+        <Feature.Player src={video?.videoUrl} controls />
+        <Feature.VideoTitle title={video?.title} />
+        <Feature.VideoPrimaryInfo>
+          <Feature.InfoText
+            viewsCount={video?.views}
+            publishDate={format(video?.createdAt)}
+          />
+          <Feature.MenuActionsContainer>
+            <Feature.LikeButton
+              onClick={likeHandle}
+              countOfLikes={video?.likes.length}
+              currentIcon={video?.likes?.includes(currentUser?.user._id)}
+            />
+            <Feature.DislikeButton
+              onClick={disLikeHandle}
+              currentIcon={video?.dislikes?.includes(currentUser?.user._id)}
+            />
+            <Feature.ShareButton text={'Share'} />
+          </Feature.MenuActionsContainer>
+        </Feature.VideoPrimaryInfo>
 
-            <Buttons>
-              <Button onClick={likeHandle}>
-                {video?.likes?.includes(currentUser?.user._id) ? (
-                  <AiFillLike />
-                ) : (
-                  <AiOutlineLike />
-                )}{' '}
-                <IconText>{video?.likes.length}</IconText>
-              </Button>
+        <Feature.VideoSecondaryInfo>
+          <Feature.TopRow>
+            <Feature.Avatar src={videoOwner?.img} />
+            <Feature.Owner>
+              <Feature.OwnerName>{videoOwner?.name}</Feature.OwnerName>
+              <Feature.OwnerSubCount subCount={videoOwner?.subscribers} />
+            </Feature.Owner>
+          </Feature.TopRow>
+          <Feature.SubscribeButton
+            onClick={subHandle}
+            subStatus={currentUser.user.subscribedUsers?.includes(video?.userId)}
+          />
+        </Feature.VideoSecondaryInfo>
+        <Feature.VideoDescription>{video?.desc}</Feature.VideoDescription>
+      </Feature.Base>
+      <Feature.Comments>
+        <CommentsContainer videoId={id} user={currentUser?.user} />
+      </Feature.Comments>
 
-              <Button onClick={disLikeHandle}>
-                {video?.dislikes?.includes(currentUser?.user._id) ? (
-                  <AiFillDislike />
-                ) : (
-                  <AiOutlineDislike />
-                )}
-
-                <IconText>Dislike</IconText>
-              </Button>
-              <Button>
-                <FaShare />
-                <IconText>Share</IconText>
-              </Button>
-            </Buttons>
-          </InfoViewsAndButtons>
-          <ChannelDetail>
-            <ChannelInfo>
-              <ChannelAvatar src={channel?.img} />
-              <div>
-                <ChannelName>{channel?.name}</ChannelName>
-                <SubscribersCount>{channel?.subscribers} subscribers</SubscribersCount>
-              </div>
-            </ChannelInfo>
-
-            {currentUser.user.subscribedUsers?.includes(video?.userId) ? (
-              <UnSubscribeButton onClick={subHandle}>Subscribed</UnSubscribeButton>
-            ) : (
-              <SubscribeButton onClick={subHandle}>Subscribe</SubscribeButton>
-            )}
-          </ChannelDetail>
-          <VideoDescription>{video?.desc}</VideoDescription>
-        </Details>
-      </Content>
       <Recomendation recommendations={recommendations} />
-      <Comments videoId={id} />
-    </VideoContainer>
+    </Feature>
   );
 };
 
