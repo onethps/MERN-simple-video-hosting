@@ -5,7 +5,8 @@
     "jest": true
   },
   "globals": {
-    "document": false
+    "document": false,
+    "window": false
   },
   "extends": [
     "eslint:recommended",

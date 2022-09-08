@@ -11,6 +11,7 @@ const Container = styled.div``;
 const AuthProvider = ({ children }) => {
   const nav = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     const auth = async () => {
       try {
@@ -20,7 +21,7 @@ const AuthProvider = ({ children }) => {
         nav(SIGN_IN_ROUTE);
       }
     };
-    auth();
+    auth().catch((err) => console.log(err));
   }, []);
 
   return <Container>{children}</Container>;

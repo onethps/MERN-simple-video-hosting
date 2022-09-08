@@ -37,6 +37,7 @@ export const Input = styled.input`
   box-sizing: border-box;
   cursor: default;
   outline: none;
+  margin: 10px 0;
   border-radius: 10px;
   padding: 8px 52px 8px 10px;
   transition: all 200ms ease;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AiFillDislike,
   AiFillLike,
@@ -24,6 +24,8 @@ import {
   SubscribeButton,
   VideoDescription,
   CommentsBox,
+  RecommendsBox,
+  ShowMoreButton,
 } from './styles/feature';
 
 export default function Feature({ children, ...restProps }) {
@@ -62,7 +64,7 @@ Feature.MenuActionsContainer = function MenuActionsContainerFeature({
 };
 
 Feature.LikeButton = function LikeButtonFeature({
-  currentIcon = true,
+  currentIcon = false,
   countOfLikes = 0,
   ...restProps
 }) {
@@ -128,8 +130,28 @@ Feature.SubscribeButton = function SubscribeButtonFeature({ subStatus, ...restPr
 };
 
 Feature.VideoDescription = function VideoDescriptionFeature({ children, ...restProps }) {
-  return <VideoDescription {...restProps}>{children}</VideoDescription>;
+  const [showMore, setShowMore] = useState(false);
+
+  const showMoreHandle = () => {
+    setShowMore(!showMore);
+  };
+
+  return (
+    <>
+      <VideoDescription {...restProps} showMore={showMore}>
+        {children}
+      </VideoDescription>
+      <ShowMoreButton onClick={showMoreHandle}>
+        {!showMore ? 'SHOW MORE' : 'LESS MORE'}
+      </ShowMoreButton>
+    </>
+  );
 };
+
 Feature.Comments = function CommentsFeature({ children, ...restProps }) {
   return <CommentsBox {...restProps}>{children}</CommentsBox>;
+};
+
+Feature.Recommends = function RecommendsFeature({ children, ...restProps }) {
+  return <RecommendsBox {...restProps}>{children}</RecommendsBox>;
 };

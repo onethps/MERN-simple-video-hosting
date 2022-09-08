@@ -1,10 +1,11 @@
 import { instance } from 'api/config';
 import Feature from 'components/Feature';
-import Recomendation from 'components/Recomendation';
 import Skeleton from 'components/Skeleton';
 import { SIGN_IN_ROUTE } from 'constants/routes';
+import CardContainer from 'containers/card';
 import CommentsContainer from 'containers/comments';
 import { useCurrentVideoData } from 'hooks/useCurrentVideoData';
+import SignIn from 'pages/SignIn';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,7 +16,6 @@ import { format } from 'timeago.js';
 const Video = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const nav = useNavigate();
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
@@ -71,10 +71,6 @@ const Video = () => {
     );
   }
 
-  if (!currentUser?.user) {
-    nav(SIGN_IN_ROUTE);
-  }
-
   return (
     <Feature>
       <Feature.Base>
@@ -114,11 +110,16 @@ const Video = () => {
         </Feature.VideoSecondaryInfo>
         <Feature.VideoDescription>{video?.desc}</Feature.VideoDescription>
       </Feature.Base>
+
       <Feature.Comments>
         <CommentsContainer videoId={id} user={currentUser?.user} />
       </Feature.Comments>
 
-      <Recomendation recommendations={recommendations} />
+      <Feature.Recommends>
+        {recommendations?.map((currentVideo) => (
+          <CardContainer key={currentVideo._id} type={'sm'} video={currentVideo} />
+        ))}
+      </Feature.Recommends>
     </Feature>
   );
 };

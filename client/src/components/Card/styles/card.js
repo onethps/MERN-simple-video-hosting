@@ -4,6 +4,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   background: ${({ theme }) => theme.bgLighter};
   transition: all 0.2s ease-in-out;
+
   & a {
     text-decoration: none;
     color: ${({ theme }) => theme.text};
@@ -11,7 +12,7 @@ export const Container = styled.div`
     display: ${(props) => (props.type === 'sm' ? 'grid' : 'block')};
     grid-template-rows: repeat(1, 100%);
     grid-template-columns: repeat(2, 50%);
-    grid-gap: 15px;
+    margin: 10px 0;
   }
 
   &:hover {

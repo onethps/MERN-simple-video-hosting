@@ -1,7 +1,6 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
-import styled, { useTheme } from 'styled-components';
-import { dartTheme as theme } from 'styles/theme';
+import { useTheme } from 'styled-components';
 
 const Skeleton = (props) => {
   const res = {

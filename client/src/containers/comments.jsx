@@ -13,8 +13,8 @@ const CommentsContainer = ({ user, videoId }) => {
   };
 
   const fetchComments = async () => {
-    const comments = await instance.get(`/comments/find/${videoId}`);
-    setComments(comments.data);
+    const { data } = await instance.get(`/comments/find/${videoId}`);
+    setComments(data);
   };
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 import { instance } from 'api/config';
+import { Header } from 'components';
 import Button from 'components/Button';
 import {
   Border,
@@ -14,13 +15,12 @@ import { auth } from 'lib/firebase.prod';
 import React, { useState } from 'react';
 import { AiFillYoutube } from 'react-icons/ai';
 import { CgDarkMode } from 'react-icons/cg';
-import { FaUserAlt } from 'react-icons/fa';
+import { FaUserAlt, FaUserCircle } from 'react-icons/fa';
 import { IoExit } from 'react-icons/io5';
 import { RiUploadCloudLine } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from 'redux/userSlice';
-import { Header } from '../components';
 
 export const HeaderContainer = ({
   isOpenSidebar,
@@ -79,7 +79,7 @@ export const HeaderContainer = ({
 
   return (
     <Header>
-      <Header.Frame setUploadModal={setOpenPopup} uploadModal={openPopup}>
+      <Header.Frame setUploadToggle={setOpenPopup} uploadToggle={openPopup}>
         <Header.LeftButtonsGroup>
           <Header.GamburgerMenu onClick={() => setIsOpenSidebar(!isOpenSidebar)} />
           <Header.Logo>

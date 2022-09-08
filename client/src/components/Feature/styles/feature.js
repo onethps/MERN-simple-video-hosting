@@ -5,8 +5,8 @@ export const Container = styled.div`
   display: grid;
   max-width: 1600px;
   margin: 0 auto;
-  column-gap: 10px;
-  padding: 80px 10px;
+  grid-gap: 20px;
+  padding: 80px 30px;
 
   grid-template:
     'video'
@@ -101,12 +101,30 @@ export const SubscribeButton = styled.div`
 `;
 
 export const VideoDescription = styled.p`
-  margin: 10px 0 0 65px;
+  margin: 10px 0 10px 65px;
   color: ${({ theme }) => theme.text};
+  display: -webkit-box;
+  -webkit-line-clamp: ${({ showMore }) => (showMore ? 'none' : '2')};
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+export const ShowMoreButton = styled.span`
+  margin: 10px 0 0 65px;
+  color: grey;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
 `;
 
 export const CommentsBox = styled.div`
   grid-area: comments;
   background-color: ${({ theme }) => theme.bg};
   margin-top: 30px;
+`;
+
+export const RecommendsBox = styled.div`
+  grid-area: rec;
+  background-color: ${({ theme }) => theme.bg};
 `;

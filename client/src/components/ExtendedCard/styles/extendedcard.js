@@ -23,6 +23,7 @@ export const Thumbnail = styled.img`
   min-width: 100px;
   max-width: 300px;
   height: 100%;
+
   @media only screen and ${devices.tablet} {
     max-width: 300px;
   }

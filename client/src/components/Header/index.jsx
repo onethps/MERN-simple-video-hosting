@@ -1,5 +1,5 @@
 import { instance } from 'api/config';
-import Upload from 'components/Upload';
+import { UploadModal } from 'components/index';
 import { useDebounce } from 'hooks/useDebounce';
 import React, { useEffect, useState } from 'react';
 import { RiMenu2Line } from 'react-icons/ri';
@@ -15,6 +15,7 @@ import {
   InputWithIconBox,
   LeftNavButtons,
   NonTargetBackground,
+  NoUserAvatar,
   ProfileBox,
   ProfileBoxHeader,
   ProfileBoxItem,
@@ -35,15 +36,14 @@ const Header = ({ children }) => {
 
 Header.Frame = function HeaderFrame({
   children,
-  setUploadModal,
-  uploadModal = false,
-  user,
+  setUploadToggle,
+  uploadToggle = false,
   ...restProps
 }) {
   return (
     <Wrapper {...restProps}>
       {children}
-      {uploadModal && <Upload setUploadModal={setUploadModal} />}
+      {uploadToggle && <UploadModal setUploadModal={setUploadToggle} />}
     </Wrapper>
   );
 };
@@ -65,7 +65,15 @@ Header.RightButtonsGroup = function HeaderRightButtonsGroup({ children, ...restP
 };
 
 Header.Avatar = function HeaderAvatar({ src, ...restProps }) {
-  return <Avatar {...restProps} src={src} alt={'avatar'} />;
+  return (
+    <>
+      {src ? (
+        <Avatar {...restProps} src={src} alt={'avatar'} />
+      ) : (
+        <NoUserAvatar {...restProps} />
+      )}
+    </>
+  );
 };
 
 Header.ProfileModal = function HeaderProfileModal({

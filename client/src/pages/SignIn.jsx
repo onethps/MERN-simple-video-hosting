@@ -1,47 +1,21 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { loginFailture, loginStart, loginSuccess } from 'redux/userSlice';
-import { signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, Provider } from 'lib/firebase.prod.js';
-import { firstCharAvatarGenerator } from 'utils/firstCharAvatarGenerator';
-import { useNavigate } from 'react-router-dom';
 import { instance } from 'api/config';
+import { Form } from 'components';
+import GoogleButton from 'components/GoogleButton';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth, Provider } from 'lib/firebase.prod.js';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginFailture, loginStart, loginSuccess, userSelector } from 'redux/userSlice';
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - 56px);
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  background-color: ${({ theme }) => theme.bg};
-  padding: 20px 50px;
-  gap: 20px;
-`;
-
-const Title = styled.h1`
-  color: ${({ theme }) => theme.text};
-`;
-
-const Subtitle = styled.h2`
-  color: ${({ theme }) => theme.text};
-`;
-
-const Input = styled.input`
-  padding: 10px;
-`;
-const SubmitButton = styled.button``;
+import { firstCharAvatarGenerator } from 'utils/firstCharAvatarGenerator';
 
 const SignIn = () => {
+  const { user } = useSelector(userSelector);
   const dispatch = useDispatch();
   const [email, setEmail] = useState('borya@gmail.com');
   const [password, setPassword] = useState('12342');
+
   const nav = useNavigate();
 
   const [inputs, setInputs] = useState({});
@@ -103,27 +77,35 @@ const SignIn = () => {
   const onInputPasswordHandle = (e) => {
     setPassword(e.currentTarget.value);
   };
+
+  useEffect(() => {
+    if (user) {
+      return nav('/');
+    }
+  }, [user]);
+
   return (
-    <Container>
-      <Wrapper>
-        <Title>Sign In</Title>
-        <Subtitle>to Continue to</Subtitle>
-        <Input placeholder={'Email'} value={email} onChange={onInputEmailHandle} />
-        <Input
-          placeholder={'Password'}
-          value={password}
-          onChange={onInputPasswordHandle}
-        />
-        <SubmitButton onClick={(e) => signInWithEmail(e)}>Sign In</SubmitButton>
-        <Subtitle>or</Subtitle>
-        <SubmitButton onClick={signInWithGoogle}>Sign with Google</SubmitButton>
-        <Subtitle>or</Subtitle>
-        <Input placeholder={'email'} name={'email'} onChange={handleChange} />
-        <Input placeholder={'userName'} name={'name'} onChange={handleChange} />
-        <Input placeholder={'password'} name={'password'} onChange={handleChange} />
-        <SubmitButton onClick={signup}>Sign Up</SubmitButton>
-      </Wrapper>
-    </Container>
+    <Form>
+      <Form.Title>Sign In</Form.Title>
+      <Form.Label>Email</Form.Label>
+      <Form.Input
+        type={'email'}
+        placeholder={'example@gmail.com'}
+        value={email}
+        onChange={onInputEmailHandle}
+      />
+      <Form.Label>Password</Form.Label>
+      <Form.Input
+        type={'password'}
+        placeholder={'Enter Password'}
+        value={password}
+        onChange={onInputPasswordHandle}
+      />
+
+      <Form.Submit onClick={(e) => signInWithEmail(e)}>Sign In</Form.Submit>
+      <Form.Section>OR</Form.Section>
+      <GoogleButton onClick={signInWithGoogle} />
+    </Form>
   );
 };
 

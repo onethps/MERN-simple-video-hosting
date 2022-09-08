@@ -1,9 +1,10 @@
 import { SidebarContext } from 'App';
+import { RowExtendCardsWrapper } from 'components/ContentWrappers';
+import { exploreCategories } from 'components/ExploreCategories';
 import Layout from 'components/Layout';
 import { SIDEBAR_COMPACT_SIZE, SIDEBAR_FULL_SIZE } from 'constants/constants';
 import ExtendedCardContainer from 'containers/ecard';
 import { useVideoListData } from 'hooks/useVideoListData';
-import { exploreCategories } from 'pages/Explore/Explore';
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -18,16 +19,6 @@ export const Content = styled.div`
 
   @media only screen and ${devices.laptop} {
     max-width: 1298px;
-  }
-`;
-
-const Row = styled.div`
-  display: grid;
-  grid-gap: 10px;
-
-  @media only screen and ${devices.mobileL} {
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr;
   }
 `;
 
@@ -94,7 +85,6 @@ const ExploreCategory = () => {
 
   useEffect(() => {
     const scroller = () => {
-      // eslint-disable-next-line no-undef
       const top = window.scrollY;
       if (!fixedHeader && top >= 75) {
         setFixedHeader(true);
@@ -102,9 +92,7 @@ const ExploreCategory = () => {
         setFixedHeader(false);
       }
     };
-    // eslint-disable-next-line no-undef
     window.addEventListener('scroll', scroller);
-    // eslint-disable-next-line no-undef
     return () => window.removeEventListener('scroll', scroller);
   }, [fixedHeader]);
 
@@ -119,13 +107,13 @@ const ExploreCategory = () => {
         </Wrapper>
       </CategoryHeader>
       <Content fixedHeader={fixedHeader}>
-        <Row>
+        <RowExtendCardsWrapper>
           {videos
             ? videos.map((video) => (
                 <ExtendedCardContainer key={video._id} video={video} />
               ))
             : null}
-        </Row>
+        </RowExtendCardsWrapper>
       </Content>
     </Layout>
   );

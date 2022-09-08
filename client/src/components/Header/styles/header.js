@@ -1,4 +1,5 @@
 import { BsSearch } from 'react-icons/bs';
+import { FaUserCircle } from 'react-icons/fa';
 import { IoArrowBack } from 'react-icons/io5';
 import styled from 'styled-components';
 import { v } from 'styles/variables';
@@ -64,6 +65,12 @@ export const Avatar = styled.img`
   width: 30px;
   height: 30px;
   border-radius: 30px;
+`;
+
+export const NoUserAvatar = styled(FaUserCircle)`
+  font-size: 30px;
+  align-self: center;
+  color: grey;
 `;
 
 export const AvatarContainer = styled.div`
