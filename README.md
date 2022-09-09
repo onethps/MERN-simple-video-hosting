@@ -1,4 +1,6 @@
 
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
+
 Link: https://mern-simple-video-hosting.herokuapp.com/
 
 
@@ -26,3 +28,5 @@ Link: https://mern-simple-video-hosting.herokuapp.com/
 * timeago.js
 
 
+
+[product-screenshot]: client/src/assets/screen.png
