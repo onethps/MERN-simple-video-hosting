@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Card /> renders the <ExtendedCard /> with populated data 1`] = `
+<div
+  class="sc-bczRLJ eqVzob"
+>
+  <a
+    class="sc-hKMtZM eAFTQK"
+    data-testid="link-test-thumbnail"
+    href="/video/1"
+  >
+    <img
+      class="sc-gsnTZi iNecrN"
+      src="https://www.google.com/1"
+    />
+  </a>
+  <div
+    class="sc-dkzDqf knZSwS"
+  >
+    <h1
+      class="sc-eCYdqJ TnSYU"
+    >
+      Video 1
+    </h1>
+    <div
+      class="sc-gKXOVf cvKPfw"
+    >
+      <img
+        class="sc-iBkjds ixWmXM"
+      />
+      <span
+        class="sc-ftvSup dTLfxu"
+      >
+        Victor
+      </span>
+    </div>
+    <span
+      class="sc-jSMfEi iOHjy"
+    >
+      10
+       views - 
+      just now
+    </span>
+    <p
+      class="sc-papXJ jtkNPH"
+    >
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur dolores eius expedita harum illum impedit iatem
+    </p>
+  </div>
+</div>
+`;

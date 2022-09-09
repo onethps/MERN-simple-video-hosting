@@ -1,14 +1,12 @@
 import { instance } from 'api/config';
 import Feature from 'components/Feature';
 import Skeleton from 'components/Skeleton';
-import { SIGN_IN_ROUTE } from 'constants/routes';
 import CardContainer from 'containers/card';
 import CommentsContainer from 'containers/comments';
 import { useCurrentVideoData } from 'hooks/useCurrentVideoData';
-import SignIn from 'pages/SignIn';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { subHandleUser, userSelector } from 'redux/userSlice';
 import { disLikeVideo, likeVideo, VideoFailure } from 'redux/videoSlice';
 import { format } from 'timeago.js';

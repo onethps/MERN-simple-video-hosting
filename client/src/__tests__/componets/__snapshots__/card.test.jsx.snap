@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Card /> renders the <Card /> with populated data 1`] = `
+<div
+  class="sc-bczRLJ bbLVXS"
+  type="sm"
+>
+  <a
+    class="sc-gsnTZi dcGqJy"
+    href="/video/1"
+  >
+    <div
+      class="sc-dkzDqf ezTOpN"
+    >
+      <img
+        class="sc-hKMtZM ymCzX"
+        src="https://www.google.com/"
+      />
+    </div>
+    <div
+      class="sc-jSMfEi"
+    >
+      <h1
+        class="sc-eCYdqJ kkkzZv"
+      >
+        Video 1
+      </h1>
+      <h2
+        class="sc-gKXOVf gTEanZ"
+      >
+        Victor
+      </h2>
+      <div
+        class="sc-iBkjds beyYmH"
+      >
+        10
+         views - 
+        just now
+      </div>
+    </div>
+  </a>
+</div>
+`;

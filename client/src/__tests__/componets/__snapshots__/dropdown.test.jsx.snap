@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Dropdown /> renders the <Dropdown /> with populated data 1`] = `
+<div
+  class="sc-bczRLJ dlCgPz"
+>
+  <div
+    class="sc-gsnTZi"
+  >
+    <div
+      class="sc-eCYdqJ"
+    >
+      <input
+        class="sc-hKMtZM ktGCbL"
+        data-testid="dropdown-input"
+        type="text"
+        value="Option 1"
+      />
+    </div>
+    <div
+      class="sc-dkzDqf hailCk  null"
+    />
+  </div>
+  <div
+    class="sc-jSMfEi jNdaRF  null"
+  >
+    <div
+      class="sc-gKXOVf jyUqNV  null"
+      data-testid="option"
+    >
+      Option 1
+    </div>
+  </div>
+</div>
+`;
