@@ -5,23 +5,9 @@ import VideoContainer from 'components/VideoContainer';
 import CardContainer from 'containers/card';
 import { useFetchVideosPagesData } from 'hooks/useFetchVideosPagesData';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { userSelector } from 'redux/userSlice';
 
 const Home = () => {
   const { videos, loading } = useFetchVideosPagesData('allVideos');
-
-  // if (loading) {
-  //   return (
-  //     <Index>
-  //       <LoadingBlock>
-  //         {[...new Array(6)].map((skeleton, i) => (
-  //           <Skeleton key={i + new Date().getTime()} type={'medium'} />
-  //         ))}
-  //       </LoadingBlock>
-  //     </Index>
-  //   );
-  // }
 
   if (!videos && !loading) {
     return (

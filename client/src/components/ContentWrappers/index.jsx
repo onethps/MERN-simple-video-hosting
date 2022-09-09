@@ -1,5 +1,5 @@
 import React from 'react';
-import { MainBox, Row } from './styles/contentwrappers';
+import { CategoryCurrentWrapper, MainBox, Row } from './styles/contentwrappers';
 
 const ExploreWrapper = ({ children, ...restProps }) => {
   return <MainBox {...restProps}>{children}</MainBox>;
@@ -9,4 +9,7 @@ const RowExtendCardsWrapper = ({ children, ...restProps }) => {
   return <Row {...restProps}>{children}</Row>;
 };
 
-export { ExploreWrapper, RowExtendCardsWrapper };
+const ContentCategoryWrapper = ({ children, restProps }) => {
+  return <CategoryCurrentWrapper {...restProps}>{children}</CategoryCurrentWrapper>;
+};
+export { ExploreWrapper, RowExtendCardsWrapper, ContentCategoryWrapper };

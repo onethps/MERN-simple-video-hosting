@@ -33,8 +33,6 @@ const CommentsContainer = ({ user, videoId }) => {
     setNewComment('');
   };
 
-  console.log(comments);
-
   return (
     <Comments>
       <Comments.InputRow>

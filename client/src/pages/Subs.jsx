@@ -7,6 +7,7 @@ import React from 'react';
 
 const Subs = () => {
   const { loading, videos } = useVideoListData(`sub`);
+  console.log(videos);
 
   return (
     <Layout>

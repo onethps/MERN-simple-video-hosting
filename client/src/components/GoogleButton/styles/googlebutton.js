@@ -6,6 +6,7 @@ export const Button = styled.button`
   gap: 10px;
   padding: 10px 50px;
   cursor: pointer;
+  border-radius: 20px;
 `;
 
 export const Container = styled.div`
@@ -17,4 +18,6 @@ export const Container = styled.div`
   cursor: pointer;
 `;
 
-export const Title = styled.span``;
+export const Title = styled.span`
+  font-weight: 600;
+`;

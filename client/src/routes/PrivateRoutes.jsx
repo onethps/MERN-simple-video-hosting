@@ -4,6 +4,7 @@ import {
   HOME_ROUTE,
   SEARCH_ROUTE,
   SIGN_IN_ROUTE,
+  SUB_ROUTE,
   VIDEO_ROUTE,
 } from 'constants/routes';
 import Explore from 'pages/Explore';
@@ -31,7 +32,7 @@ export const privateRoutes = [
     Component: ExploreCategory,
   },
   {
-    patch: EXPLORE_ROUTE,
+    patch: SUB_ROUTE,
     Component: Subs,
   },
 
@@ -53,9 +54,9 @@ const PrivateRoutes = ({ children }) => {
     if (!user) {
       return nav(SIGN_IN_ROUTE);
     }
-
-    return children;
   }, []);
+
+  return children;
 };
 
 export default PrivateRoutes;

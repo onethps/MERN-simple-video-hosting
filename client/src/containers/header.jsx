@@ -15,7 +15,7 @@ import { auth } from 'lib/firebase.prod';
 import React, { useState } from 'react';
 import { AiFillYoutube } from 'react-icons/ai';
 import { CgDarkMode } from 'react-icons/cg';
-import { FaUserAlt, FaUserCircle } from 'react-icons/fa';
+import { FaUserAlt } from 'react-icons/fa';
 import { IoExit } from 'react-icons/io5';
 import { RiUploadCloudLine } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';

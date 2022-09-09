@@ -142,7 +142,7 @@ const UploadModal = ({ setUploadModal }) => {
           />
         )}
 
-        <Form.Submit onClick={uploadHandle} name={'Upload'} />
+        <Form.Submit onClick={uploadHandle}>Upload</Form.Submit>
       </Modal.Wrapper>
     </Modal>
   );

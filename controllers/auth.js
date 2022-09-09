@@ -2,6 +2,7 @@ import User from "../models/Users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { CreateError } from "../utils/error.js";
+import { body, validationResult } from "express-validator";
 
 export const signIn = async (req, res, next) => {
   try {
@@ -10,7 +11,7 @@ export const signIn = async (req, res, next) => {
 
     const isCorrect = await bcrypt.compare(req.body.password, user.password);
 
-    if (!isCorrect) return next(CreateError(400, "Wrong userName or Password"));
+    if (!isCorrect) return next(CreateError(400, "Wrong Email or Password"));
 
     const token = jwt.sign({ id: user._id }, process.env.JWT);
 
@@ -47,6 +48,14 @@ export const signup = async (req, res, next) => {
   try {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
+
+    body(req.body.email).isEmail();
+    body(req.body.password).isLength({ min: 8 });
+
+    if (req.body.password.length < 8) {
+      res.status(400).json({ message: "Password must be over 8 characters" });
+      return;
+    }
     const newUser = new User({ ...req.body, password: hash });
     await newUser.save();
     res.status(200).send("User Created");

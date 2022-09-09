@@ -12,7 +12,7 @@ import { dartTheme, lightTheme } from 'styles/theme';
 export const SidebarContext = createContext(null);
 
 function App() {
-  const user = useSelector(userSelector);
+  const { user } = useSelector(userSelector);
   const [darkTheme, setDarkTheme] = useState(false);
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);

@@ -8,6 +8,9 @@ import {
   FormTitle,
   Section,
   SubmitBox,
+  TextWithLink,
+  LinkItem,
+  ErrorMessage,
 } from './styles/form';
 
 const Form = ({ children, ...restProps }) => {
@@ -22,8 +25,8 @@ Form.Label = function LabelForm({ children, ...restProps }) {
   return <Label {...restProps}>{children}</Label>;
 };
 
-Form.Input = function InputForm({ ...restProps }) {
-  return <Input {...restProps} />;
+Form.Input = function InputForm({ error, ...restProps }) {
+  return <Input error={error} {...restProps} />;
 };
 
 Form.TextArea = function TextAreaForm({ ...restProps }) {
@@ -36,6 +39,18 @@ Form.Submit = function SubmitForm({ children, ...restProps }) {
       <SubmitButton>{children}</SubmitButton>
     </SubmitBox>
   );
+};
+Form.TextWithLink = function TextWithLinkForm({ text, linkedText, link, ...restProps }) {
+  return (
+    <TextWithLink {...restProps}>
+      {text}
+      <LinkItem to={link}>{linkedText}</LinkItem>
+    </TextWithLink>
+  );
+};
+
+Form.ErrorMessage = function ErrorMessageForm({ children, ...restProps }) {
+  return <ErrorMessage {...restProps}>{children}</ErrorMessage>;
 };
 
 Form.Section = function SectionForm({ children = 'sample', ...restProps }) {

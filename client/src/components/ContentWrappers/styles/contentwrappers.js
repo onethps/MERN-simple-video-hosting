@@ -23,3 +23,13 @@ export const Row = styled.div`
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(1, 1fr);
 `;
+
+export const CategoryCurrentWrapper = styled.div`
+  width: 100%;
+  margin: ${({ fixedHeader }) => (fixedHeader ? '200px auto' : '80px auto')};
+  padding: 0 4%;
+
+  @media only screen and ${devices.laptop} {
+    max-width: 1298px;
+  }
+`;

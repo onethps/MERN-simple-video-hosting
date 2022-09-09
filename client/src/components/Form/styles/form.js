@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -11,7 +12,7 @@ export const Container = styled.div`
 export const Input = styled.input`
   margin: 5px 0;
   font-size: 16px;
-  border: none;
+  border: ${({ error }) => (error ? '1px solid red' : 'none')};
   border-radius: 10px;
   width: 100%;
   padding: 15px;
@@ -54,6 +55,7 @@ export const Section = styled.h2`
   border-bottom: 1px solid white;
   line-height: 0.1em;
   margin: 25px 0 20px;
+  font-size: 14px;
 
   & span {
     background-color: ${({ theme }) => theme.bg};
@@ -71,14 +73,29 @@ export const SubmitButton = styled.button`
   margin-top: 20px;
   font-size: 18px;
   padding: 10px 80px;
-  border-radius: 10px;
+  border-radius: 20px;
   border: none;
   font-weight: 700;
   background-color: ${({ theme }) => theme.logoColor};
-  color: ${({ theme }) => theme.text};
+  color: white;
   cursor: pointer;
 
   &:hover {
     background-color: ${({ theme }) => theme.logoColorHover};
   }
+`;
+
+export const TextWithLink = styled.p`
+  padding: 20px 0;
+  color: ${({ theme }) => theme.text};
+`;
+
+export const ErrorMessage = styled.h3`
+  color: ${({ theme }) => theme.logoColorHover};
+`;
+
+export const LinkItem = styled(Link)`
+  text-decoration: none;
+  color: ${({ theme }) => theme.logoColor};
+  margin-left: 10px;
 `;

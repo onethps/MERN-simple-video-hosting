@@ -4,6 +4,7 @@ export const EXPLORE_ROUTE = '/explore';
 export const EXPLORE_ROUTE_CATEGORY = '/explore/:category';
 
 export const SIGN_IN_ROUTE = '/signin';
+export const SIGN_UP_ROUTE = '/signup';
 export const VIDEO_ROUTE = '/video/:id';
 export const SEARCH_ROUTE = '/search';
 
