@@ -120,7 +120,6 @@ export const trend = async (req, res, next) => {
 export const category = async (req, res, next) => {
   const param = req.params.category;
   try {
-    // let videos = await Video.findById().sort({views: -1});
     let videos = await Video.find({ category: param });
     res.status(200).json(videos);
   } catch (e) {

@@ -6,25 +6,26 @@ import userComments from "./routes/comments.js";
 import authUser from "./routes/auth.js";
 import cookieParser from "cookie-parser";
 import videoRoutes from "./routes/videos.js";
-import path from 'path'
-import {fileURLToPath} from 'url';
-import cors from 'cors'
+import path from "path";
+import { fileURLToPath } from "url";
+import cors from "cors";
 
 const app = express();
 
-app.use(cors({
- //dev
-  origin:'http://localhost:3000',
-  //
+app.use(
+  cors({
+    //dev
+    origin: "http://localhost:3000",
+    //
 
-  //prod
-  credentials: true
-//
-}))
+    //prod
+    credentials: true,
+    //
+  })
+);
 
 app.use(cookieParser());
 dotenv.config();
-
 
 const connect = () => {
   mongoose
@@ -51,8 +52,8 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, "/client/build")));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/client/build", "index.html"));
 });
 
 //error handler
@@ -66,7 +67,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 8800
+const PORT = process.env.PORT || 8800;
 
 app.listen(PORT, () => {
   connect();
